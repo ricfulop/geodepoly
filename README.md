@@ -1,5 +1,7 @@
 # geodepoly — Series-Reversion Polynomial Solver (MVP)
 
+[About](ABOUT.md)
+
 [![CI](https://github.com/ricfulop/geodepoly/workflows/CI/badge.svg)](https://github.com/ricfulop/geodepoly/actions)
 [![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
