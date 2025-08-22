@@ -1,4 +1,3 @@
-\
 def sympy_solve(poly, **kwargs):
     """
     Accept a SymPy Expr or Poly and return complex roots using geodepoly.
