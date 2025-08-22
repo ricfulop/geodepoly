@@ -105,3 +105,21 @@ python -m geodepoly.scripts.bench_compare --deg 8 --trials 50 --out bench_deg8.c
 
 ### Paper skeleton
 See `paper/GeodePoly_MVP.md`.
+
+## Hyper-Catalan API (S[t2,t3,...])
+
+Utilities based on the paper's multivariate series:
+
+```python
+from geodepoly import evaluate_hyper_catalan, evaluate_quadratic_slice, catalan_number
+
+# Quadratic slice (Catalan series)
+t2 = 0.05
+alpha_approx = evaluate_quadratic_slice(t2, max_weight=20)
+catalan_series = sum(catalan_number(n) * (t2**n) for n in range(12))
+
+# Multivariate evaluation (truncated by weighted degree)
+alpha_multi = evaluate_hyper_catalan({2: 0.05, 3: 0.01}, max_weight=12)
+```
+
+See `docs/paper_guide.md` for how the paper maps onto the codebase.
