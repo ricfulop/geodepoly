@@ -1,6 +1,7 @@
 # geodepoly — Series-Reversion Polynomial Solver (MVP)
 
 [![CI](https://github.com/ricfulop/geodepoly/workflows/CI/badge.svg)](https://github.com/ricfulop/geodepoly/actions)
+[![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 `geodepoly` is a small Python package that finds all roots of a complex polynomial
