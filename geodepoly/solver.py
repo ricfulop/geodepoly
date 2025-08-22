@@ -5,7 +5,7 @@ from typing import List, Optional, Dict, Any
 
 from .series_core import series_seed_step
 from .finishers import durand_kerner, aberth_ehrlich, halley_refine, halley_refine_multiplicity
-from .util import poly_eval
+from .util import poly_eval, shift_expand
 
 def solve_one(coeffs: List[complex],
               center: complex|None=None,
@@ -24,10 +24,31 @@ def solve_one(coeffs: List[complex],
     scale = coeffs[-1]
     c = [complex(a)/scale for a in coeffs]
 
-    # Heuristic centers: 0 and a Cauchy circle
+    # Candidate centers: minimize |t| = |-a0/a1|, a1!=0, sampled on radii
     an = abs(c[-1])
     R = 1 + max((abs(a)/an for a in c[:-1]), default=0)
-    centers = [center] if center is not None else [0j, R, -R, 1j*R, -1j*R, R/2]
+    if center is not None:
+        centers = [center]
+    else:
+        cand = [0j]
+        for r in [R/8, R/4, R/2, R]:
+            # 16 angles + axes
+            for k in range(16):
+                theta = 2*math.pi*k/16
+                cand.append(r * cmath.exp(1j*theta))
+            cand.extend([r, -r, 1j*r, -1j*r])
+        # Score by |t|, tie-break by |p(mu)|
+        scored = []
+        for mu in cand:
+            q = shift_expand(c, mu)
+            a0 = complex(q[0])
+            a1 = complex(q[1]) if len(q) >= 2 else 0j
+            if a1 == 0:
+                continue
+            tmag = abs(-a0/a1)
+            scored.append((tmag, abs(a0), mu))
+        scored.sort(key=lambda x: (x[0], x[1]))
+        centers = [mu for _, _, mu in scored[:4]] or [0j]
 
     best = None
     best_res = float('inf')

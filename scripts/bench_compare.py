@@ -46,6 +46,7 @@ def main():
     ap.add_argument("--trials", type=int, default=20)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", type=str, default="bench_results.csv")
+    ap.add_argument("--resum", type=str, default="auto", choices=["auto","pade","borel","borel-pade", "none"], help="Resummation for series seed")
     args = ap.parse_args()
 
     methods = ["hybrid","aberth","dk","numpy"]
@@ -56,7 +57,10 @@ def main():
         for t in range(args.trials):
             coeffs = rand_poly(args.deg, args.seed+t)
             for m in methods:
-                dt, res = measure(coeffs, m, tol=1e-12, resum="pade")
+                kwargs = {"tol": 1e-12}
+                if args.resum != "none":
+                    kwargs["resum"] = args.resum
+                dt, res = measure(coeffs, m, **kwargs)
                 wr.writerow({"trial":t, "method":m, "time_s":f"{dt:.6f}", "max_residual":f"{res:.3e}"})
     print("Saved", args.out)
 
