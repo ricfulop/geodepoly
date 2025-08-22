@@ -24,6 +24,12 @@ This implements the *impact-first MVP* discussed:
 pip install -e .
 ```
 
+## Install (PyPI)
+
+```bash
+pip install geodepoly==0.1.2
+```
+
 ## Quickstart
 
 ```python
