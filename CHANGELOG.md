@@ -16,3 +16,11 @@
 ### Fixed
 - Tests: random polynomial accuracy via stronger polishing; packaging discovery; CI `.[dev]` install.
 - Stray character in `geodepoly/sympy_plugin.py`.
+
+## [0.1.3] - 2025-08-22
+### Added
+- Resummation: adaptive `auto` mode with fallback to Borel–Padé.
+- Aberth–Ehrlich: adaptive damping and minimal repulsion for clusters; tests.
+- Multiple-root handling: multiplicity-aware Halley; tests; wired into solver polish.
+- Seeding: center selection minimizing |t| with top-K candidates; test.
+- Benchmarks: `scripts/bench_compare.py` supports `--resum`.
