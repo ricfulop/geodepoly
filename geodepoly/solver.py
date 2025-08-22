@@ -4,7 +4,7 @@ import cmath, math, time
 from typing import List, Optional, Dict, Any
 
 from .series_core import series_seed_step
-from .finishers import durand_kerner, aberth_ehrlich, halley_refine
+from .finishers import durand_kerner, aberth_ehrlich, halley_refine, halley_refine_multiplicity
 from .util import poly_eval
 
 def solve_one(coeffs: List[complex],
@@ -106,11 +106,11 @@ def solve_all(coeffs: List[complex],
 
     if method == "dk":
         roots = durand_kerner(coeffs, iters=600, tol=1e-14, restarts=5)
-        return [halley_refine(coeffs, z, steps=refine_steps) for z in roots]
+        return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
     if method == "aberth":
         roots = aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=3)
-        return [halley_refine(coeffs, z, steps=refine_steps) for z in roots]
+        return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
     # hybrid:
     # Get two seeds via series from different centers (0 and Cauchy radius)
@@ -128,7 +128,7 @@ def solve_all(coeffs: List[complex],
         pass
 
     roots = aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=3, warm_starts=seeds)
-    return [halley_refine(coeffs, z, steps=refine_steps) for z in roots]
+    return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
 def solve_poly(coeffs: List[complex], **kwargs) -> List[complex]:
     """Public convenience wrapper (alias of solve_all)."""

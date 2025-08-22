@@ -14,6 +14,47 @@ def halley_refine(coeffs, x, steps=2):
         x = x - (2*p*dp)/denom
     return x
 
+
+def estimate_multiplicity(coeffs, x) -> int:
+    """Estimate local multiplicity m using p, p', p'' at x.
+    m ≈ round( Re( p * p'' / p'^2 ) ), clamped to [1..3].
+    """
+    p, dp, ddp = poly_eval_dp_ddp(coeffs, x)
+    if dp == 0:
+        return 2
+    ratio = (p * ddp) / (dp * dp)
+    m = int(round(ratio.real))
+    if m < 1:
+        m = 1
+    if m > 3:
+        m = 3
+    return m
+
+
+def halley_refine_multiplicity(coeffs, x, steps=3):
+    """Halley-like refinement aware of multiplicity m when m>=2.
+    Update: x <- x - m * p / ( m*p' - (m-1) * p*p''/p' ).
+    Falls back to standard Halley when estimates are unstable.
+    """
+    for _ in range(steps):
+        p, dp, ddp = poly_eval_dp_ddp(coeffs, x)
+        if dp == 0:
+            break
+        m = estimate_multiplicity(coeffs, x)
+        if m <= 1:
+            # standard Halley step
+            denom = 2*dp*dp - p*ddp
+            if denom == 0:
+                break
+            x = x - (2*p*dp) / denom
+        else:
+            # multiplicity-aware update
+            denom = (m*dp) - (m-1) * (p*ddp/dp)
+            if denom == 0:
+                break
+            x = x - (m * p) / denom
+    return x
+
 def durand_kerner(coeffs, iters=400, tol=1e-14, restarts=4):
     n = len(coeffs)-1
     an = coeffs[-1]
