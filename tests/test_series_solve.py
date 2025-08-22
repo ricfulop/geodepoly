@@ -1,4 +1,3 @@
-\
 import math, cmath, random
 from geodepoly import series_solve_all
 import numpy as np

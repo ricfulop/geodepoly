@@ -118,7 +118,7 @@ def series_step(coeffs, center, max_order=24):
     y = y * t
     return y, a0, a1, True
 
-def halley_refine(coeffs, x, steps=2):
+def halley_refine(coeffs, x, steps=6):
     """A couple of Halley refinement steps to polish, if desired."""
     # Compute p, p', p''
     for _ in range(steps):
@@ -136,7 +136,22 @@ def halley_refine(coeffs, x, steps=2):
 
 
 
-def durand_kerner(coeffs, iters=300, tol=1e-14, restarts=3):
+def newton_refine(coeffs, x, steps=20, tol=1e-15):
+    """Refine a root with standard Newton iterations until residual is tiny."""
+    for _ in range(steps):
+        # Evaluate p and p'
+        p = 0j; dp = 0j
+        for a in reversed(coeffs):
+            dp = dp * x + p
+            p = p * x + a
+        if abs(p) < tol:
+            break
+        if dp == 0:
+            break
+        x = x - p / dp
+    return x
+
+def durand_kerner(coeffs, iters=1000, tol=1e-14, restarts=3):
     """Durand–Kerner with convergence check and random restarts."""
     n = len(coeffs)-1
     an = coeffs[-1]
@@ -162,7 +177,7 @@ def durand_kerner(coeffs, iters=300, tol=1e-14, restarts=3):
                         if j != i:
                             denom *= (z - w)
                 val = poly_eval(coeffs, z)
-                z_new = z - val/denom
+                z_new = z - val/(an*denom)
                 new_roots.append(z_new)
                 max_delta = max(max_delta, abs(z_new - z))
             roots = new_roots
@@ -277,7 +292,7 @@ def series_one_root(coeffs: List[complex], center: complex|None=None, max_order=
             if abs(poly_eval(c, x)) < tol:
                 break
         if ok_local:
-            xr = halley_refine(c, x, steps=2) if refine else x
+            xr = halley_refine(c, x, steps=6) if refine else x
             res = abs(poly_eval(c, xr))
             if res < best_res:
                 best_res = res
@@ -308,7 +323,7 @@ def series_solve_all(coeffs: List[complex], max_order=24, boots=3, tol=1e-12, ma
         r0 = None
 
     # Compute all roots with Durand–Kerner
-    dk_roots = durand_kerner(coeffs, iters=400, tol=1e-14, restarts=4)
+    dk_roots = durand_kerner(coeffs, iters=1000, tol=1e-14, restarts=4)
 
     # If we have a series root close to some dk root, replace/polish it
     if r0 is not None:
@@ -316,6 +331,6 @@ def series_solve_all(coeffs: List[complex], max_order=24, boots=3, tol=1e-12, ma
         idx = min(range(len(dk_roots)), key=lambda i: abs(dk_roots[i] - r0))
         dk_roots[idx] = r0
 
-    # Final polish with Halley (on original poly) for a few steps
-    polished = [halley_refine(coeffs, z, steps=3) for z in dk_roots]
+    # Final polish with Halley and then Newton (on original poly)
+    polished = [newton_refine(coeffs, halley_refine(coeffs, z, steps=8), steps=20, tol=1e-15) for z in dk_roots]
     return polished
