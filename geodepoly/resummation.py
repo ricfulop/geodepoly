@@ -121,3 +121,60 @@ def eval_series_borel_pade(g: List[complex], t: complex) -> complex:
     for x, wgt in zip(GL16_x, GL16_w):
         s += wgt * B_pade(t*x)
     return s
+
+
+def eval_series_auto(g: List[complex], t: complex) -> complex:
+    """
+    Adaptive evaluation of y = sum g_m t^m:
+    - Try a small grid of near-diagonal Padé orders; score by denominator magnitude at t
+      and simple last-term residual proxy.
+    - If scores are poor or evaluation unstable, fall back to Borel–Padé; then to plain.
+    """
+    # Plain baseline
+    plain = eval_series_plain(g, t)
+
+    L = max(6, len(g))
+    orders = []
+    half = max(3, min(len(g)//2, 12))
+    for delta in range(-2, 3):
+        m = max(3, min(half + delta, len(g)-2))
+        n = m
+        orders.append((m, n))
+    # Unique
+    orders = list(dict.fromkeys(orders))
+
+    best = None
+    best_score = float('inf')
+    best_val = plain
+
+    # Build c for standard Padé of y(t)
+    c = [0j] + list(g)
+    for m, n in orders:
+        try:
+            P, Q = pade_coeffs(c, m, n)
+            # Evaluate num/den and score
+            num = 0j; den = 0j
+            for a in reversed(P):
+                num = num * t + a
+            for b in reversed(Q):
+                den = den * t + b
+            if den == 0:
+                continue
+            val = num / den
+            # Score: small |den| is bad; large last term magnitude is bad
+            last_term = abs(g[-1] * (t ** len(g))) if g else 0.0
+            score = (1.0 / max(1e-16, abs(den))) + last_term
+            if score < best_score:
+                best_score = score
+                best = (m, n)
+                best_val = val
+        except Exception:
+            continue
+
+    # Heuristic threshold: if best score is too large, try Borel–Padé
+    if best is None or best_score > 1e2:
+        try:
+            return eval_series_borel_pade(g, t)
+        except Exception:
+            return plain
+    return best_val

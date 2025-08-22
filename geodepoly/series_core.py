@@ -4,7 +4,13 @@ import cmath, math
 from typing import List, Dict, Optional
 
 from .util import poly_eval, shift_expand
-from .resummation import eval_series_plain, eval_series_pade, eval_series_borel, eval_series_borel_pade
+from .resummation import (
+    eval_series_plain,
+    eval_series_pade,
+    eval_series_borel,
+    eval_series_borel_pade,
+    eval_series_auto,
+)
 
 def series_seed_step(coeffs, center, max_order=24, resum: Optional[str]=None):
     """
@@ -38,6 +44,8 @@ def series_seed_step(coeffs, center, max_order=24, resum: Optional[str]=None):
         y = eval_series_borel(g, t)
     elif resum in ("borel-pade", "bp"):
         y = eval_series_borel_pade(g, t)
+    elif resum == "auto":
+        y = eval_series_auto(g, t)
     else:
         y = eval_series_plain(g, t)
     return y, a0, a1, True
