@@ -49,6 +49,12 @@ print(roots)
 python -m geodepoly.scripts.benchmark --deg 8 --seed 123 --trials 100
 ```
 
+### Examples
+
+- SymPy comparison: `python examples/sympy_vs_nroots.py`
+- JSON bridge round‑trip: `python examples/json_bridge_roundtrip.py`
+- Multiple root demo: `python examples/multiple_root_demo.py`
+
 ## API
 
 - `series_solve_all(coeffs, max_order=32, boots=3, tol=1e-12, max_deflation=None, verbose=False)`
@@ -113,6 +119,12 @@ ImportString[res, "JSON"]
 ### Benchmarks
 ```bash
 python -m geodepoly.scripts.bench_compare --deg 8 --trials 50 --out bench_deg8.csv
+```
+
+Aggregate and plot (see `docs/assets/`):
+```bash
+python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --trials 10 --out docs/assets/bench.csv --agg_out docs/assets/bench_agg.csv --resum auto
+python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets
 ```
 
 ### Paper skeleton
