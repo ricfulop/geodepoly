@@ -1,0 +1,26 @@
+{
+  "title": "geodepoly: Robust Polynomial Root-Finding via Series Reversion",
+  "upload_type": "software",
+  "description": "A hybrid polynomial solver using series reversion seeds (hyper-Catalan / Lagrange inversion), with robust classical finishers and resummation options.",
+  "creators": [
+    {
+      "name": "Fulop, Ric",
+      "affiliation": "MIT Center for Bits and Atoms"
+    }
+  ],
+  "license": "mit-license",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/ricfulop/geodepoly"
+    }
+  ],
+  "keywords": [
+    "polynomial roots",
+    "Lagrange inversion",
+    "hyper-Catalan",
+    "series reversion",
+    "numerical analysis"
+  ]
+}

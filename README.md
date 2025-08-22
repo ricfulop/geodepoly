@@ -1,10 +1,13 @@
 # geodepoly — Series-Reversion Polynomial Solver (MVP)
 
+[![CI](https://github.com/ricfulop/geodepoly/workflows/CI/badge.svg)](https://github.com/ricfulop/geodepoly/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 `geodepoly` is a small Python package that finds all roots of a complex polynomial
 using a **shift–recenter + truncated series reversion** with optional bootstrap
 iterations, and only falls back to classical iterations when strictly necessary.
 
-*impact-first MVP*:
+This implements the *impact-first MVP* discussed:
 - Compositional inverse (via Lagrange inversion in coefficient form) around a local
   recentering point to obtain an analytic series for a nearby root.
 - **Bootstrap:** update the center by the series estimate and re-expand (typically a few steps).
