@@ -74,3 +74,11 @@
 - Publish workflow for TestPyPI (`test-*` tags) and PyPI (`v*` tags).
 ### Docs
 - README and docs updated with CLI/bridge examples and GPU usage.
+
+## [0.1.10] - 2025-08-23
+### Added
+- FormalSeries minimal with add/mul/truncate/compose.
+- Series scaffolds: `series_root`, `series_bootstrap` (now functional, Wallis cubic demo).
+- Geode factorization: constructs S, S1, G with `(S-1) == S1*G` (truncated) identity; tests.
+### Tests
+- New `tests/test_series_basic.py` covering FormalSeries and series bootstrapping.

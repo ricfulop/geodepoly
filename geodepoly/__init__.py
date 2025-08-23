@@ -6,6 +6,8 @@ from .hyper_catalan import (
     catalan_number,
     evaluate_quadratic_slice,
 )
+from .formal import FormalSeries
+from .series import series_root
 from .batched import (
     batched_poly_eval,
     batched_newton_step,
@@ -25,4 +27,6 @@ __all__ = [
     "batched_poly_eval",
     "batched_newton_step",
     "torch_root_layer",
+    "FormalSeries",
+    "series_root",
 ]
