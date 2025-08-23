@@ -139,6 +139,8 @@ def aberth_ehrlich(
                 for k in range(n)
             ]
 
+        # Precompute reversed coefficients for Horner once
+        a_rev = list(reversed(coeffs))
         for it in range(iters):
             max_step = 0.0
             new_roots = roots[:]
@@ -148,7 +150,7 @@ def aberth_ehrlich(
             for z in roots:
                 p = 0j
                 dp = 0j
-                for a in reversed(coeffs):
+                for a in a_rev:
                     dp = dp * z + p
                     p = p * z + a
                 pvals.append(p)

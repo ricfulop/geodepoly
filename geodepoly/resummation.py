@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List
+from functools import lru_cache
 
 
 def eval_series_plain(g: List[complex], t: complex) -> complex:
@@ -34,6 +35,13 @@ def pade_coeffs(c: List[complex], m: int, n: int):
             s += Q[j] * c[k - j]
         P[k] = s
     return P, Q
+
+
+@lru_cache(maxsize=256)
+def _pade_coeffs_cached(c_tuple: tuple[complex, ...], m: int, n: int):
+    P, Q = pade_coeffs(list(c_tuple), m, n)
+    # Convert to tuples for faster eval without numpy dependency downstream
+    return tuple(P), tuple(Q)
 
 
 def eval_series_pade(g: List[complex], t: complex) -> complex:
@@ -179,16 +187,17 @@ def eval_series_auto(g: List[complex], t: complex) -> complex:
     best_val = plain
 
     # Build c for standard Padé of y(t)
-    c = [0j] + list(g)
+    c_list = [0j] + list(g)
+    c_key = tuple(c_list)
     for m, n in orders:
         try:
-            P, Q = pade_coeffs(c, m, n)
+            Pt, Qt = _pade_coeffs_cached(c_key, m, n)
             # Evaluate num/den and score
             num = 0j
             den = 0j
-            for a in reversed(P):
+            for a in reversed(Pt):
                 num = num * t + a
-            for b in reversed(Q):
+            for b in reversed(Qt):
                 den = den * t + b
             if den == 0:
                 continue
