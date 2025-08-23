@@ -3,6 +3,15 @@
 > A Python library for exact/symbolic + high‑precision numeric polynomial algebra, powered by Hyper‑Catalan series and the Geode factorization. Core math follows Wildberger & Rubine (2025) Theorems 3–12 (series roots, Bi‑Tri/Geode arrays, layerings). 【5†source】【5†source】
 
 ## 0) Goals
+Status (shipped highlights)
+
+- CLI commands: `geodepoly-solve`, `geodepoly-bridge` (JSON schema v1)
+- Core solvers: hybrid/aberth/dk/numpy, eigen solver, series bootstrap
+- Batched + GPU: vectorized Newton; Torch Aberth step and multi-step; JAX step; solver `method="torch-aberth"`
+- Packaging: extras `[sympy] [torch] [jax] [numba]`, `py.typed`
+- CI: coverage ≥90% enforced; extras install matrix; docs auto-deploy
+- Docs: Performance page (Numba), GPU spec/benches, Colab quickstart and badges
+
 
 - Be the **top Python library for polynomials**: robust, fast, well‑tested, pleasant API.
 - Unify **classical numerics** (Newton, Durand–Kerner, Aberth, companion‑QR) with **new series methods** (Hyper‑Catalan soft formula, Geode factorization) for root finding.

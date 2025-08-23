@@ -288,6 +288,42 @@ def jax_aberth_solve(coeffs, roots_init, iters: int = 50, damping: float = 0.8):
         z = jax_aberth_step(coeffs, z, damping=damping)
     return z
 
+
+def torch_batched_roots(coeffs_batch, iters: int = 60, damping: float = 0.8, backtracks: int = 3):
+    """Solve many same-degree polynomials' roots with Torch vectorized Aberth.
+
+    Args:
+      coeffs_batch: torch.Tensor of shape (B, D+1) complex (low->high)
+      iters: number of Aberth iterations
+      damping: initial damping factor
+      backtracks: backtracking steps per iteration
+
+    Returns:
+      torch.Tensor of shape (B, N) complex roots
+    """
+    import torch  # type: ignore[import-not-found]
+
+    a = coeffs_batch
+    assert a.ndim == 2, "coeffs_batch must be (B, D+1)"
+    B, D1 = a.shape
+    N = D1 - 1
+    if N <= 0:
+        return torch.zeros((B, 0), dtype=a.dtype, device=a.device)
+    # Cauchy-like radius per batch: 1 + max |a_k|/|a_n|
+    an = torch.abs(a[:, -1])
+    # avoid div by zero
+    an = torch.where(an == 0, torch.ones_like(an), an)
+    max_ratio = torch.max(torch.abs(a[:, :-1]) / an[:, None], dim=1).values
+    R = 1.0 + max_ratio
+    # angles for N points
+    k = torch.arange(N, dtype=torch.float32, device=a.device)
+    theta = 2 * torch.pi * (k / N)
+    unit = torch.exp(1j * theta.to(a.dtype))  # (N,)
+    # broadcast radii to (B, N)
+    z0 = (R[:, None].to(a.dtype)) * unit[None, :]
+    z = torch_aberth_solve_batched(a.to(a.dtype), z0, iters=iters, damping=damping)
+    return z
+
 def batched_solve_all(
     coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20
 ):

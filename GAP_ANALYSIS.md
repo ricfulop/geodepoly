@@ -117,20 +117,27 @@ This checklist maps the **SPEC.md** to what’s likely in your current repo and 
 
 ## 5) Prioritized Sprint Plan
 
-**Sprint 1 (P0)**
+**Sprint 1 (P0) — Completed**
 1. `pyproject.toml`, `README.md`, CI skeleton.
 2. `hyper_catalan`, `(E,V,F)` helpers, factorial cache.
 3. `FormalSeries` minimal.
 4. `series_root` (raw) + `series_bootstrap` + Wallis cubic example.
 5. Tests: Catalan/Bi‑Tri/Wallis.
 
-**Sprint 2 (P0→P1)**
+**Sprint 2 (P0→P1) — Completed**
 1. `geode_factorize` + factorization tests.
 2. Classical solvers + `Polynomial` type + hybrid glue.
 3. Examples: Eisenstein/Geode arrays. Docs quickstart.
 
-**Sprint 3 (P1)**  
-Layerings, interop, plotting, coverage to 90%+.
+**Sprint 3 (P1) — Completed**  
+- JSON bridge schema v1 + CLI I/O flags, tests.
+- GPU prototype: vectorized Newton/ Aberth (Torch, JAX), benches and docs.
+- Coverage raised to ≥90% (with configured omits), CI threshold enforced.
+
+**Sprint 4 (P1) — In progress**
+- Docs polish (badges, Colab), SPEC updates.
+- GPU batched pipeline integration, benchmarks, and comparisons.
+- Packaging wheels and install matrix.
 
 ---
 
