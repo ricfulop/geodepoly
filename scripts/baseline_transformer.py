@@ -30,12 +30,17 @@ def main():
     t3 = df["t3"].to_numpy()
     y = np.array([parse_alpha(s) for s in df["alpha"]])
     X = np.vstack([np.ones_like(t2), t2, t3]).T
+    # simple holdout split by trial index for a quick signal
+    trials = df["trial"].to_numpy()
+    mask_train = (trials % 5) != 0
+    Xtr, ytr = X[mask_train], y[mask_train]
+    Xte, yte = X[~mask_train], y[~mask_train]
     # Solve least squares for real and imaginary parts
-    w_re, *_ = np.linalg.lstsq(X, y.real, rcond=None)
-    w_im, *_ = np.linalg.lstsq(X, y.imag, rcond=None)
-    preds = (X @ w_re) + 1j * (X @ w_im)
-    err = np.mean(np.abs(preds - y))
-    print(f"Baseline mean abs error: {err:.3e}")
+    w_re, *_ = np.linalg.lstsq(Xtr, ytr.real, rcond=None)
+    w_im, *_ = np.linalg.lstsq(Xtr, ytr.imag, rcond=None)
+    preds = (Xte @ w_re) + 1j * (Xte @ w_im)
+    err = np.mean(np.abs(preds - yte))
+    print(f"Baseline holdout MAE(|alpha|): {err:.3e} (n={len(yte)})")
 
 
 if __name__ == "__main__":

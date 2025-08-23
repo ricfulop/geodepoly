@@ -27,7 +27,7 @@ classifiers = [
 Homepage = "https://github.com/ricfulop/geodepoly"
 
 [project.optional-dependencies]
-dev = ["pytest", "numpy"]
+dev = ["pytest", "numpy", "pandas"]
 plots = ["matplotlib"]
 lint = ["ruff", "black", "mypy", "pytest-cov", "pre-commit"]
 
