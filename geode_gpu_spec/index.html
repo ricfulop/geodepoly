@@ -580,6 +580,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#batched-gpu-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Batched GPU CLI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       Next steps
@@ -642,6 +651,10 @@ python scripts/bench_aberth_gpu.py --deg 32 --iters 50
 <pre><code class="language-bash">python scripts/bench_aberth_jax.py --deg 32 --iters 50
 </code></pre>
 <p>Developer note: JAX helpers <code>jax_aberth_step/solve</code> are available in <code>geodepoly.batched</code>.</p>
+<h2 id="batched-gpu-cli">Batched GPU CLI</h2>
+<pre><code class="language-bash"># stdin JSON: {&quot;schemaVersion&quot;:1, &quot;coeffs_batch&quot;: [[...], ...], &quot;device&quot;:&quot;cuda&quot;}
+printf '{&quot;schemaVersion&quot;:1,&quot;coeffs_batch&quot;:[[-6,11,-6,1],[-1,0,1]],&quot;device&quot;:&quot;cuda&quot;}' | geodepoly-gpu-batch
+</code></pre>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Microbenchmarks and accuracy checks vs CPU</li>
