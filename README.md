@@ -55,6 +55,9 @@ python -m geodepoly.scripts.benchmark --deg 8 --seed 123 --trials 100
 - SymPy comparison: `python examples/sympy_vs_nroots.py`
 - JSON bridge round‑trip: `python examples/json_bridge_roundtrip.py`
 - Multiple root demo: `python examples/multiple_root_demo.py`
+- Compare methods: `python examples/compare_methods.py`
+- Resummation effect: `python examples/resummation_effect.py`
+- Eigenvalues demo: `python examples/eigs_demo.py`
 
 ## API
 
