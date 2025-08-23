@@ -6,6 +6,11 @@ from .hyper_catalan import (
     catalan_number,
     evaluate_quadratic_slice,
 )
+from .batched import (
+    batched_poly_eval,
+    batched_newton_step,
+    torch_root_layer,
+)
 
 __all__ = [
     "solve_poly",
@@ -17,4 +22,7 @@ __all__ = [
     "evaluate_hyper_catalan",
     "catalan_number",
     "evaluate_quadratic_slice",
+    "batched_poly_eval",
+    "batched_newton_step",
+    "torch_root_layer",
 ]

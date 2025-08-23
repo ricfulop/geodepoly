@@ -56,3 +56,11 @@
 ## [0.1.7.post1] - 2025-08-23
 ### Fixed
 - Post-release metadata bump to trigger PyPI publish via tags.
+
+## [0.1.8] - 2025-08-23
+### Added
+- MVP3 batched kernels: `batched_poly_eval`, `batched_newton_step`, differentiable `torch_root_layer`.
+- Batch throughput benchmark `scripts/bench_batched.py` and docs page `docs/batched.md`.
+- Export batched APIs in `geodepoly.__init__`.
+### Changed
+- GeodeBench baseline uses a simple holdout split.
