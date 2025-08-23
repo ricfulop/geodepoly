@@ -4,7 +4,7 @@ def sympy_solve(poly, return_: str = "numeric", **kwargs):
     Keyword args mirror geodepoly.solve_all: method, max_order, boots, tol, resum, refine_steps, verbose.
     """
     try:
-        import sympy as sp
+        import sympy as sp  # type: ignore[import-untyped]
     except ImportError:
         raise ImportError("SymPy not installed. `pip install sympy`")
 

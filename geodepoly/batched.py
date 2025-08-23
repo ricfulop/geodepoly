@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 
 def _as_backend(name: str):
     n = name.lower()
@@ -79,8 +77,8 @@ def torch_root_layer(steps: int = 3, tol: float = 0.0):
 
     This is differentiable because it composes Torch ops.
     """
-    import torch
-    import torch.nn as nn
+    import torch  # type: ignore[import-not-found]
+    import torch.nn as nn  # type: ignore[import-not-found]
 
     class RootLayer(nn.Module):
         def __init__(self, steps: int, tol: float):
@@ -113,8 +111,9 @@ def torch_root_layer(steps: int = 3, tol: float = 0.0):
     return RootLayer(steps, tol)
 
 
-
-def batched_solve_all(coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20):
+def batched_solve_all(
+    coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20
+):
     """Solve many polynomials for one root each using a vectorized Newton path.
 
     - coeffs_batch: shape (B, D+1) low->high
@@ -134,7 +133,11 @@ def batched_solve_all(coeffs_batch, backend: str = "numpy", method: str = "newto
     with xp.errstate(all="ignore") if hasattr(xp, "errstate") else _nullcontext():  # type: ignore
         guess = -a0 / xp.where(a1 == 0, xp.asarray(1, dtype=a1.dtype), a1)
     # Blend: if |guess| finite and not huge, use it
-    mask = xp.isfinite(guess) if hasattr(xp, "isfinite") else xp.ones_like(guess, dtype=bool)
+    mask = (
+        xp.isfinite(guess)
+        if hasattr(xp, "isfinite")
+        else xp.ones_like(guess, dtype=bool)
+    )
     x = xp.where(mask, guess, x)
 
     # Newton iterations using batched_newton_step
@@ -154,4 +157,3 @@ class _nullcontext:
 
     def __exit__(self, *exc):
         return False
-

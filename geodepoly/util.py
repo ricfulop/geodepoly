@@ -15,6 +15,7 @@ _USE_NUMBA = bool(int(os.getenv("GEODEPOLY_USE_NUMBA", "0"))) and _HAS_NUMBA
 
 
 if _HAS_NUMBA:
+
     @_nb.njit(cache=True)
     def _poly_eval_nb(a: _np.ndarray, x: complex) -> complex:  # type: ignore
         acc = 0.0 + 0.0j

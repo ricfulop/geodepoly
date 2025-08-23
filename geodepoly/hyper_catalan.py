@@ -99,3 +99,33 @@ def evaluate_quadratic_slice(t2: complex, max_weight: int) -> complex:
     alpha(0)=1.
     """
     return evaluate_hyper_catalan({2: t2}, max_weight=max_weight)
+
+
+# --- Bi-Tri arrays and layerings (minimal utilities) ---
+
+
+def bi_tri_array(n2_max: int, n3_max: int) -> List[List[int]]:
+    """Return a small Bi–Tri array A[m2][m3] with entries
+    (2 m2 + 3 m3)! / ((1 + m2 + 2 m3)! m2! m3!).
+    """
+    A: List[List[int]] = []
+    for m2 in range(n2_max + 1):
+        row: List[int] = []
+        for m3 in range(n3_max + 1):
+            num = factorial(2 * m2 + 3 * m3)
+            den = factorial(1 + m2 + 2 * m3) * factorial(m2) * factorial(m3)
+            row.append(num // den)
+        A.append(row)
+    return A
+
+
+def layering_vertex(m_counts: Dict[int, int]) -> int:
+    return sum(m_counts.get(k, 0) for k in m_counts)
+
+
+def layering_edge(m_counts: Dict[int, int]) -> int:
+    return sum((k - 1) * m_counts.get(k, 0) for k in m_counts)
+
+
+def layering_face(m_counts: Dict[int, int]) -> int:
+    return 1 + sum((k - 1) * m_counts.get(k, 0) for k in m_counts)

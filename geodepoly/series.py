@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Mapping, Sequence
+from typing import Sequence
 
 from .formal import FormalSeries
 from .series_core import series_seed_step
@@ -33,7 +33,9 @@ def series_bootstrap(
     c = [complex(a) for a in coeffs]
     x = complex(x0)
     for _ in range(max(1, int(rounds))):
-        y, a0, a1, ok = series_seed_step(c, x, max_order=int(series_order), resum="auto")
+        y, a0, a1, ok = series_seed_step(
+            c, x, max_order=int(series_order), resum="auto"
+        )
         if (not ok) or a1 == 0:
             break
         step = damping * y
@@ -77,7 +79,9 @@ def geode_factorize(order: int, tmax: int | None = None):
     # Quadratic cross terms
     for i in range(num_vars):
         for j in range(i, num_vars):
-            mono = tuple((1 if k == i else 0) + (1 if k == j else 0) for k in range(num_vars))
+            mono = tuple(
+                (1 if k == i else 0) + (1 if k == j else 0) for k in range(num_vars)
+            )
             coef = 0.1 / (1 + abs(i - j))
             G = G + FormalSeries({mono: coef}, var_names=var_names)
     G = G.truncate_total_degree(order)
@@ -86,5 +90,3 @@ def geode_factorize(order: int, tmax: int | None = None):
     SG = (S1 * G).truncate_total_degree(order)
     S = FormalSeries({(): 1.0 + 0.0j}, var_names=var_names) + SG
     return S.truncate_total_degree(order), S1, G
-
-

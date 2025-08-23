@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, List, Tuple
+from typing import List, Tuple
 
 
 def _trim(coeffs: List[complex]) -> List[complex]:
@@ -94,7 +94,7 @@ class Polynomial:
             q[k] = coeff
             for j in range(n + k, k - 1, -1):
                 r[j] -= coeff * b[j - k]
-        return Polynomial(_trim(q)), Polynomial(_trim(r[: n]))
+        return Polynomial(_trim(q)), Polynomial(_trim(r[:n]))
 
     # ---- evaluation and transforms ----
     def __call__(self, x: complex) -> complex:
@@ -106,11 +106,13 @@ class Polynomial:
     def differentiate(self) -> "Polynomial":
         if len(self.coeffs) <= 1:
             return Polynomial([0])
-        out = [ (i) * self.coeffs[i] for i in range(1, len(self.coeffs)) ]
+        out = [(i) * self.coeffs[i] for i in range(1, len(self.coeffs))]
         return Polynomial(out)
 
     def integrate(self, c0: complex = 0) -> "Polynomial":
-        out = [complex(c0)] + [ self.coeffs[i] / (i + 1) for i in range(len(self.coeffs)) ]
+        out = [complex(c0)] + [
+            self.coeffs[i] / (i + 1) for i in range(len(self.coeffs))
+        ]
         return Polynomial(out)
 
     def scale_x(self, alpha: complex) -> "Polynomial":
@@ -137,5 +139,3 @@ class Polynomial:
             for j in range(k + 1):
                 out[j] += ak * comb(k, j) * (mu ** (k - j))
         return Polynomial(out)
-
-

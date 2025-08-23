@@ -6,7 +6,9 @@ from typing import List
 from .solver import solve_all
 
 
-def _parse_coeffs(arg_values: List[str] | None, arg_string: str | None) -> List[complex]:
+def _parse_coeffs(
+    arg_values: List[str] | None, arg_string: str | None
+) -> List[complex]:
     # Priority: explicit string via --coeffs, else positional numbers
     if arg_string:
         s = arg_string.strip()
@@ -22,7 +24,9 @@ def _parse_coeffs(arg_values: List[str] | None, arg_string: str | None) -> List[
         return [complex(float(t)) for t in tokens]
     if arg_values:
         return [complex(float(t)) for t in arg_values]
-    raise SystemExit("No coefficients provided. Use --coeffs '[a0,a1,...,aN]' or positional numbers.")
+    raise SystemExit(
+        "No coefficients provided. Use --coeffs '[a0,a1,...,aN]' or positional numbers."
+    )
 
 
 def main(argv: List[str] | None = None) -> int:
@@ -42,15 +46,52 @@ def main(argv: List[str] | None = None) -> int:
         default=None,
         help="Coefficients as JSON (e.g. '[1,0,-7,6]') or comma/space-separated string",
     )
-    ap.add_argument("--method", type=str, default="hybrid", choices=["hybrid", "aberth", "dk", "numpy"], help="Solver method")
-    ap.add_argument("--resum", type=str, default="auto", choices=["auto", "pade", "borel", "borel-pade", "none"], help="Resummation for series seed")
-    ap.add_argument("--tol", type=float, default=1e-12, help="Target residual tolerance")
-    ap.add_argument("--max-order", type=int, default=24, help="Max series order for seed")
-    ap.add_argument("--boots", type=int, default=2, help="Bootstrap iterations for seed")
-    ap.add_argument("--refine-steps", type=int, default=6, help="Final Halley/Newton refinement steps")
-    ap.add_argument("--json", action="store_true", help="Print roots as JSON [[re,im],...] instead of plain text")
-    ap.add_argument("--input", type=str, default=None, help="Read coefficients payload from JSON file (schema v1) instead of CLI args")
-    ap.add_argument("--output", type=str, default=None, help="Write results to JSON file (default: stdout)")
+    ap.add_argument(
+        "--method",
+        type=str,
+        default="hybrid",
+        choices=["hybrid", "aberth", "dk", "numpy"],
+        help="Solver method",
+    )
+    ap.add_argument(
+        "--resum",
+        type=str,
+        default="auto",
+        choices=["auto", "pade", "borel", "borel-pade", "none"],
+        help="Resummation for series seed",
+    )
+    ap.add_argument(
+        "--tol", type=float, default=1e-12, help="Target residual tolerance"
+    )
+    ap.add_argument(
+        "--max-order", type=int, default=24, help="Max series order for seed"
+    )
+    ap.add_argument(
+        "--boots", type=int, default=2, help="Bootstrap iterations for seed"
+    )
+    ap.add_argument(
+        "--refine-steps",
+        type=int,
+        default=6,
+        help="Final Halley/Newton refinement steps",
+    )
+    ap.add_argument(
+        "--json",
+        action="store_true",
+        help="Print roots as JSON [[re,im],...] instead of plain text",
+    )
+    ap.add_argument(
+        "--input",
+        type=str,
+        default=None,
+        help="Read coefficients payload from JSON file (schema v1) instead of CLI args",
+    )
+    ap.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Write results to JSON file (default: stdout)",
+    )
     ap.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
 
     args = ap.parse_args(argv)
@@ -91,9 +132,11 @@ def main(argv: List[str] | None = None) -> int:
     roots = solve_all(coeffs, **{**file_kwargs, **kwargs})
 
     if args.json or args.output:
+
         def enc(z: complex):
             zc = complex(z)
             return [zc.real, zc.imag]
+
         out = [enc(z) for z in roots]
         if args.output:
             with open(args.output, "w") as f:
@@ -109,5 +152,3 @@ def main(argv: List[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-

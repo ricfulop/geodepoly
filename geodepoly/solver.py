@@ -115,7 +115,9 @@ def solve_all(
         return []
 
     if method not in {"hybrid", "aberth", "dk", "numpy", "batched"}:
-        raise ValueError("method must be one of {'hybrid','aberth','dk','numpy','batched'}")
+        raise ValueError(
+            "method must be one of {'hybrid','aberth','dk','numpy','batched'}"
+        )
 
     if method == "numpy":
         try:
@@ -144,20 +146,21 @@ def solve_all(
         except Exception:
             raise ImportError("numpy is required for method='batched'")
 
-        def deflate(poly, r):
+        def deflate(poly: List[complex], r: complex):
             # Synthetic division by (x - r)
-            b = [poly[-1]]
+            b: List[complex] = [poly[-1]]
             for a in reversed(poly[:-1]):
-                b.append(a + b[-1] * r)
+                b.append(complex(a) + b[-1] * r)
             b = list(reversed(b))
-            return b[1:], b[0]
+            return b[1:], complex(b[0])
 
         c = list(coeffs)
         roots_acc: List[complex] = []
         for _ in range(n):
             # single-item batch
             a = np.asarray([c], dtype=complex)
-            r = batched_solve_all(a, backend="numpy", steps=40)[0]
+            r_arr = batched_solve_all(a, backend="numpy", steps=40)
+            r = complex(r_arr[0])
             # polish
             r = halley_refine_multiplicity(c, complex(r), steps=refine_steps)
             # deflate
@@ -165,14 +168,23 @@ def solve_all(
             # Guard: if remainder large, fallback to Aberth for remaining
             if abs(rem) > 1e-6:
                 remain = n - len(roots_acc)
-                others = aberth_ehrlich(c + [0], iters=200, tol=1e-14, restarts=3) if remain > 1 else []
+                others = (
+                    aberth_ehrlich(c + [0], iters=200, tol=1e-14, restarts=3)
+                    if remain > 1
+                    else []
+                )
                 roots_acc.append(r)
                 roots_acc.extend(others)
-                return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots_acc]
+                return [
+                    halley_refine_multiplicity(coeffs, z, steps=refine_steps)
+                    for z in roots_acc
+                ]
             roots_acc.append(r)
             if len(c) <= 1:
                 break
-        return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots_acc]
+        return [
+            halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots_acc
+        ]
 
     if method == "dk":
         roots = durand_kerner(coeffs, iters=600, tol=1e-14, restarts=5)

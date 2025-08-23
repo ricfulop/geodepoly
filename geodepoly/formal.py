@@ -31,7 +31,11 @@ class FormalSeries:
       coefficient lookup, simple composition (univariate case), pretty conversion.
     """
 
-    def __init__(self, coeffs: Mapping[Monomial, complex] | None = None, var_names: Iterable[str] = ("t",)):
+    def __init__(
+        self,
+        coeffs: Mapping[Monomial, complex] | None = None,
+        var_names: Iterable[str] = ("t",),
+    ):
         names = tuple(var_names)
         if not names:
             names = ("t",)
@@ -70,8 +74,8 @@ class FormalSeries:
     def __mul__(self, other: "FormalSeries") -> "FormalSeries":
         self._assert_compatible(other)
         out: Dict[Monomial, complex] = {}
-        for (m1, c1) in self._coeffs.items():
-            for (m2, c2) in other._coeffs.items():
+        for m1, c1 in self._coeffs.items():
+            for m2, c2 in other._coeffs.items():
                 m = _add_monomials(m1, m2)
                 out[m] = out.get(m, 0.0 + 0.0j) + c1 * c2
                 if out[m] == 0:
@@ -89,7 +93,9 @@ class FormalSeries:
         return FormalSeries(out, self.vars)
 
     # --- Composition (univariate) ---
-    def compose_univariate(self, g: "FormalSeries", max_deg: int | None = None) -> "FormalSeries":
+    def compose_univariate(
+        self, g: "FormalSeries", max_deg: int | None = None
+    ) -> "FormalSeries":
         """Return f(g) where f is this series in one variable.
 
         Only supports one variable; raises if series is multivariate. Truncates by total degree.
@@ -142,7 +148,9 @@ class FormalSeries:
         for m, c in sorted(self._coeffs.items(), key=lambda mc: (sum(mc[0]), mc[0])):
             mon = monomial_to_str(m, self.vars)
             terms.append(f"({c})*{mon}" if mon != "1" else f"({c})")
-        return "FormalSeries(" + " + ".join(terms) + "; vars=" + ",".join(self.vars) + ")"
+        return (
+            "FormalSeries(" + " + ".join(terms) + "; vars=" + ",".join(self.vars) + ")"
+        )
 
     # --- Helpers ---
     def _assert_compatible(self, other: "FormalSeries") -> None:
@@ -169,5 +177,3 @@ def monomial_to_str(m: Monomial, var_names: Tuple[str, ...]) -> str:
             name = var_names[i] if i < len(var_names) else f"t{i+1}"
             parts.append(f"{name}^{e}" if e != 1 else name)
     return "*".join(parts) if parts else "1"
-
-

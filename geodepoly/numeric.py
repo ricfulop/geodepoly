@@ -1,13 +1,17 @@
 from __future__ import annotations
 
-from typing import List, Sequence
+from typing import Sequence
 
 from .finishers import aberth_ehrlich, durand_kerner, halley_refine
 from .series_solve import newton_refine
 
 
-def newton(coeffs: Sequence[complex], x0: complex, steps: int = 50, tol: float = 1e-14) -> complex:
-    return newton_refine([complex(a) for a in coeffs], complex(x0), steps=steps, tol=tol)
+def newton(
+    coeffs: Sequence[complex], x0: complex, steps: int = 50, tol: float = 1e-14
+) -> complex:
+    return newton_refine(
+        [complex(a) for a in coeffs], complex(x0), steps=steps, tol=tol
+    )
 
 
 def aberth(coeffs: Sequence[complex], iters: int = 200, tol: float = 1e-14):
@@ -35,5 +39,3 @@ def companion_roots(coeffs: Sequence[complex]):
     C[:, -1] = -np.array(a[:-1], dtype=complex)
     w = np.linalg.eigvals(C)
     return [complex(z) for z in w]
-
-

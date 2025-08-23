@@ -4,7 +4,7 @@ import math
 import random
 from typing import List
 
-from .util import poly_eval, poly_eval_dp_ddp
+from .util import poly_eval, poly_eval_dp_ddp, _USE_NUMBA
 
 
 def halley_refine(coeffs, x, steps=2):
@@ -139,7 +139,7 @@ def aberth_ehrlich(
                 for k in range(n)
             ]
 
-        # Precompute reversed coefficients for Horner once
+        # Precompute reversed coefficients for Horner once (used when Numba off)
         a_rev = list(reversed(coeffs))
         for it in range(iters):
             max_step = 0.0
@@ -148,13 +148,29 @@ def aberth_ehrlich(
             pvals = []
             dpvals = []
             for z in roots:
-                p = 0j
-                dp = 0j
-                for a in a_rev:
-                    dp = dp * z + p
-                    p = p * z + a
+                if _USE_NUMBA:
+                    p, dp, _ = poly_eval_dp_ddp(coeffs, z)
+                else:
+                    p = 0j
+                    dp = 0j
+                    for a in a_rev:
+                        dp = dp * z + p
+                        p = p * z + a
                 pvals.append(p)
                 dpvals.append(dp)
+
+            # Precompute 1/(z_i - z_j) matrix for all pairs (i!=j)
+            inv = [[0j] * n for _ in range(n)]
+            for i in range(n):
+                zi = roots[i]
+                for j in range(i + 1, n):
+                    d = zi - roots[j]
+                    if d == 0:
+                        val = 0j
+                    else:
+                        val = 1 / d
+                    inv[i][j] = val
+                    inv[j][i] = -val
 
             # Precompute cluster metric per root
             crowd = []
@@ -183,10 +199,12 @@ def aberth_ehrlich(
                         2 * eps
                     )
                 # Aberth correction
+                # Use precomputed reciprocal sums
                 S = 0j
-                for j, w in enumerate(roots):
+                row = inv[i]
+                for j in range(n):
                     if j != i:
-                        S += 1 / (z - w)
+                        S += row[j]
                 denom = dp - p * S
                 if denom == 0:
                     continue
