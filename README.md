@@ -7,6 +7,8 @@
 [Docs](https://ricfulop.github.io/geodepoly/)
 [![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)](#)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/Quickstart.ipynb)
 
 **Problem statement**
 
@@ -73,6 +75,11 @@ pip install -e .
 
 ```bash
 pip install geodepoly
+# optional extras
+pip install geodepoly[sympy]
+pip install geodepoly[torch]
+pip install geodepoly[jax]
+pip install geodepoly[numba]
 ```
 
 ## Quickstart
@@ -84,6 +91,16 @@ from geodepoly import solve_all
 coeffs = [1, 0, -7, 6]
 roots = solve_all(coeffs, method="hybrid", resum="auto")
 print(roots)
+```
+
+### Colab quickstart
+
+[Open in Colab](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/Quickstart.ipynb) and run:
+
+```python
+!pip install geodepoly
+from geodepoly import solve_all
+solve_all([1, 0, -7, 6], method="hybrid", resum="auto")
 ```
 
 ## CLI
