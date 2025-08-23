@@ -45,3 +45,10 @@
 - Docs: `docs/bench_presets.md` and nav link in `mkdocs.yml`.
 ### Fixed
 - CI stability: all tests green (20 passed).
+
+## [0.1.7] - 2025-08-23
+### Changed
+- Code style cleanup across package for CI lint/format: split imports, remove semicolons/unused imports, clarify variable names.
+- Minor numeric polish and formatting in examples and benchmarks.
+### Fixed
+- CI now green with ruff/black scoped to package and code formatted accordingly.
