@@ -1,0 +1,31 @@
+name: Build Wheels
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-wheels:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pypa/cibuildwheel@v2.20.0
+        env:
+          CIBW_BUILD: cp3?-*
+          CIBW_SKIP: pp* *-musllinux*
+          CIBW_TEST_COMMAND: "pytest -q"
+          CIBW_TEST_EXTRAS: "dev,lint"
+        with:
+          package-dir: .
+          output-dir: wheelhouse
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: wheelhouse/*.whl
+
+
