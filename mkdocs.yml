@@ -1,0 +1,13 @@
+site_name: geodepoly
+repo_url: https://github.com/ricfulop/geodepoly
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Benchmarks: benchmarks.md
+  - Paper mapping: paper_guide.md
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ricfulop/geodepoly
+
