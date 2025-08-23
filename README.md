@@ -18,6 +18,8 @@ iterations, and only falls back to classical iterations when strictly necessary.
 - **Deflation:** synthetic division to peel off roots one-by-one.
 - Safe fallbacks: Halley or Durand–Kerner if series degenerates (multiple root / tiny derivative).
 
+Polynomials sit at the heart of CAS tooling, scientific computing, control, and ML. GeodePoly aims to be a drop-in, open-source engine you can trust in numerically awkward cases (tight clusters, near-multiplicity, wide coefficient scales) while remaining fast and easy to integrate.
+
 > Note: This is a *minimal working scaffold* you can publish and iterate on.
 > It is self-contained (numpy optional), tested, and provides a SymPy hook.
 
