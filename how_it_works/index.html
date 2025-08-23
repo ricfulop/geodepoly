@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../api/">
+      
+      
+        <link rel="next" href="../examples/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Geode GPU Roadmap (draft) - geodepoly</title>
+        <title>How it works - geodepoly</title>
       
     
     
@@ -58,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geode-gpu-roadmap-draft" class="md-skip">
+        <a href="#how-it-works-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Geode GPU Roadmap (draft)
+              How it works
             
           </span>
         </div>
@@ -255,10 +259,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../how_it_works/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    How it works
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -269,6 +295,89 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-recenter-and-series-seed" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Recenter and series seed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-resummation-and-auto-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) Resummation and auto selection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-bootstrap-and-deflation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Bootstrap and deflation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-finishers-and-polishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Finishers and polishing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-multipleclustered-roots" class="md-nav__link">
+    <span class="md-ellipsis">
+      5) Multiple/clustered roots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hyper-catalan-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) Hyper-Catalan connection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-eigenvalues-via-characteristic-polynomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      7) Eigenvalues via characteristic polynomial
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -432,36 +541,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#goals" class="md-nav__link">
+  <a href="#1-recenter-and-series-seed" class="md-nav__link">
     <span class="md-ellipsis">
-      Goals
+      1) Recenter and series seed
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#tiling-layout" class="md-nav__link">
+  <a href="#2-resummation-and-auto-selection" class="md-nav__link">
     <span class="md-ellipsis">
-      Tiling &amp; Layout
+      2) Resummation and auto selection
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#prototype" class="md-nav__link">
+  <a href="#3-bootstrap-and-deflation" class="md-nav__link">
     <span class="md-ellipsis">
-      Prototype
+      3) Bootstrap and deflation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#4-finishers-and-polishing" class="md-nav__link">
     <span class="md-ellipsis">
-      Next steps
+      4) Finishers and polishing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-multipleclustered-roots" class="md-nav__link">
+    <span class="md-ellipsis">
+      5) Multiple/clustered roots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hyper-catalan-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) Hyper-Catalan connection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-eigenvalues-via-characteristic-polynomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      7) Eigenvalues via characteristic polynomial
     </span>
   </a>
   
@@ -486,26 +622,39 @@
   
 
 
-<h1 id="geode-gpu-roadmap-draft">Geode GPU Roadmap (draft)</h1>
-<h2 id="goals">Goals</h2>
+<h1 id="how-it-works-deep-dive">How it works (deep-dive)</h1>
+<p>This section summarizes the core algorithmic choices behind geodepoly and connects them to the paper.</p>
+<h2 id="1-recenter-and-series-seed">1) Recenter and series seed</h2>
+<p>Given coefficients low-to-high <code>p(x) = a0 + a1 x + ... + aN x^N</code>, choose a center <code>μ</code> and expand
+<code>q(y) = p(μ + y) = a0 + a1 y + a2 y^2 + ...</code> via binomial shifting. If <code>a1 ≠ 0</code>, set <code>t = -a0/a1</code>.</p>
+<p>We invert <code>F(y) = y + β2 y^2 + β3 y^3 + ...</code> with <code>βk = ak/a1</code> using Lagrange inversion to obtain
+inverse-series coefficients <code>{g_m}</code> for the local root increment <code>y ≈ Σ g_m t^m</code>.</p>
+<h2 id="2-resummation-and-auto-selection">2) Resummation and auto selection</h2>
+<p>Truncated series can be fragile near their convergence boundary (|t| ~ 1). We provide:
+- Plain: direct Horner evaluation of Σ g_m t^m
+- Padé: near-diagonal Padé rational approximation
+- Borel–Padé: Pade of the Borel transform followed by Gauss–Laguerre
+- Auto: small Padé grid scored for stability, falling back to Borel–Padé or plain</p>
+<p>Use <code>resum="auto"</code> for robust default behavior.</p>
+<h2 id="3-bootstrap-and-deflation">3) Bootstrap and deflation</h2>
+<p>A few bootstrap steps update the center <code>μ ← μ + y</code>. When a root is good, synthetic division (deflation)
+reduces degree. The MVP solves all roots with a robust finisher after obtaining one or two good seeds.</p>
+<h2 id="4-finishers-and-polishing">4) Finishers and polishing</h2>
 <ul>
-<li>Batched root solves for many polynomials</li>
-<li>Stable kernels for Aberth/Halley updates</li>
+<li>Aberth–Ehrlich: simultaneous iteration with adaptive damping and minimal repulsion for clustered roots</li>
+<li>Durand–Kerner: derivative-free simultaneous method</li>
+<li>Halley polishing: applied per root; we also provide multiplicity-aware Halley when a root appears repeated</li>
 </ul>
-<h2 id="tiling-layout">Tiling &amp; Layout</h2>
-<ul>
-<li>Face-layer tiling aligned with hyper-Catalan layers</li>
-<li>Structure-of-arrays layout for complex ops</li>
-</ul>
-<h2 id="prototype">Prototype</h2>
-<ul>
-<li>JAX/NumPy sketch for vectorized series seeds and Aberth steps</li>
-</ul>
-<h2 id="next-steps">Next steps</h2>
-<ul>
-<li>Microbenchmarks and accuracy checks vs CPU</li>
-<li>Memory-bound vs compute-bound analysis</li>
-</ul>
+<h2 id="5-multipleclustered-roots">5) Multiple/clustered roots</h2>
+<p>We estimate local multiplicity using <code>m̂ ≈ Re( p * p'' / p'^2 )</code> and apply a multiplicity-aware Halley update
+when <code>m̂ ≥ 2</code>. Clustered roots benefit from Aberth damping and repulsion.</p>
+<h2 id="6-hyper-catalan-connection">6) Hyper-Catalan connection</h2>
+<p>The generating series <code>S[t2,t3,...]</code> with hyper-Catalan coefficients solves a canonical geometric polynomial
+and motivates the series-reversion view. We expose utilities to evaluate slices of <code>S</code> and to compute
+coefficients for exploration and benchmarks.</p>
+<h2 id="7-eigenvalues-via-characteristic-polynomial">7) Eigenvalues via characteristic polynomial</h2>
+<p>For small/medium matrices, we form the characteristic polynomial using Faddeev–LeVerrier and call the
+polynomial solver, then polish. This provides a compact path to <code>eigvals</code> without large dependencies.</p>
 
 
 
