@@ -137,6 +137,11 @@ Previews:
 ### Paper skeleton
 See `paper/GeodePoly_MVP.md`.
 
+## Bench dataset & GPU roadmap
+
+- GeodeBench spec: `bench/geodebench_spec.md`, generator: `bench/generate_slices.py`
+- GPU roadmap: `docs/geode_gpu_spec.md`
+
 ## Hyper-Catalan API (S[t2,t3,...])
 
 Utilities based on the paper's multivariate series:
