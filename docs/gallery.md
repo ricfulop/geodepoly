@@ -11,3 +11,4 @@
 - Methods comparison: see `examples/compare_methods.py`
 - Resummation effect: see `examples/resummation_effect.py`
 - Eigenvalues demo: see `examples/eigs_demo.py`
+

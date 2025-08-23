@@ -11,3 +11,4 @@ def test_precision_matrix():
         # residual should roughly track tol scale (allow slack factor)
         assert res < 100*tol
 
+

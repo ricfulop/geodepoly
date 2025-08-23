@@ -21,3 +21,4 @@ def test_batched_newton_step_shapes():
     assert step.shape == xs.shape
 
 
+

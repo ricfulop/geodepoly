@@ -21,3 +21,4 @@ def test_random_degrees_up_to_20():
         res = max(abs(poly_eval(coeffs, z)) for z in roots)
         assert res < 1e-6
 
+
