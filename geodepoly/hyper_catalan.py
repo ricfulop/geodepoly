@@ -1,6 +1,6 @@
 from __future__ import annotations
-from math import factorial, comb, isfinite
-from typing import Dict, Iterable, List, Tuple
+from math import factorial, comb
+from typing import Dict, Iterable, List
 
 
 def hyper_catalan_coefficient(m_counts: Dict[int, int]) -> int:

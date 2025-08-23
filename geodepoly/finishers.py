@@ -1,6 +1,8 @@
 \
 from __future__ import annotations
-import cmath, math, random
+import cmath
+import math
+import random
 from typing import List
 
 from .util import poly_eval, poly_eval_dp_ddp
@@ -127,11 +129,13 @@ def aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=2, warm_starts: List[c
             pvals = []
             dpvals = []
             for z in roots:
-                p = 0j; dp = 0j
+                p = 0j
+                dp = 0j
                 for a in reversed(coeffs):
                     dp = dp*z + p
                     p = p*z + a
-                pvals.append(p); dpvals.append(dp)
+                pvals.append(p)
+                dpvals.append(dp)
 
             # Precompute cluster metric per root
             crowd = []
@@ -146,7 +150,8 @@ def aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=2, warm_starts: List[c
             crowd_max = max(crowd) if crowd else 1.0
 
             for i, z in enumerate(roots):
-                p = pvals[i]; dp = dpvals[i]
+                p = pvals[i]
+                dp = dpvals[i]
                 if dp == 0:
                     z = z + (random.random()-0.5)*1e-6 + 1j*(random.random()-0.5)*1e-6
                     p = poly_eval(coeffs, z)

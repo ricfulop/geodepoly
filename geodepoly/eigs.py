@@ -9,13 +9,13 @@ def characteristic_coeffs_faddeev_lev_errier(A) -> List[complex]:
     import numpy as np
     A = np.array(A, dtype=complex)
     n = A.shape[0]
-    I = np.eye(n, dtype=complex)
+    identity_matrix = np.eye(n, dtype=complex)
     # Faddeev–LeVerrier using B_0=0, c_0=1, and c_k = -(1/k) tr(A B_k)
     Bk = np.zeros_like(A)
     c = [0j]*(n+1)
     c[0] = 1.0 + 0j
     for k in range(1, n+1):
-        Bk = A @ Bk + c[k-1] * I
+        Bk = A @ Bk + c[k-1] * identity_matrix
         c[k] = - (np.trace(A @ Bk) / k)
     # Polynomial: det(λI - A) = λ^n + c1 λ^{n-1} + ... + cn
     coeffs_high_to_low = [1.0+0j] + [complex(c[k]) for k in range(1, n+1)]

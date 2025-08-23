@@ -1,9 +1,8 @@
 \
 from __future__ import annotations
-import cmath, math
 from typing import List, Dict, Optional
 
-from .util import poly_eval, shift_expand
+from .util import shift_expand
 from .resummation import (
     eval_series_plain,
     eval_series_pade,
@@ -72,11 +71,13 @@ def inverseseries_g_coeffs(beta: Dict[int, complex], max_order: int) -> List[com
         lx, ly = len(x), len(y)
         for i in range(min(lx-1, deg)+1):
             xi = x[i] if i < lx else 0
-            if xi == 0: continue
+            if xi == 0:
+                continue
             maxj = min(deg - i, ly-1)
             for j in range(maxj+1):
                 yj = y[j] if j < ly else 0
-                if yj == 0: continue
+                if yj == 0:
+                    continue
                 out[i+j] += xi * yj
         return out
 
@@ -87,7 +88,8 @@ def inverseseries_g_coeffs(beta: Dict[int, complex], max_order: int) -> List[com
 
     # Precompute U^j
     U_pows = []
-    one = [0j]*(deg+1); one[0] = 1
+    one = [0j]*(deg+1)
+    one[0] = 1
     U_pows.append(one)
     if deg >= 1:
         U_pows.append(U)

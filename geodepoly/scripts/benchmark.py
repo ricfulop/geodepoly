@@ -1,5 +1,8 @@
 \
-import random, math, time, argparse
+import argparse
+import math
+import random
+import time
 import cmath
 from geodepoly import series_solve_all
 
@@ -25,7 +28,6 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
-    s = 0.0
     max_res = 0.0
     ok = 0
     t0 = time.time()

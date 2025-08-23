@@ -1,6 +1,5 @@
 \
 from __future__ import annotations
-import cmath, math
 from typing import List
 
 def poly_eval(coeffs, x):
@@ -10,7 +9,9 @@ def poly_eval(coeffs, x):
     return acc
 
 def poly_eval_dp_ddp(coeffs, x):
-    p = 0j; dp = 0j; ddp = 0j
+    p = 0j
+    dp = 0j
+    ddp = 0j
     for a in reversed(coeffs):
         ddp = ddp * x + 2*dp
         dp  = dp  * x + p
@@ -24,7 +25,8 @@ def shift_expand(coeffs, mu):
     q = [0j]*(n+1)
     for k, a in enumerate(coeffs):
         ak = complex(a)
-        if ak == 0: continue
+        if ak == 0:
+            continue
         for j in range(k+1):
             q[j] += ak * (comb(k, j) * (mu ** (k - j)))
     return q

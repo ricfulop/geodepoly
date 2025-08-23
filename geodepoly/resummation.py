@@ -1,9 +1,7 @@
 \
 from __future__ import annotations
-import math, cmath
 from typing import List
 
-# Plain evaluation of y = sum_{m>=1} g_m t^m
 def eval_series_plain(g: List[complex], t: complex) -> complex:
     acc = 0j
     # Horner-like evaluation
@@ -11,7 +9,6 @@ def eval_series_plain(g: List[complex], t: complex) -> complex:
         acc = acc * t + gm
     return acc * t
 
-# Near-diagonal Pade via linear system; requires numpy
 def pade_coeffs(c: List[complex], m: int, n: int):
     import numpy as np
     # c[0] + c[1] z + ... + c[m+n] z^{m+n}  ≈  P_m(z)/Q_n(z), Q_n(0)=1
@@ -47,7 +44,8 @@ def eval_series_pade(g: List[complex], t: complex) -> complex:
     except Exception:
         return eval_series_plain(g, t)
     # Evaluate P(t)/Q(t)
-    num = 0j; den = 0j
+    num = 0j
+    den = 0j
     for a in reversed(P):
         num = num * t + a
     for b in reversed(Q):
@@ -93,7 +91,7 @@ def eval_series_borel(g: List[complex], t: complex) -> complex:
 def eval_series_borel_pade(g: List[complex], t: complex) -> complex:
     # Apply Pade to B(w) then Laplace
     # Build coefficients of B: b_m = g_m/m!
-    import math
+    # factorial used for Borel coefficients
     b = []
     fact=1.0
     for m, gm in enumerate(g, start=1):
@@ -101,16 +99,18 @@ def eval_series_borel_pade(g: List[complex], t: complex) -> complex:
         b.append(gm/fact)
     # Evaluate Pade for B at needed nodes and do Laguerre
     # Build c for B series: c[0]=0, c[m]=b_m
-    c = [0j]+b
-    order = min( max(4, len(b)//2) , len(b)-1)
-    m = order; n = order
+    c = [0j] + b
+    order = min(max(4, len(b)//2), len(b)-1)
+    m = order
+    n = order
     try:
         P,Q = pade_coeffs(c, m, n)
     except Exception:
         return eval_series_borel(g, t)
 
     def B_pade(w):
-        num=0j; den=0j
+        num = 0j
+        den = 0j
         for a in reversed(P):
             num = num*w+a
         for bq in reversed(Q):
@@ -133,7 +133,7 @@ def eval_series_auto(g: List[complex], t: complex) -> complex:
     # Plain baseline
     plain = eval_series_plain(g, t)
 
-    L = max(6, len(g))
+    # choose a few near-diagonal orders
     orders = []
     half = max(3, min(len(g)//2, 12))
     for delta in range(-2, 3):
@@ -153,7 +153,8 @@ def eval_series_auto(g: List[complex], t: complex) -> complex:
         try:
             P, Q = pade_coeffs(c, m, n)
             # Evaluate num/den and score
-            num = 0j; den = 0j
+            num = 0j
+            den = 0j
             for a in reversed(P):
                 num = num * t + a
             for b in reversed(Q):

@@ -1,7 +1,8 @@
 \
 from __future__ import annotations
-import cmath, math, time
-from typing import List, Optional, Dict, Any
+import cmath
+import math
+from typing import List, Optional
 
 from .series_core import series_seed_step
 from .finishers import durand_kerner, aberth_ehrlich, halley_refine, halley_refine_multiplicity

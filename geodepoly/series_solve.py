@@ -1,7 +1,9 @@
 \
 from __future__ import annotations
-import cmath, math, random
-from typing import List, Tuple, Optional
+import cmath
+import math
+import random
+from typing import List
 
 def poly_eval(coeffs, x):
     """Evaluate polynomial a0 + a1 x + ... + aN x^N at x using Horner."""
@@ -55,11 +57,13 @@ def inverseseries_g_coeffs(beta, max_order: int) -> List[complex]:
         out = [0j]*(deg+1)
         for i in range(min(len(x)-1, deg)+1):
             xi = x[i] if i < len(x) else 0
-            if xi == 0: continue
+            if xi == 0:
+                continue
             maxj = min(deg - i, len(y)-1)
             for j in range(maxj+1):
                 yj = y[j] if j < len(y) else 0
-                if yj == 0: continue
+                if yj == 0:
+                    continue
                 out[i+j] += xi * yj
         return out
 
@@ -71,7 +75,8 @@ def inverseseries_g_coeffs(beta, max_order: int) -> List[complex]:
 
     U_pows = []
     # U^0 == 1
-    one = [0j]*(deg+1); one[0] = 1
+    one = [0j]*(deg+1)
+    one[0] = 1
     U_pows.append(one)
     if deg >= 1:
         U_pows.append(U)
@@ -123,7 +128,9 @@ def halley_refine(coeffs, x, steps=6):
     # Compute p, p', p''
     for _ in range(steps):
         # p, p', p'' via Horner-like recurrences
-        p = 0j; dp = 0j; ddp = 0j
+        p = 0j
+        dp = 0j
+        ddp = 0j
         for a in reversed(coeffs):
             ddp = ddp * x + 2*dp
             dp  = dp * x + p
@@ -140,7 +147,8 @@ def newton_refine(coeffs, x, steps=20, tol=1e-15):
     """Refine a root with standard Newton iterations until residual is tiny."""
     for _ in range(steps):
         # Evaluate p and p'
-        p = 0j; dp = 0j
+        p = 0j
+        dp = 0j
         for a in reversed(coeffs):
             dp = dp * x + p
             p = p * x + a

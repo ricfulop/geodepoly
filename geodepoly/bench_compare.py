@@ -1,4 +1,9 @@
-import time, random, math, cmath, argparse, csv
+import argparse
+import csv
+import math
+import cmath
+import random
+import time
 import numpy as np
 from geodepoly.solver import solve_all
 
