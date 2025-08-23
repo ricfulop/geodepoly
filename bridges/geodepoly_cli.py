@@ -13,7 +13,10 @@ def main():
     coeffs = obj["coeffs"]
     kwargs = obj.get("kwargs", {})
     roots = solve_all(coeffs, **kwargs)
-    print(json.dumps({"roots":[complex(z).real if abs(z.imag)<1e-15 else complex(z) for z in roots]}, default=lambda o: [o.real, o.imag] if isinstance(o, complex) else o))
+    def encode_complex(z):
+        return [z.real, z.imag]
+    out = {"roots": [encode_complex(complex(z)) for z in roots]}
+    print(json.dumps(out))
 
 if __name__ == "__main__":
     main()
