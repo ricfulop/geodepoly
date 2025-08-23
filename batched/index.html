@@ -12,7 +12,7 @@
         <link rel="prev" href="../geodebench/">
       
       
-        <link rel="next" href="../paper_guide/">
+        <link rel="next" href="../performance/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -381,6 +381,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Batched kernels
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -393,6 +406,56 @@
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-with-the-main-solver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integrating with the main solver
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -505,6 +568,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-with-the-main-solver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integrating with the main solver
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -529,7 +609,15 @@
 <li><code>batched_poly_eval(coeffs, xs, backend)</code></li>
 <li><code>batched_newton_step(coeffs, xs, backend)</code></li>
 <li><code>torch_root_layer(steps, tol)</code> differentiable Newton layer</li>
+<li><code>batched_solve_all(coeffs_batch, backend, steps)</code> (one root per polynomial)</li>
 </ul>
+<h2 id="integrating-with-the-main-solver">Integrating with the main solver</h2>
+<ul>
+<li>Use <code>method="batched"</code> to solve a single polynomial via a vectorized Newton + deflation baseline (CPU/NumPy path today):</li>
+</ul>
+<pre><code class="language-python">from geodepoly import solve_all
+roots = solve_all([ -6, 11, -6, 1 ], method=&quot;batched&quot;)
+</code></pre>
 <p>Bench (preview): expect 10–100× throughput vs pure Python on large batches (Torch/JAX on GPU).</p>
 <p>Quick bench:</p>
 <pre><code class="language-bash">python scripts/bench_batched.py --backend numpy --batch 8192 --degree 16

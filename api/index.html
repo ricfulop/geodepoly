@@ -326,6 +326,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#data-types-numeric-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data types &amp; numeric wrappers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formal-series-scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formal series scaffold
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hyper-catalan-utilities" class="md-nav__link">
     <span class="md-ellipsis">
       Hyper-Catalan utilities
@@ -499,6 +517,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../paper_guide/" class="md-nav__link">
         
   
@@ -643,6 +683,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#data-types-numeric-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data types &amp; numeric wrappers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formal-series-scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formal series scaffold
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hyper-catalan-utilities" class="md-nav__link">
     <span class="md-ellipsis">
       Hyper-Catalan utilities
@@ -692,7 +750,7 @@
 <h2 id="core-solvers">Core solvers</h2>
 <ul>
 <li><code>geodepoly.solve_all(coeffs: List[complex], method: str = "hybrid", max_order: int = 24, boots: int = 2, tol: float = 1e-12, resum: Optional[str] = None, refine_steps: int = 3, verbose: bool = False) -&gt; List[complex]</code></li>
-<li>Methods: <code>"hybrid" | "aberth" | "dk" | "numpy"</code></li>
+<li>Methods: <code>"hybrid" | "aberth" | "dk" | "numpy" | "batched"</code></li>
 <li>Resummation: <code>None | "pade" | "borel" | "borel-pade" | "auto"</code></li>
 </ul>
 <p>Example</p>
@@ -732,8 +790,32 @@ x = sp.symbols('x')
 roots = sympy_solve(x**5 + x - 1, method=&quot;hybrid&quot;, resum=&quot;auto&quot;, return_=&quot;numeric&quot;)
 </code></pre>
 <h2 id="eigenvalues">Eigenvalues</h2>
+<h2 id="data-types-numeric-wrappers">Data types &amp; numeric wrappers</h2>
 <ul>
-<li><code>geodepoly.eigs.solve_eigs(A) -&gt; List[complex]</code></li>
+<li><code>geodepoly.Polynomial([...])</code> — dense univariate polynomial (low→high) with ops: add/sub/mul/divmod/pow, eval, <code>shift_x</code>, <code>scale_x</code>, <code>differentiate</code>, <code>integrate</code>.</li>
+</ul>
+<p>Example</p>
+<pre><code class="language-python">from geodepoly import Polynomial
+p = Polynomial([1, 0, 1])  # 1 + x^2
+q = p.shift_x(1)           # 2 + 2x + x^2
+</code></pre>
+<ul>
+<li>Numeric wrappers: <code>geodepoly.newton_solve</code>, <code>geodepoly.aberth_solve</code>, <code>geodepoly.dk_solve</code>, <code>geodepoly.companion_roots</code>.</li>
+</ul>
+<p>Example</p>
+<pre><code class="language-python">from geodepoly import newton_solve, companion_roots
+x = newton_solve([-2,0,1], x0=1.0)  # sqrt(2)
+w = companion_roots([-6,11,-6,1])   # [1,2,3]
+</code></pre>
+<h2 id="formal-series-scaffold">Formal series scaffold</h2>
+<ul>
+<li><code>geodepoly.FormalSeries</code> — minimal formal series with <code>+</code>, <code>*</code>, <code>truncate_total_degree</code>, <code>compose_univariate</code> (univariate), and <code>to_sympy</code>.</li>
+<li>
+<p><code>geodepoly.series_root</code> / <code>geodepoly.series_bootstrap</code> — scaffolds for soft polynomial formula and shift–solve–add.</p>
+</li>
+<li>
+<p><code>geodepoly.eigs.solve_eigs(A) -&gt; List[complex]</code></p>
+</li>
 <li>Forms characteristic polynomial via Faddeev–LeVerrier and calls <code>solve_all</code>.</li>
 </ul>
 <p>Example</p>
