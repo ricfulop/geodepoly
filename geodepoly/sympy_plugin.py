@@ -1,4 +1,4 @@
-def sympy_solve(poly, **kwargs):
+def sympy_solve(poly, return_: str = "numeric", **kwargs):
     """
     Accept a SymPy Expr or Poly and return complex roots using geodepoly.
     Keyword args mirror geodepoly.solve_all: method, max_order, boots, tol, resum, refine_steps, verbose.
@@ -21,4 +21,11 @@ def sympy_solve(poly, **kwargs):
         raise TypeError("Expected sympy.Expr or sympy.Poly")
 
     coeffs = [complex(c) for c in p.all_coeffs()[::-1]]  # low->high
-    return solve_all(coeffs, **kwargs)
+    roots = solve_all(coeffs, **kwargs)
+    if return_ == "numeric":
+        return roots
+    elif return_ == "expr":
+        # Round-trip back to SymPy complex numbers
+        return [sp.nsimplify(r) for r in roots]
+    else:
+        raise ValueError("return_ must be 'numeric' or 'expr'")

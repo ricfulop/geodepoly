@@ -10,7 +10,7 @@
 using a **shift–recenter + truncated series reversion** with optional bootstrap
 iterations, and only falls back to classical iterations when strictly necessary.
 
-This implements:
+This implements the *impact-first MVP* discussed:
 - Compositional inverse (via Lagrange inversion in coefficient form) around a local
   recentering point to obtain an analytic series for a nearby root.
 - **Bootstrap:** update the center by the series estimate and re-expand (typically a few steps).
@@ -127,8 +127,6 @@ python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --
 python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets
 ```
 
-<<<<<<< HEAD
-=======
 Previews:
 
 ![Time vs Degree](docs/assets/time_vs_degree.png)
@@ -138,7 +136,6 @@ Previews:
 ### Paper skeleton
 See `paper/GeodePoly_MVP.md`.
 
->>>>>>> 8303e3e (docs: inline plot previews in README)
 ## Hyper-Catalan API (S[t2,t3,...])
 
 Utilities based on the paper's multivariate series:

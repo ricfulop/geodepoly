@@ -16,3 +16,8 @@ See the README for quickstart and `paper/GeodePoly_MVP.md` for a draft paper.
 
 - Run: `python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --trials 10 --out docs/assets/bench.csv --agg_out docs/assets/bench_agg.csv`
 - Plot: `python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets`
+
+## CAS Examples
+
+- SymPy comparison: `python examples/sympy_vs_nroots.py`
+- JSON bridge round-trip: `python examples/json_bridge_roundtrip.py`

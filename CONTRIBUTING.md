@@ -17,5 +17,6 @@ pytest -q
 
 ## Releasing
 - Bump version in `pyproject.toml` and update `CHANGELOG.md`.
-- Tag and push: `git tag vX.Y.Z && git push origin vX.Y.Z`.
-- Create a GitHub Release and attach built artifacts (sdist/wheel).
+- Optional TestPyPI: `git tag test-X.Y.Z && git push origin test-X.Y.Z` (requires `TEST_PYPI_API_TOKEN`).
+- PyPI: `git tag vX.Y.Z && git push origin vX.Y.Z` (uses `PYPI_API_TOKEN`).
+- Create a GitHub Release with notes.
