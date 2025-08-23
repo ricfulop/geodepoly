@@ -315,6 +315,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Benchmarks
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -326,6 +339,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#newton-vs-hybrid-tuned" class="md-nav__link">
+    <span class="md-ellipsis">
+      Newton vs hybrid (tuned)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -439,6 +480,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#newton-vs-hybrid-tuned" class="md-nav__link">
+    <span class="md-ellipsis">
+      Newton vs hybrid (tuned)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -463,6 +521,93 @@
 </ul>
 <p><img alt="Time vs Degree" src="../assets/time_vs_degree.png" /></p>
 <p><img alt="Residual vs Degree" src="../assets/residual_vs_degree.png" /></p>
+<h2 id="newton-vs-hybrid-tuned">Newton vs hybrid (tuned)</h2>
+<p>Summary (medians over 5 trials):</p>
+<table>
+<thead>
+<tr>
+<th>degree</th>
+<th>method</th>
+<th style="text-align: right;">time_median(s)</th>
+<th style="text-align: right;">res_median</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.0027</td>
+<td style="text-align: right;">2.48e-16</td>
+</tr>
+<tr>
+<td>3</td>
+<td>newton</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">3.33e-16</td>
+</tr>
+<tr>
+<td>5</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.0060</td>
+<td style="text-align: right;">2.22e-15</td>
+</tr>
+<tr>
+<td>5</td>
+<td>newton</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.89e-15</td>
+</tr>
+<tr>
+<td>8</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.0142</td>
+<td style="text-align: right;">1.22e-14</td>
+</tr>
+<tr>
+<td>8</td>
+<td>newton</td>
+<td style="text-align: right;">0.0001</td>
+<td style="text-align: right;">8.30e-15</td>
+</tr>
+<tr>
+<td>12</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.0314</td>
+<td style="text-align: right;">6.17e-13</td>
+</tr>
+<tr>
+<td>12</td>
+<td>newton</td>
+<td style="text-align: right;">0.0003</td>
+<td style="text-align: right;">6.17e-13</td>
+</tr>
+<tr>
+<td>16</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.0796</td>
+<td style="text-align: right;">5.60e-11</td>
+</tr>
+<tr>
+<td>16</td>
+<td>newton</td>
+<td style="text-align: right;">0.0017</td>
+<td style="text-align: right;">2.70e-11</td>
+</tr>
+<tr>
+<td>20</td>
+<td>hybrid</td>
+<td style="text-align: right;">0.1191</td>
+<td style="text-align: right;">1.91e-10</td>
+</tr>
+<tr>
+<td>20</td>
+<td>newton</td>
+<td style="text-align: right;">0.0027</td>
+<td style="text-align: right;">3.19e-10</td>
+</tr>
+</tbody>
+</table>
+<p>CSV: <code>docs/assets/newton_vs_hybrid_tuned.csv</code></p>
 
 
 
