@@ -64,3 +64,13 @@
 - Export batched APIs in `geodepoly.__init__`.
 ### Changed
 - GeodeBench baseline uses a simple holdout split.
+
+## [0.1.9] - 2025-08-23
+### Added
+- CLI commands: `geodepoly-solve` (solve from terminal), `geodepoly-bridge` (JSON CLI for CAS).
+- Batched solver path: `batched_solve_all` and `method="batched"` integration.
+- Numba opt-in acceleration for `poly_eval` and derivatives (set `GEODEPOLY_USE_NUMBA=1`).
+- GPU prototype benchmark: `scripts/bench_gpu_prototype.py` with NumPy/Torch/JAX backends.
+- Publish workflow for TestPyPI (`test-*` tags) and PyPI (`v*` tags).
+### Docs
+- README and docs updated with CLI/bridge examples and GPU usage.
