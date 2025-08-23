@@ -5,6 +5,8 @@ theme:
 nav:
   - Home: index.md
   - API: api.md
+  - How it works: how_it_works.md
+  - Examples: examples.md
   - Benchmarks: benchmarks.md
   - Paper mapping: paper_guide.md
   - Gallery: gallery.md
