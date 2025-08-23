@@ -3,7 +3,6 @@
 [About](ABOUT.md)
 
 [![CI](https://github.com/ricfulop/geodepoly/workflows/CI/badge.svg)](https://github.com/ricfulop/geodepoly/actions)
-[![codecov](https://codecov.io/gh/ricfulop/geodepoly/branch/main/graph/badge.svg)](https://codecov.io/gh/ricfulop/geodepoly)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16930528.svg)](https://doi.org/10.5281/zenodo.16930528)
 [![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
