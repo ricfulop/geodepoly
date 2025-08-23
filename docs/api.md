@@ -3,7 +3,7 @@
 ## Core solvers
 
 - `geodepoly.solve_all(coeffs: List[complex], method: str = "hybrid", max_order: int = 24, boots: int = 2, tol: float = 1e-12, resum: Optional[str] = None, refine_steps: int = 3, verbose: bool = False) -> List[complex]`
-  - Methods: `"hybrid" | "aberth" | "dk" | "numpy"`
+  - Methods: `"hybrid" | "aberth" | "dk" | "numpy" | "batched"`
   - Resummation: `None | "pade" | "borel" | "borel-pade" | "auto"`
 
 Example
@@ -45,6 +45,30 @@ roots = sympy_solve(x**5 + x - 1, method="hybrid", resum="auto", return_="numeri
 ```
 
 ## Eigenvalues
+## Data types & numeric wrappers
+
+- `geodepoly.Polynomial([...])` — dense univariate polynomial (low→high) with ops: add/sub/mul/divmod/pow, eval, `shift_x`, `scale_x`, `differentiate`, `integrate`.
+
+Example
+```python
+from geodepoly import Polynomial
+p = Polynomial([1, 0, 1])  # 1 + x^2
+q = p.shift_x(1)           # 2 + 2x + x^2
+```
+
+- Numeric wrappers: `geodepoly.newton_solve`, `geodepoly.aberth_solve`, `geodepoly.dk_solve`, `geodepoly.companion_roots`.
+
+Example
+```python
+from geodepoly import newton_solve, companion_roots
+x = newton_solve([-2,0,1], x0=1.0)  # sqrt(2)
+w = companion_roots([-6,11,-6,1])   # [1,2,3]
+```
+
+## Formal series scaffold
+
+- `geodepoly.FormalSeries` — minimal formal series with `+`, `*`, `truncate_total_degree`, `compose_univariate` (univariate), and `to_sympy`.
+- `geodepoly.series_root` / `geodepoly.series_bootstrap` — scaffolds for soft polynomial formula and shift–solve–add.
 
 - `geodepoly.eigs.solve_eigs(A) -> List[complex]`
   - Forms characteristic polynomial via Faddeev–LeVerrier and calls `solve_all`.
