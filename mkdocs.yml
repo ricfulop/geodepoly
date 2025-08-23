@@ -9,6 +9,7 @@ nav:
   - Examples: examples.md
   - Benchmarks: benchmarks.md
   - Bench presets: bench_presets.md
+  - GeodeBench: geodebench.md
   - Paper mapping: paper_guide.md
   - Gallery: gallery.md
   - FAQ: faq.md
