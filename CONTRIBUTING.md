@@ -11,6 +11,14 @@ pip install -e ".[dev]"
 pytest -q
 ```
 
+### Pre-commit hooks
+```bash
+pip install pre-commit
+pre-commit install
+# run on all files
+pre-commit run --all-files
+```
+
 ## Commit style
 - Use clear, scoped messages (`feat:`, `fix:`, `docs:`, `bench:`).
 - Add tests when possible.
