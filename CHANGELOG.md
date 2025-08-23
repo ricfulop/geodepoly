@@ -32,3 +32,8 @@
 - SymPy plugin return mode and CAS examples; stable CLI JSON.
 - Eigenvalue solver `solve_eigs` via Faddeev–LeVerrier; tests.
 - GeodeBench spec and slice generator; GPU roadmap doc.
+
+## [0.1.5] - 2025-08-22
+### Added
+- README: inline plot previews; examples and CAS tips.
+- Docs: minor bridge/GPU notes.
