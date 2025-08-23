@@ -679,10 +679,18 @@
 <li>Mathematica: <code>RunProcess[{"geodepoly-bridge"}, "StandardInput"-&gt;payloadJSON]</code></li>
 <li>Maple: <code>ssystem("geodepoly-bridge", payloadJSON)</code></li>
 </ul>
+<p>Schema (v1):</p>
+<pre><code class="language-json">{
+  &quot;schemaVersion&quot;: 1,
+  &quot;coeffs&quot;: [ -6, 11, -6, 1 ],
+  &quot;kwargs&quot;: { &quot;method&quot;: &quot;hybrid&quot;, &quot;resum&quot;: &quot;auto&quot; }
+}
+</code></pre>
 <h2 id="cli-solver">CLI Solver</h2>
 <ul>
 <li>Solve from terminal:</li>
 <li><code>geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json</code></li>
+<li>Or file I/O (schema v1): <code>geodepoly-solve --input payload.json --output roots.json</code></li>
 </ul>
 
 
