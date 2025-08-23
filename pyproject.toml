@@ -11,12 +11,25 @@ license = { text = "MIT" }
 authors = [{ name = "Ric Fulop", email = "ricfulop@mit.edu" }]
 requires-python = ">=3.9"
 dependencies = []
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
 
 [project.urls]
 Homepage = "https://github.com/ricfulop/geodepoly"
 
 [project.optional-dependencies]
 dev = ["pytest", "numpy"]
+plots = ["matplotlib"]
+lint = ["ruff", "black", "mypy", "pytest-cov"]
 
 [tool.setuptools]
 packages = { find = { include = ["geodepoly*"], exclude = ["bridges*", "paper*", "scripts*", "tests*", "docs*", "examples*"] } }

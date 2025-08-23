@@ -160,3 +160,11 @@ alpha_multi = evaluate_hyper_catalan({2: 0.05, 3: 0.01}, max_weight=12)
 ```
 
 See `docs/paper_guide.md` for how the paper maps onto the codebase.
+
+## Cite
+
+If you use this software, please cite:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16930528.svg)](https://doi.org/10.5281/zenodo.16930528)
+
+`CITATION.cff` is included at the repo root.
