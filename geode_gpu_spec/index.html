@@ -565,6 +565,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#jax-variant" class="md-nav__link">
+    <span class="md-ellipsis">
+      JAX variant
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -629,6 +638,10 @@ python scripts/bench_gpu_prototype.py --backend jax --batch 4096 --degree 16 --s
 python scripts/bench_aberth_gpu.py --deg 32 --iters 50
 </code></pre>
 <p>Developer note: a single-step <code>torch_aberth_step(coeffs, roots, damping)</code> is available in <code>geodepoly.batched</code>.</p>
+<h3 id="jax-variant">JAX variant</h3>
+<pre><code class="language-bash">python scripts/bench_aberth_jax.py --deg 32 --iters 50
+</code></pre>
+<p>Developer note: JAX helpers <code>jax_aberth_step/solve</code> are available in <code>geodepoly.batched</code>.</p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Microbenchmarks and accuracy checks vs CPU</li>
