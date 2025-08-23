@@ -37,11 +37,11 @@ pip install geodepoly==0.1.6
 ## Quickstart
 
 ```python
-from geodepoly import series_solve_all
+from geodepoly import solve_all
 
 # Coefficients lowest-degree first: a0 + a1 x + ... + aN x^N
-coeffs = [1, 0, -7, 6]  # 1 + 0 x - 7 x^2 + 6 x^3 = 0  (roots near 1, 2, 3 after rescale)
-roots = series_solve_all(coeffs, verbose=True)
+coeffs = [1, 0, -7, 6]
+roots = solve_all(coeffs, method="hybrid", resum="auto")
 print(roots)
 ```
 
@@ -124,12 +124,14 @@ ImportString[res, "JSON"]
 
 ### Benchmarks
 ```bash
-python -m geodepoly.scripts.bench_compare --deg 8 --trials 50 --out bench_deg8.csv
+geodepoly-bench --degrees 8 --methods hybrid,aberth,dk --trials 50 --out bench_deg8.csv
 ```
 
 Aggregate and plot (see `docs/assets/`):
 ```bash
-python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --trials 10 --out docs/assets/bench.csv --agg_out docs/assets/bench_agg.csv --resum auto
+python scripts/bench_presets.py quick
+# or run manually:
+geodepoly-bench --degrees 3,5,8,12 --methods hybrid,aberth,dk --trials 10 --out docs/assets/bench.csv --agg_out docs/assets/bench_agg.csv --resum auto
 python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets
 ```
 
@@ -141,6 +143,11 @@ Previews:
 
 ### Paper skeleton
 See `paper/GeodePoly_MVP.md`.
+
+## Notebooks
+
+- Quickstart: `notebooks/Quickstart.ipynb`
+- Bench summary: `notebooks/BenchSummary.ipynb`
 
 ## Bench dataset & GPU roadmap
 
