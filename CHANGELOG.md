@@ -82,3 +82,10 @@
 - Geode factorization: constructs S, S1, G with `(S-1) == S1*G` (truncated) identity; tests.
 ### Tests
 - New `tests/test_series_basic.py` covering FormalSeries and series bootstrapping.
+
+## [0.1.11] - 2025-08-23
+### Added
+- `Polynomial` class with ops (add/sub/mul/divmod/pow), eval, shift/scale, diff/integrate.
+- Numeric wrappers: `newton`, `aberth`, `dk`, `companion_roots` delegating to existing implementations.
+### Tests
+- `tests/test_polynomial.py`, `tests/test_numeric_wrappers.py`.
