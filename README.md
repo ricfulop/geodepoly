@@ -12,7 +12,6 @@
 using a **shift–recenter + truncated series reversion** with optional bootstrap
 iterations, and only falls back to classical iterations when strictly necessary.
 
-This implements the *impact-first MVP* discussed:
 - Compositional inverse (via Lagrange inversion in coefficient form) around a local
   recentering point to obtain an analytic series for a nearby root.
 - **Bootstrap:** update the center by the series estimate and re-expand (typically a few steps).
