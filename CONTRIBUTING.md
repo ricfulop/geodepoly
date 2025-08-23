@@ -25,6 +25,7 @@ pre-commit run --all-files
 
 ## Releasing
 - Bump version in `pyproject.toml` and update `CHANGELOG.md`.
-- Optional TestPyPI: `git tag test-X.Y.Z && git push origin test-X.Y.Z` (requires `TEST_PYPI_API_TOKEN`).
-- PyPI: `git tag vX.Y.Z && git push origin vX.Y.Z` (uses `PYPI_API_TOKEN`).
+- TestPyPI: `git tag test-X.Y.Z && git push origin test-X.Y.Z` (requires `TEST_PYPI_API_TOKEN`).
+- PyPI: `git tag vX.Y.Z && git push origin vX.Y.Z` (requires `PYPI_API_TOKEN`).
+- The publish workflow builds and uploads automatically based on the tag prefix (`test-` vs `v`).
 - Create a GitHub Release with notes.

@@ -36,3 +36,4 @@ python bridges/geodepoly_cli.py <<'JSON'
 {"coeffs":[-6,11,-6,1],"kwargs":{"method":"hybrid","resum":"auto"}}
 JSON
 ```
+

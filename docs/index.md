@@ -21,5 +21,10 @@ See the README for quickstart and `paper/GeodePoly_MVP.md` for a draft paper.
 
 - SymPy comparison: `python examples/sympy_vs_nroots.py`
 - JSON bridge round-trip: `python examples/json_bridge_roundtrip.py`
-  - Mathematica: `RunProcess[{"python","bridges/geodepoly_cli.py"}, "StandardInput"->payloadJSON]`
-  - Maple: `ssystem("python bridges/geodepoly_cli.py", payloadJSON)`
+  - Mathematica: `RunProcess[{"geodepoly-bridge"}, "StandardInput"->payloadJSON]`
+  - Maple: `ssystem("geodepoly-bridge", payloadJSON)`
+
+## CLI Solver
+
+- Solve from terminal:
+  - `geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json`

@@ -1,5 +1,5 @@
 import numpy as np
-from geodepoly.batched import batched_poly_eval, batched_newton_step
+from geodepoly.batched import batched_poly_eval, batched_newton_step, batched_solve_all
 from geodepoly.util import poly_eval
 
 
@@ -19,5 +19,16 @@ def test_batched_newton_step_shapes():
     xs = np.zeros((B,), dtype=complex)
     step = batched_newton_step(coeffs, xs, backend="numpy")
     assert step.shape == xs.shape
+
+
+def test_batched_solve_all_single_root_baseline():
+    B = 4
+    # (x-1) polynomials with small noise on coefficients
+    coeffs = np.stack([
+        np.array([-1.0, 1.0], dtype=complex) for _ in range(B)
+    ])
+    roots = batched_solve_all(coeffs, backend="numpy", steps=30)
+    assert roots.shape == (B,)
+    assert np.max(np.abs(roots - 1.0)) < 1e-8
 
 

@@ -113,3 +113,45 @@ def torch_root_layer(steps: int = 3, tol: float = 0.0):
     return RootLayer(steps, tol)
 
 
+
+def batched_solve_all(coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20):
+    """Solve many polynomials for one root each using a vectorized Newton path.
+
+    - coeffs_batch: shape (B, D+1) low->high
+    - Returns: shape (B,) complex roots (one per polynomial)
+
+    Notes:
+    - This is a simple baseline using Newton from a heuristic initial guess (x0 = 0).
+    - Future: add Aberth/sharded multi-root per polynomial; support seeds per item.
+    """
+    xp = _as_backend(backend)
+    a = coeffs_batch
+    B = a.shape[0]
+    # Start from zero; quick heuristic: shift by -a0/a1 if available and finite
+    x = xp.zeros((B,), dtype=a.dtype)
+    a0 = a[:, 0]
+    a1 = a[:, 1] if a.shape[1] > 1 else xp.zeros_like(a0)
+    with xp.errstate(all="ignore") if hasattr(xp, "errstate") else _nullcontext():  # type: ignore
+        guess = -a0 / xp.where(a1 == 0, xp.asarray(1, dtype=a1.dtype), a1)
+    # Blend: if |guess| finite and not huge, use it
+    mask = xp.isfinite(guess) if hasattr(xp, "isfinite") else xp.ones_like(guess, dtype=bool)
+    x = xp.where(mask, guess, x)
+
+    # Newton iterations using batched_newton_step
+    for _ in range(steps):
+        x_next = batched_newton_step(a, x, backend=backend)
+        # Stop if updates are tiny
+        if xp.max(xp.abs(x_next - x)) < 1e-14:
+            x = x_next
+            break
+        x = x_next
+    return x
+
+
+class _nullcontext:
+    def __enter__(self):
+        return None
+
+    def __exit__(self, *exc):
+        return False
+

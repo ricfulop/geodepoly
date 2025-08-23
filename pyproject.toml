@@ -36,3 +36,5 @@ packages = { find = { include = ["geodepoly*"], exclude = ["bridges*", "paper*",
 
 [project.scripts]
 geodepoly-bench = "geodepoly.bench_compare:main"
+geodepoly-solve = "geodepoly.cli:main"
+geodepoly-bridge = "geodepoly.bridge_cli:main"

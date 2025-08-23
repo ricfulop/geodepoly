@@ -72,7 +72,7 @@ pip install -e .
 ## Install (PyPI)
 
 ```bash
-pip install geodepoly==0.1.7.post1
+pip install geodepoly
 ```
 
 ## Quickstart
@@ -90,6 +90,12 @@ print(roots)
 
 ```bash
 python -m geodepoly.scripts.benchmark --deg 8 --seed 123 --trials 100
+```
+
+Solve a polynomial from the command line:
+
+```bash
+geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json
 ```
 
 ### Examples
@@ -152,15 +158,22 @@ roots = sympy_solve(x**8 - 3*x + 1, method="hybrid", resum="pade")
 
 ### Mathematica / Maple bridge (JSON CLI)
 ```bash
-python bridges/geodepoly_cli.py <<'JSON'
+geodepoly-bridge <<'JSON'
 {"coeffs":[-6,11,-6,1],"kwargs":{"method":"hybrid","resum":"pade"}}
 JSON
 ```
 In Mathematica:
 ```wl
 payload = ExportString[<|"coeffs"->{-6,11,-6,1},"kwargs"-><|"method"->"hybrid","resum"->"pade"|>|>,"JSON"];
-res = RunProcess[{"python","bridges/geodepoly_cli.py"}, "StandardInput"->payload, "StandardOutput"];
+res = RunProcess[{"geodepoly-bridge"}, "StandardInput"->payload, "StandardOutput"];
 ImportString[res, "JSON"]
+```
+
+In Maple:
+```maple
+payload := JSON:-Encode( table([coeffs=[-6,11,-6,1], kwargs=table([method="hybrid", resum="pade"])]) ):
+res := ssystem("geodepoly-bridge", payload):
+JSON:-Parse(res);
 ```
 
 ### Benchmarks
