@@ -21,8 +21,8 @@ jobs:
       - name: Test
         run: pytest -q --maxfail=1 --disable-warnings --cov=geodepoly --cov-report=term-missing
       - name: Lint (ruff)
-        run: ruff check .
+        run: ruff check geodepoly
       - name: Format (black --check)
-        run: black --check .
+        run: black --check geodepoly
       - name: Type check (mypy)
         run: mypy geodepoly || true
