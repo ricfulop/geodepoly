@@ -19,9 +19,15 @@ def main():
 
     df = pd.read_csv(args.inp)
     # naive baseline: linear regression on features [t2, t3] to predict Re/Im(alpha)
-    df = df.fillna(0)
-    t2 = df.get("t2", 0).astype(float).to_numpy()
-    t3 = df.get("t3", 0).astype(float).to_numpy()
+    # ensure float columns exist
+    if "t2" not in df:
+        df["t2"] = 0.0
+    if "t3" not in df:
+        df["t3"] = 0.0
+    df["t2"] = df["t2"].astype(float)
+    df["t3"] = df["t3"].astype(float)
+    t2 = df["t2"].to_numpy()
+    t3 = df["t3"].to_numpy()
     y = np.array([parse_alpha(s) for s in df["alpha"]])
     X = np.vstack([np.ones_like(t2), t2, t3]).T
     # Solve least squares for real and imaginary parts
