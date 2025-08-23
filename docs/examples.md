@@ -37,3 +37,8 @@ python bridges/geodepoly_cli.py <<'JSON'
 JSON
 ```
 
+## Geode arrays
+```bash
+python examples/geode_arrays_demo.py
+```
+
