@@ -111,6 +111,49 @@ def torch_root_layer(steps: int = 3, tol: float = 0.0):
     return RootLayer(steps, tol)
 
 
+def torch_aberth_step(coeffs, roots, damping: float = 1.0):
+    """One vectorized Aberth–Ehrlich update using Torch.
+
+    Args:
+      coeffs: 1D torch tensor of shape (D+1,) complex64/complex128 (low->high)
+      roots: 1D torch tensor of shape (N,) complex
+      damping: scalar in (0,1]
+
+    Returns:
+      updated roots tensor shape (N,)
+
+    Note: This performs a single iteration without line search. Caller can run
+    multiple steps and add damping heuristics if desired.
+    """
+    import torch  # type: ignore[import-not-found]
+
+    assert coeffs.ndim == 1, "coeffs must be 1D (low->high)"
+    assert roots.ndim == 1, "roots must be 1D"
+
+    # Horner for p and p' at all roots (vectorized)
+    a_rev = torch.flip(coeffs, dims=[-1])
+    z = roots
+    p = torch.zeros_like(z, dtype=coeffs.dtype)
+    dp = torch.zeros_like(z, dtype=coeffs.dtype)
+    for c in a_rev:
+        dp = dp * z + p
+        p = p * z + c
+
+    # Pairwise differences matrix and reciprocal sums excluding diagonal
+    Z_i = z[:, None]
+    Z_j = z[None, :]
+    diff = Z_i - Z_j
+    # Avoid division by zero on diagonal by setting to inf
+    diff = diff + torch.eye(z.shape[0], dtype=diff.dtype, device=diff.device) * (0.0 + 1j * 0.0)
+    diff[torch.eye(z.shape[0], dtype=torch.bool, device=diff.device)] = torch.inf + 0j
+    S = torch.sum(1.0 / diff, dim=1)
+
+    denom = dp - p * S
+    # Guard: avoid zero denom
+    denom = torch.where(denom == 0, torch.ones_like(denom), denom)
+    delta = p / denom
+    return z - damping * delta
+
 def batched_solve_all(
     coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20
 ):

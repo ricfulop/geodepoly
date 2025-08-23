@@ -26,6 +26,15 @@ python scripts/bench_gpu_prototype.py --backend jax --batch 4096 --degree 16 --s
 
 Outputs throughput (steps/sec) and residual sanity check.
 
+### Aberth (vectorized; Torch)
+
+```bash
+# Compare CPU vs GPU for a single Aberth update loop
+python scripts/bench_aberth_gpu.py --deg 32 --iters 50
+```
+
+Developer note: a single-step `torch_aberth_step(coeffs, roots, damping)` is available in `geodepoly.batched`.
+
 ## Next steps
 - Microbenchmarks and accuracy checks vs CPU
 - Memory-bound vs compute-bound analysis
