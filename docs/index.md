@@ -24,7 +24,18 @@ See the README for quickstart and `paper/GeodePoly_MVP.md` for a draft paper.
   - Mathematica: `RunProcess[{"geodepoly-bridge"}, "StandardInput"->payloadJSON]`
   - Maple: `ssystem("geodepoly-bridge", payloadJSON)`
 
+Schema (v1):
+
+```json
+{
+  "schemaVersion": 1,
+  "coeffs": [ -6, 11, -6, 1 ],
+  "kwargs": { "method": "hybrid", "resum": "auto" }
+}
+```
+
 ## CLI Solver
 
 - Solve from terminal:
   - `geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json`
+  - Or file I/O (schema v1): `geodepoly-solve --input payload.json --output roots.json`

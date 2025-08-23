@@ -49,11 +49,34 @@ def main(argv: List[str] | None = None) -> int:
     ap.add_argument("--boots", type=int, default=2, help="Bootstrap iterations for seed")
     ap.add_argument("--refine-steps", type=int, default=6, help="Final Halley/Newton refinement steps")
     ap.add_argument("--json", action="store_true", help="Print roots as JSON [[re,im],...] instead of plain text")
+    ap.add_argument("--input", type=str, default=None, help="Read coefficients payload from JSON file (schema v1) instead of CLI args")
+    ap.add_argument("--output", type=str, default=None, help="Write results to JSON file (default: stdout)")
     ap.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
 
     args = ap.parse_args(argv)
 
-    coeffs = _parse_coeffs(args.coeffs_vals, args.coeffs)
+    # Optional file input (schema v1): {"schemaVersion":1, "coeffs":[...], "kwargs":{...}}
+    file_payload = None
+    if args.input:
+        try:
+            with open(args.input, "r") as f:
+                file_payload = json.load(f)
+        except Exception as e:
+            raise SystemExit(f"Failed to read --input: {e}")
+
+    if file_payload is not None:
+        version = file_payload.get("schemaVersion", 1)
+        if version != 1:
+            raise SystemExit("Unsupported schemaVersion in --input; expected 1")
+        coeffs = file_payload.get("coeffs")
+        if not isinstance(coeffs, list):
+            raise SystemExit("--input missing 'coeffs' list")
+        file_kwargs = file_payload.get("kwargs", {})
+        if not isinstance(file_kwargs, dict):
+            raise SystemExit("--input 'kwargs' must be an object")
+    else:
+        coeffs = _parse_coeffs(args.coeffs_vals, args.coeffs)
+        file_kwargs = {}
 
     kwargs = {
         "method": args.method,
@@ -65,14 +88,18 @@ def main(argv: List[str] | None = None) -> int:
     if args.resum != "none":
         kwargs["resum"] = args.resum
 
-    roots = solve_all(coeffs, **kwargs)
+    roots = solve_all(coeffs, **{**file_kwargs, **kwargs})
 
-    if args.json:
+    if args.json or args.output:
         def enc(z: complex):
             zc = complex(z)
             return [zc.real, zc.imag]
-
-        print(json.dumps([enc(z) for z in roots]))
+        out = [enc(z) for z in roots]
+        if args.output:
+            with open(args.output, "w") as f:
+                json.dump(out, f)
+        else:
+            print(json.dumps(out))
     else:
         for z in roots:
             print(z)
