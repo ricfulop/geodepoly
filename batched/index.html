@@ -531,6 +531,11 @@
 <li><code>torch_root_layer(steps, tol)</code> differentiable Newton layer</li>
 </ul>
 <p>Bench (preview): expect 10–100× throughput vs pure Python on large batches (Torch/JAX on GPU).</p>
+<p>Quick bench:</p>
+<pre><code class="language-bash">python scripts/bench_batched.py --backend numpy --batch 8192 --degree 16
+# if GPU available
+python scripts/bench_batched.py --backend torch --batch 65536 --degree 16
+</code></pre>
 
 
 
