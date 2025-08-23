@@ -34,7 +34,9 @@ def hyper_catalan_coefficient(m_counts: Dict[int, int]) -> int:
     return num // den
 
 
-def _iterate_multi_indices(keys: List[int], max_weight: int) -> Iterable[Dict[int, int]]:
+def _iterate_multi_indices(
+    keys: List[int], max_weight: int
+) -> Iterable[Dict[int, int]]:
     """
     Iterate all nonnegative integer assignments m_k over given keys
     such that sum_k k*m_k <= max_weight. Includes the zero assignment.
@@ -77,7 +79,7 @@ def evaluate_hyper_catalan(t_values: Dict[int, complex], max_weight: int) -> com
         coef = hyper_catalan_coefficient(m_counts)
         term = 1.0 + 0j
         for k, m in m_counts.items():
-            term *= (t_values.get(k, 0) ** m)
+            term *= t_values.get(k, 0) ** m
         total += coef * term
     return total
 
@@ -97,5 +99,3 @@ def evaluate_quadratic_slice(t2: complex, max_weight: int) -> complex:
     alpha(0)=1.
     """
     return evaluate_hyper_catalan({2: t2}, max_weight=max_weight)
-
-
