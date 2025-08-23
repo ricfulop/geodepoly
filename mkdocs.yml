@@ -4,6 +4,7 @@ theme:
   name: material
 nav:
   - Home: index.md
+  - API: api.md
   - Benchmarks: benchmarks.md
   - Paper mapping: paper_guide.md
 extra:
