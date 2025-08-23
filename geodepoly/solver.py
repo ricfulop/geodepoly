@@ -85,11 +85,11 @@ def solve_one(coeffs: List[complex],
 
 def solve_all(coeffs: List[complex],
               method: str = "hybrid",    # 'hybrid'|'aberth'|'dk'|'numpy'
-              max_order: int = 24,
-              boots: int = 2,
+              max_order: int = 16,
+              boots: int = 1,
               tol: float = 1e-12,
               resum: Optional[str] = None,
-              refine_steps: int = 3,
+              refine_steps: int = 2,
               verbose: bool = False) -> List[complex]:
     """
     Solve for all roots with a selectable finisher:
@@ -130,25 +130,56 @@ def solve_all(coeffs: List[complex],
         return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
     if method == "aberth":
-        roots = aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=3)
+        roots = aberth_ehrlich(coeffs, iters=200, tol=1e-14, restarts=3)
         return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
     # hybrid:
-    # Get two seeds via series from different centers (0 and Cauchy radius)
+    # Fast-path heuristic: if candidate centers all yield large |t|, skip series and go straight to Aberth
+    try:
+        # normalize to monic for scoring
+        a_norm = [complex(x)/coeffs[-1] for x in coeffs]
+        an = abs(a_norm[-1])
+        R = 1 + max((abs(a)/an for a in a_norm[:-1]), default=0)
+        cand = [0j]
+        for r in [R/8, R/4, R/2, R]:
+            for k in range(16):
+                theta = 2*math.pi*k/16
+                cand.append(r * cmath.exp(1j*theta))
+            cand.extend([r, -r, 1j*r, -1j*r])
+        # score |t| = |-a0/a1|
+        from .util import shift_expand
+        t_mags = []
+        for mu in cand:
+            q = shift_expand(a_norm, mu)
+            a0 = complex(q[0])
+            a1 = complex(q[1]) if len(q) >= 2 else 0j
+            if a1 == 0:
+                continue
+            t_mags.append(abs(-a0/a1))
+        min_t = min(t_mags) if t_mags else 1.0
+        if min_t > 0.85:
+            roots = aberth_ehrlich(coeffs, iters=200, tol=1e-14, restarts=3)
+            return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
+    except Exception:
+        pass
+
+    # Get seeds via series from different centers
     seeds = []
     try:
-        seeds.append(solve_one(coeffs, center=None, max_order=max_order, boots=boots, tol=1e-14, resum=resum, refine_steps=refine_steps))
+        series_boots = 1 if n >= 12 else boots
+        series_max_order = min(max_order, 16)
+        seeds.append(solve_one(coeffs, center=None, max_order=series_max_order, boots=series_boots, tol=1e-14, resum=resum, refine_steps=refine_steps))
     except Exception:
         pass
     try:
         # second seed from opposite side
         an = abs(coeffs[-1])
         R = 1 + max((abs(a)/an for a in coeffs[:-1]), default=0)
-        seeds.append(solve_one(coeffs, center=-R, max_order=max_order, boots=boots, tol=1e-14, resum=resum, refine_steps=refine_steps))
+        seeds.append(solve_one(coeffs, center=-R, max_order=series_max_order, boots=series_boots, tol=1e-14, resum=resum, refine_steps=refine_steps))
     except Exception:
         pass
 
-    roots = aberth_ehrlich(coeffs, iters=400, tol=1e-14, restarts=3, warm_starts=seeds)
+    roots = aberth_ehrlich(coeffs, iters=200, tol=1e-14, restarts=3, warm_starts=seeds)
     return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
 def solve_poly(coeffs: List[complex], **kwargs) -> List[complex]:
