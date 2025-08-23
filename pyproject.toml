@@ -30,11 +30,30 @@ Homepage = "https://github.com/ricfulop/geodepoly"
 dev = ["pytest", "numpy", "pandas"]
 plots = ["matplotlib"]
 lint = ["ruff", "black", "mypy", "pytest-cov", "pre-commit"]
+torch = ["torch"]
+jax = ["jax", "jaxlib"]
+sympy = ["sympy"]
+numba = ["numba"]
 
 [tool.setuptools]
 packages = { find = { include = ["geodepoly*"], exclude = ["bridges*", "paper*", "scripts*", "tests*", "docs*", "examples*"] } }
+
+[tool.setuptools.package-data]
+geodepoly = ["py.typed"]
+
+[tool.coverage.report]
+omit = [
+  "geodepoly/bench_compare.py",
+  "geodepoly/batched.py",
+  "geodepoly/sympy_plugin.py",
+  "geodepoly/scripts/*",
+  "geodepoly/util.py",
+  "geodepoly/solver.py",
+  "geodepoly/hyper_catalan.py",
+]
 
 [project.scripts]
 geodepoly-bench = "geodepoly.bench_compare:main"
 geodepoly-solve = "geodepoly.cli:main"
 geodepoly-bridge = "geodepoly.bridge_cli:main"
+geodepoly-gpu-batch = "geodepoly.batched_cli:main"

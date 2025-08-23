@@ -43,6 +43,13 @@ python scripts/bench_aberth_jax.py --deg 32 --iters 50
 
 Developer note: JAX helpers `jax_aberth_step/solve` are available in `geodepoly.batched`.
 
+## Batched GPU CLI
+
+```bash
+# stdin JSON: {"schemaVersion":1, "coeffs_batch": [[...], ...], "device":"cuda"}
+printf '{"schemaVersion":1,"coeffs_batch":[[-6,11,-6,1],[-1,0,1]],"device":"cuda"}' | geodepoly-gpu-batch
+```
+
 ## Next steps
 - Microbenchmarks and accuracy checks vs CPU
 - Memory-bound vs compute-bound analysis
