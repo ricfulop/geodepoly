@@ -8,7 +8,38 @@
 [![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-`geodepoly` is a small Python package that finds all roots of a complex polynomial
+Problem statement
+
+Finding the roots of a general polynomial is a workhorse task across CAS, controls, physics, optimization, and ML—but the standard toolchain is brittle:
+	•	Newton/Raphson needs good initial guesses and can diverge or crawl near clusters and multiple roots; it also depends on derivatives that amplify conditioning issues.
+	•	“All-roots” numeric methods (Aberth, Durand–Kerner, Jenkins–Traub) work well but still struggle on ill-scaled coefficients, tight clusters, and near-multiplicity, and they offer no symbolic structure to exploit.
+	•	Symbolic radicals don’t exist beyond quartics; companion-matrix eigenvalue routes trade robustness for heavy linear algebra and can be sensitive to scaling.
+
+In practice, users juggle heuristics (shifts, deflation, scaling) and method switches to get a trustworthy answer—costly in pipelines where failure isn’t an option.
+
+Why this is a breakthrough
+
+GeodePoly turns polynomial solving into a series-first, structure-aware pipeline:
+	1.	Analytic series-reversion seed (derivative-light, no guess):
+We recenter the polynomial, invert a truncated series to get a closed-form update y=\sum g_m t^m (with t=-a_0/a_1), and bootstrap a nearby root. This removes the fragile “pick a good starting point” step and reduces dependence on higher derivatives.
+	2.	Resummation for hard regimes:
+Padé / Borel–Padé tame borderline radii of convergence (|t|\approx 1), extending where the seed works—exactly where Newton often fails.
+	3.	Structure → performance:
+The Geode/Hyper-Catalan organization of coefficients gives a principled layering (think vertices/edges/faces) that’s cacheable, parallelizable, and eventually GPU-friendly—a path ordinary solvers don’t have.
+	4.	Hybrid certainty:
+After the analytic seed, we switch to a robust simultaneous solver (Aberth–Ehrlich or DK) and Halley polish. You get derivative-light entry + derivative-free global convergence + machine-precision finish—with no user guesswork.
+	5.	One engine for symbolic + numeric + AI:
+The same Geode arrays underpin CAS integration, a benchmark/dataset (GeodeBench) for symmetry generalization, and potential finite-field / coding variants—bridging worlds that have lived apart.
+
+What it unlocks (immediately)
+	•	A drop-in, robust polynomial solver for SymPy/Mathematica/Maple that “just works” on nasty instances.
+	•	Eigenvalue pipelines via characteristic polynomials that are more stable on clustered spectra.
+	•	Scalable kernels (batched solving, differentiable “root layers” in ML) thanks to Geode’s compositional structure.
+	•	A new benchmark for AI to test whether models truly learn hidden algebraic symmetries.
+
+Bottom line: we replace guess-heavy, case-by-case numerics with a universal, series-driven, structure-aware solver—turning a century-old pain point into a reliable, extensible core primitive.
+
+`geodepoly` is built as a small Python package that finds all roots of a complex polynomial
 using a **shift–recenter + truncated series reversion** with optional bootstrap
 iterations, and only falls back to classical iterations when strictly necessary.
 
