@@ -52,3 +52,7 @@
 - Minor numeric polish and formatting in examples and benchmarks.
 ### Fixed
 - CI now green with ruff/black scoped to package and code formatted accordingly.
+
+## [0.1.7.post1] - 2025-08-23
+### Fixed
+- Post-release metadata bump to trigger PyPI publish via tags.

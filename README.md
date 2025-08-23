@@ -31,7 +31,7 @@ pip install -e .
 ## Install (PyPI)
 
 ```bash
-pip install geodepoly==0.1.7
+pip install geodepoly==0.1.7.post1
 ```
 
 ## Quickstart
