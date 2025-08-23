@@ -114,9 +114,9 @@ def solve_all(
     if n <= 0:
         return []
 
-    if method not in {"hybrid", "aberth", "dk", "numpy", "batched"}:
+    if method not in {"hybrid", "aberth", "dk", "numpy", "batched", "torch-aberth"}:
         raise ValueError(
-            "method must be one of {'hybrid','aberth','dk','numpy','batched'}"
+            "method must be one of {'hybrid','aberth','dk','numpy','batched','torch-aberth'}"
         )
 
     if method == "numpy":
@@ -158,8 +158,8 @@ def solve_all(
         roots_acc: List[complex] = []
         for _ in range(n):
             # single-item batch
-            a = np.asarray([c], dtype=complex)
-            r_arr = batched_solve_all(a, backend="numpy", steps=40)
+            arr = np.asarray([c], dtype=complex)
+            r_arr = batched_solve_all(arr, backend="numpy", steps=40)
             r = complex(r_arr[0])
             # polish
             r = halley_refine_multiplicity(c, complex(r), steps=refine_steps)
@@ -185,6 +185,24 @@ def solve_all(
         return [
             halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots_acc
         ]
+
+    if method == "torch-aberth":
+        try:
+            import torch  # type: ignore
+            from .batched import torch_aberth_solve
+        except Exception as e:
+            raise ImportError("torch is required for method='torch-aberth'") from e
+
+        n = len(coeffs) - 1
+        if n <= 0:
+            return []
+        c = torch.tensor([complex(a) for a in coeffs], dtype=torch.complex64)
+        k = torch.arange(n, dtype=torch.float32)
+        theta = 2 * torch.pi * (k / n)
+        z0 = (1.5 * torch.exp(1j * theta)).to(c.dtype)
+        z = torch_aberth_solve(c, z0, iters=60, damping=0.8, backtracks=3)
+        roots = [complex(zi.item()) for zi in z.detach().cpu().numpy()]
+        return [halley_refine_multiplicity(coeffs, r, steps=refine_steps) for r in roots]
 
     if method == "dk":
         roots = durand_kerner(coeffs, iters=600, tol=1e-14, restarts=5)

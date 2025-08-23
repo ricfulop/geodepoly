@@ -96,3 +96,12 @@
 - CI/docs: Docs deploy workflow; CLI/bridge schema v1; formatting and type checks green.
 ### Added
 - Profiling script `scripts/profile_finishers.py`.
+
+## [0.1.13] - 2025-08-23
+### Changed
+- Batched CLI refinements and GPU benchmark scripts updates (`bench_aberth_*`).
+- Solver fastpath and finishers polish; minor CLI ergonomics.
+### CI
+- Wheels workflow triggers on `v*` tags; package data includes `py.typed`.
+### Misc
+- Docs and examples touch-ups.
