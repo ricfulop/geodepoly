@@ -89,3 +89,10 @@
 - Numeric wrappers: `newton`, `aberth`, `dk`, `companion_roots` delegating to existing implementations.
 ### Tests
 - `tests/test_polynomial.py`, `tests/test_numeric_wrappers.py`.
+
+## [0.1.12] - 2025-08-23
+### Changed
+- Performance: cache Padé coeffs in `eval_series_auto`, reuse Horner coeffs in Aberth; optional Numba path for finishers.
+- CI/docs: Docs deploy workflow; CLI/bridge schema v1; formatting and type checks green.
+### Added
+- Profiling script `scripts/profile_finishers.py`.
