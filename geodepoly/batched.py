@@ -211,6 +211,83 @@ def torch_aberth_solve(
             z, res_prev = z_prop, res_prop
     return z
 
+
+def torch_aberth_solve_batched(
+    coeffs_batch,
+    roots_init_batch,
+    iters: int = 30,
+    damping: float = 0.8,
+):
+    """Batched Aberth for many polynomials using Torch.
+
+    Args:
+      coeffs_batch: (B, D+1) complex, low->high
+      roots_init_batch: (B, N) complex
+    Returns:
+      (B, N) updated roots
+    """
+    import torch  # type: ignore[import-not-found]
+
+    a = coeffs_batch
+    z = roots_init_batch
+    B, N = z.shape
+    # Precompute reversed coeffs
+    a_rev = torch.flip(a, dims=[-1])  # (B, D+1)
+
+    for _ in range(max(1, iters)):
+        # Horner for p, dp per batch
+        p = torch.zeros_like(z)
+        dp = torch.zeros_like(z)
+        for c in a_rev.T:  # iterate degree
+            dp = dp * z + p
+            p = p * z + c  # (B,)
+        # Pairwise sums per batch
+        Z_i = z.unsqueeze(2)  # (B, N, 1)
+        Z_j = z.unsqueeze(1)  # (B, 1, N)
+        diff = Z_i - Z_j
+        # avoid diag
+        eye = torch.eye(N, dtype=diff.dtype, device=diff.device).unsqueeze(0)
+        diff = diff + eye * (0.0 + 1j * 0.0)
+        diff[:, torch.arange(N), torch.arange(N)] = torch.inf + 0j
+        S = torch.sum(1.0 / diff, dim=2)
+        denom = dp - p * S
+        denom = torch.where(denom == 0, torch.ones_like(denom), denom)
+        delta = p / denom
+        z = z - damping * delta
+    return z
+
+
+def jax_aberth_step(coeffs, roots, damping: float = 1.0):
+    """Single JAX vectorized Aberth step."""
+    import jax.numpy as jnp  # type: ignore[import-not-found]
+
+    a_rev = jnp.flip(coeffs)
+    z = roots
+    p = jnp.zeros_like(z)
+    dp = jnp.zeros_like(z)
+    for c in a_rev:
+        dp = dp * z + p
+        p = p * z + c
+    Z_i = z[:, None]
+    Z_j = z[None, :]
+    diff = Z_i - Z_j
+    diff = diff + jnp.eye(z.shape[0], dtype=diff.dtype) * (0.0 + 0.0j)
+    diff = diff.at[jnp.diag_indices(z.shape[0])].set(jnp.inf + 0.0j)
+    S = jnp.sum(1.0 / diff, axis=1)
+    denom = dp - p * S
+    denom = jnp.where(denom == 0, jnp.ones_like(denom), denom)
+    delta = p / denom
+    return z - damping * delta
+
+
+def jax_aberth_solve(coeffs, roots_init, iters: int = 50, damping: float = 0.8):
+    import jax.numpy as jnp  # type: ignore[import-not-found]
+
+    z = roots_init
+    for _ in range(max(1, iters)):
+        z = jax_aberth_step(coeffs, z, damping=damping)
+    return z
+
 def batched_solve_all(
     coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20
 ):

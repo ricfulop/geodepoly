@@ -35,6 +35,14 @@ python scripts/bench_aberth_gpu.py --deg 32 --iters 50
 
 Developer note: a single-step `torch_aberth_step(coeffs, roots, damping)` is available in `geodepoly.batched`.
 
+### JAX variant
+
+```bash
+python scripts/bench_aberth_jax.py --deg 32 --iters 50
+```
+
+Developer note: JAX helpers `jax_aberth_step/solve` are available in `geodepoly.batched`.
+
 ## Next steps
 - Microbenchmarks and accuracy checks vs CPU
 - Memory-bound vs compute-bound analysis
