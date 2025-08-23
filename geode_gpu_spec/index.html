@@ -522,6 +522,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Prototype">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -565,8 +580,19 @@
 </ul>
 <h2 id="prototype">Prototype</h2>
 <ul>
-<li>JAX/NumPy sketch for vectorized series seeds and Aberth steps</li>
+<li>JAX/NumPy/Torch sketch for vectorized Newton steps</li>
 </ul>
+<h3 id="usage">Usage</h3>
+<pre><code class="language-bash"># NumPy (CPU):
+python scripts/bench_gpu_prototype.py --backend numpy --batch 4096 --degree 16 --steps 50
+
+# Torch (GPU if available, else CPU):
+python scripts/bench_gpu_prototype.py --backend torch --batch 4096 --degree 16 --steps 50 --device cuda
+
+# JAX (CPU/GPU depending on install):
+python scripts/bench_gpu_prototype.py --backend jax --batch 4096 --degree 16 --steps 50
+</code></pre>
+<p>Outputs throughput (steps/sec) and residual sanity check.</p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Microbenchmarks and accuracy checks vs CPU</li>

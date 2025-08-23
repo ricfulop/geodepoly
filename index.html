@@ -292,6 +292,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cli-solver" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Solver
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -595,6 +604,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cli-solver" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Solver
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -636,8 +654,13 @@
 <ul>
 <li>SymPy comparison: <code>python examples/sympy_vs_nroots.py</code></li>
 <li>JSON bridge round-trip: <code>python examples/json_bridge_roundtrip.py</code></li>
-<li>Mathematica: <code>RunProcess[{"python","bridges/geodepoly_cli.py"}, "StandardInput"-&gt;payloadJSON]</code></li>
-<li>Maple: <code>ssystem("python bridges/geodepoly_cli.py", payloadJSON)</code></li>
+<li>Mathematica: <code>RunProcess[{"geodepoly-bridge"}, "StandardInput"-&gt;payloadJSON]</code></li>
+<li>Maple: <code>ssystem("geodepoly-bridge", payloadJSON)</code></li>
+</ul>
+<h2 id="cli-solver">CLI Solver</h2>
+<ul>
+<li>Solve from terminal:</li>
+<li><code>geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json</code></li>
 </ul>
 
 
