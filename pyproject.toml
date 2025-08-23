@@ -33,3 +33,6 @@ lint = ["ruff", "black", "mypy", "pytest-cov", "pre-commit"]
 
 [tool.setuptools]
 packages = { find = { include = ["geodepoly*"], exclude = ["bridges*", "paper*", "scripts*", "tests*", "docs*", "examples*"] } }
+
+[project.scripts]
+geodepoly-bench = "geodepoly.bench_compare:main"
