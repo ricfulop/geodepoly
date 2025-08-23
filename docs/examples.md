@@ -42,3 +42,8 @@ JSON
 python examples/geode_arrays_demo.py
 ```
 
+## Eisenstein/Bring quintic
+```bash
+python examples/eisenstein_quintic_demo.py
+```
+
