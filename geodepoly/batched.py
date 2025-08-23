@@ -154,6 +154,63 @@ def torch_aberth_step(coeffs, roots, damping: float = 1.0):
     delta = p / denom
     return z - damping * delta
 
+
+def torch_aberth_solve(
+    coeffs,
+    roots_init,
+    iters: int = 50,
+    damping: float = 0.8,
+    backtracks: int = 3,
+):
+    """Multi-step Aberth–Ehrlich using Torch with simple backtracking on residual.
+
+    Args:
+      coeffs: 1D torch tensor (D+1,) complex (low->high)
+      roots_init: 1D torch tensor (N,) complex
+      iters: number of iterations
+      damping: initial damping factor
+      backtracks: backtracking steps if residual increases
+
+    Returns:
+      roots tensor shape (N,)
+    """
+    import torch  # type: ignore[import-not-found]
+
+    z = roots_init.clone()
+    # residual helper
+    def max_residual(zv):
+        # reuse batched_poly_eval with backend torch by building per-root coefficients
+        from .batched import batched_poly_eval
+
+        # Expand coeffs to (B, D+1) and z to (B,)
+        B = zv.shape[0]
+        c = coeffs.expand(B, -1)
+        p = batched_poly_eval(c, zv, backend="torch")
+        return torch.max(torch.abs(p))
+
+    res_prev = max_residual(z)
+    for _ in range(max(1, iters)):
+        z_prop = torch_aberth_step(coeffs, z, damping=damping)
+        res_prop = max_residual(z_prop)
+        if torch.isfinite(res_prop) and res_prop <= res_prev:
+            z, res_prev = z_prop, res_prop
+            continue
+        # backtrack
+        alpha = damping
+        accepted = False
+        for _ in range(max(0, backtracks)):
+            alpha *= 0.5
+            z_bt = torch_aberth_step(coeffs, z, damping=alpha)
+            res_bt = max_residual(z_bt)
+            if torch.isfinite(res_bt) and res_bt <= res_prev:
+                z, res_prev = z_bt, res_bt
+                accepted = True
+                break
+        if not accepted:
+            # accept proposed step anyway to avoid stalling
+            z, res_prev = z_prop, res_prop
+    return z
+
 def batched_solve_all(
     coeffs_batch, backend: str = "numpy", method: str = "newton", steps: int = 20
 ):
