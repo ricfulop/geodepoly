@@ -359,6 +359,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    GeodeBench
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -370,6 +383,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leaderboard-v0-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leaderboard (v0 preview)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -483,6 +524,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leaderboard-v0-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leaderboard (v0 preview)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -517,6 +575,37 @@
 <pre><code class="language-bash">python scripts/baseline_transformer.py --in docs/assets/geode_slices.csv
 # Example output: Baseline mean abs error: 4.44e-16
 </code></pre>
+<h2 id="leaderboard-v0-preview">Leaderboard (v0 preview)</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Split</th>
+<th>Metric</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear baseline</td>
+<td>Random (S+G)</td>
+<td>MAE(</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>Naive OEIS-style</td>
+<td>Symmetry holdout</td>
+<td>MAE(</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>Tiny Transformer (stub)</td>
+<td>Symmetry holdout</td>
+<td>MAE(</td>
+<td>alpha</td>
+</tr>
+</tbody>
+</table>
 
 
 
