@@ -127,6 +127,18 @@ python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --
 python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets
 ```
 
+<<<<<<< HEAD
+=======
+Previews:
+
+![Time vs Degree](docs/assets/time_vs_degree.png)
+
+![Residual vs Degree](docs/assets/residual_vs_degree.png)
+
+### Paper skeleton
+See `paper/GeodePoly_MVP.md`.
+
+>>>>>>> 8303e3e (docs: inline plot previews in README)
 ## Hyper-Catalan API (S[t2,t3,...])
 
 Utilities based on the paper's multivariate series:
