@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../examples/">
+        <link rel="prev" href="../bench_presets/">
       
       
-        <link rel="next" href="../bench_presets/">
+        <link rel="next" href="../paper_guide/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Benchmarks - geodepoly</title>
+        <title>GeodeBench - geodepoly</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#benchmarks" class="md-skip">
+        <a href="#geodebench-v0-mvp" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Benchmarks
+              GeodeBench
             
           </span>
         </div>
@@ -303,32 +303,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Benchmarks
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
         
   
   
@@ -339,44 +317,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#newton-vs-hybrid-tuned" class="md-nav__link">
-    <span class="md-ellipsis">
-      Newton vs hybrid (tuned)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edge-cases-iteration-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Edge cases: iteration profile
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -407,10 +347,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../geodebench/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -421,6 +370,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -533,32 +483,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#newton-vs-hybrid-tuned" class="md-nav__link">
-    <span class="md-ellipsis">
-      Newton vs hybrid (tuned)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edge-cases-iteration-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Edge cases: iteration profile
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -576,189 +500,19 @@
   
 
 
-<h1 id="benchmarks">Benchmarks</h1>
+<h1 id="geodebench-v0-mvp">GeodeBench v0 (MVP)</h1>
 <ul>
-<li>Run: <code>python scripts/bench_compare.py --degrees 3,5,8,12 --methods hybrid,aberth,dk --trials 10 --out docs/assets/bench.csv --agg_out docs/assets/bench_agg.csv</code></li>
-<li>Plot: <code>python scripts/plot_bench.py --in docs/assets/bench_agg.csv --out docs/assets</code></li>
+<li>S slice (quadratic): <code>t2</code> only; target <code>alpha</code>.</li>
+<li>G slice (multivariate): small <code>t2,t3</code> nonzero; target <code>alpha</code>.</li>
 </ul>
-<p><img alt="Time vs Degree" src="../assets/time_vs_degree.png" /></p>
-<p><img alt="Residual vs Degree" src="../assets/residual_vs_degree.png" /></p>
-<h2 id="newton-vs-hybrid-tuned">Newton vs hybrid (tuned)</h2>
-<p>Summary (medians over 5 trials):</p>
-<table>
-<thead>
-<tr>
-<th>degree</th>
-<th>method</th>
-<th style="text-align: right;">time_median(s)</th>
-<th style="text-align: right;">res_median</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>3</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.0027</td>
-<td style="text-align: right;">2.48e-16</td>
-</tr>
-<tr>
-<td>3</td>
-<td>newton</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">3.33e-16</td>
-</tr>
-<tr>
-<td>5</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.0060</td>
-<td style="text-align: right;">2.22e-15</td>
-</tr>
-<tr>
-<td>5</td>
-<td>newton</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">1.89e-15</td>
-</tr>
-<tr>
-<td>8</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.0142</td>
-<td style="text-align: right;">1.22e-14</td>
-</tr>
-<tr>
-<td>8</td>
-<td>newton</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">8.30e-15</td>
-</tr>
-<tr>
-<td>12</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.0314</td>
-<td style="text-align: right;">6.17e-13</td>
-</tr>
-<tr>
-<td>12</td>
-<td>newton</td>
-<td style="text-align: right;">0.0003</td>
-<td style="text-align: right;">6.17e-13</td>
-</tr>
-<tr>
-<td>16</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.0796</td>
-<td style="text-align: right;">5.60e-11</td>
-</tr>
-<tr>
-<td>16</td>
-<td>newton</td>
-<td style="text-align: right;">0.0017</td>
-<td style="text-align: right;">2.70e-11</td>
-</tr>
-<tr>
-<td>20</td>
-<td>hybrid</td>
-<td style="text-align: right;">0.1191</td>
-<td style="text-align: right;">1.91e-10</td>
-</tr>
-<tr>
-<td>20</td>
-<td>newton</td>
-<td style="text-align: right;">0.0027</td>
-<td style="text-align: right;">3.19e-10</td>
-</tr>
-</tbody>
-</table>
-<p>CSV: <code>docs/assets/newton_vs_hybrid_tuned.csv</code></p>
-<h2 id="edge-cases-iteration-profile">Edge cases: iteration profile</h2>
-<p>We measure time, residual, and (for Newton) total iteration count on a few tougher instances (clusters, ill‑scaled, |t|≈1). Hybrid and Aberth reach the target with minimal polish; Newton iteration counts can spike.</p>
-<table>
-<thead>
-<tr>
-<th>case</th>
-<th style="text-align: right;">hybrid time(s)</th>
-<th style="text-align: right;">aberth time(s)</th>
-<th style="text-align: right;">newton time(s)</th>
-<th style="text-align: right;">newton iters</th>
-<th style="text-align: right;">residual (≈)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>double_root</td>
-<td style="text-align: right;">0.0041</td>
-<td style="text-align: right;">0.0005</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">87</td>
-<td style="text-align: right;">1e-16–1e-23</td>
-</tr>
-<tr>
-<td>cluster_eps_1e-12</td>
-<td style="text-align: right;">0.0038</td>
-<td style="text-align: right;">0.0005</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">1e-38–1e-25</td>
-</tr>
-<tr>
-<td>cluster_eps_1e-10</td>
-<td style="text-align: right;">0.0038</td>
-<td style="text-align: right;">0.0005</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">1e-39–1e-25</td>
-</tr>
-<tr>
-<td>cluster_eps_1e-08</td>
-<td style="text-align: right;">0.0035</td>
-<td style="text-align: right;">0.0005</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">95</td>
-<td style="text-align: right;">1e-16–1e-48</td>
-</tr>
-<tr>
-<td>cluster_eps_1e-06</td>
-<td style="text-align: right;">0.0034</td>
-<td style="text-align: right;">0.0005</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">81</td>
-<td style="text-align: right;">1e-41–1e-60</td>
-</tr>
-<tr>
-<td>cluster_eps_1e-4</td>
-<td style="text-align: right;">0.0030</td>
-<td style="text-align: right;">0.0006</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">63</td>
-<td style="text-align: right;">1e-16–1e-60</td>
-</tr>
-<tr>
-<td>ill_scaled</td>
-<td style="text-align: right;">0.0036</td>
-<td style="text-align: right;">0.0007</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">68</td>
-<td style="text-align: right;">1e-14</td>
-</tr>
-<tr>
-<td>rotated_cluster</td>
-<td style="text-align: right;">0.0071</td>
-<td style="text-align: right;">0.0012</td>
-<td style="text-align: right;">0.0002</td>
-<td style="text-align: right;">320</td>
-<td style="text-align: right;">1e-16</td>
-</tr>
-<tr>
-<td>near_t_one</td>
-<td style="text-align: right;">0.0032</td>
-<td style="text-align: right;">0.0009</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">72</td>
-<td style="text-align: right;">1e-16</td>
-</tr>
-</tbody>
-</table>
-<p>CSV: <code>docs/assets/edge_cases.csv</code></p>
+<p>Tasks:
+- Coefficient prediction: recover truncated coefficients from samples.
+- Geode recovery: predict <code>alpha</code> from slice inputs.
+- Invariance checks: evaluate symmetry/generalization splits.</p>
+<p>Generate data:</p>
+<pre><code class="language-bash">python bench/generate_slices.py --degrees 3,5,8 --trials 10 --out docs/assets/geode_slices.csv
+</code></pre>
+<p>Starter notebook: <code>notebooks/GeodeBench_Starter.ipynb</code></p>
 
 
 
