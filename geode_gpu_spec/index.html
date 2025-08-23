@@ -556,6 +556,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#aberth-vectorized-torch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aberth (vectorized; Torch)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -615,6 +624,11 @@ python scripts/bench_gpu_prototype.py --backend torch --batch 4096 --degree 16 -
 python scripts/bench_gpu_prototype.py --backend jax --batch 4096 --degree 16 --steps 50
 </code></pre>
 <p>Outputs throughput (steps/sec) and residual sanity check.</p>
+<h3 id="aberth-vectorized-torch">Aberth (vectorized; Torch)</h3>
+<pre><code class="language-bash"># Compare CPU vs GPU for a single Aberth update loop
+python scripts/bench_aberth_gpu.py --deg 32 --iters 50
+</code></pre>
+<p>Developer note: a single-step <code>torch_aberth_step(coeffs, roots, damping)</code> is available in <code>geodepoly.batched</code>.</p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Microbenchmarks and accuracy checks vs CPU</li>
