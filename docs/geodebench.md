@@ -20,3 +20,12 @@ Baseline:
 python scripts/baseline_transformer.py --in docs/assets/geode_slices.csv
 # Example output: Baseline mean abs error: 4.44e-16
 ```
+
+## Leaderboard (v0 preview)
+
+| Method                 | Split            | Metric        | Score    |
+|------------------------|------------------|---------------|----------|
+| Linear baseline        | Random (S+G)     | MAE(|alpha|)  | ~4.4e-16 |
+| Naive OEIS-style       | Symmetry holdout | MAE(|alpha|)  | TBA      |
+| Tiny Transformer (stub)| Symmetry holdout | MAE(|alpha|)  | TBA      |
+

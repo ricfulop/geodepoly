@@ -1,0 +1,31 @@
+name: GeodeBench Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pip install pandas
+      - name: Generate slices
+        run: |
+          mkdir -p docs/assets
+          python bench/generate_slices.py --degrees 3,5,8 --trials 10 --out docs/assets/geode_slices.csv
+      - name: Commit artifact
+        run: |
+          git config user.name geodebench-bot
+          git config user.email geodebench-bot@users.noreply.github.com
+          git add docs/assets/geode_slices.csv || true
+          git commit -m "geodebench(ci): refresh slices" || true
+          git push || true
+
+
