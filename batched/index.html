@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../paper_guide/">
+        <link rel="prev" href="../geodebench/">
       
       
-        <link rel="next" href="../faq/">
+        <link rel="next" href="../paper_guide/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Gallery - geodepoly</title>
+        <title>Batched kernels - geodepoly</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gallery" class="md-skip">
+        <a href="#batched-kernels-mvp3" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Gallery
+              Batched kernels
             
           </span>
         </div>
@@ -369,10 +369,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../batched/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -383,6 +392,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -413,32 +423,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Gallery
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../gallery/" class="md-nav__link">
         
   
   
@@ -449,44 +437,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bench-plots" class="md-nav__link">
-    <span class="md-ellipsis">
-      Bench plots
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -555,32 +505,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bench-plots" class="md-nav__link">
-    <span class="md-ellipsis">
-      Bench plots
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -598,16 +522,15 @@
   
 
 
-<h1 id="gallery">Gallery</h1>
-<h2 id="bench-plots">Bench plots</h2>
-<p><img alt="Time vs Degree" src="../assets/time_vs_degree.png" /></p>
-<p><img alt="Residual vs Degree" src="../assets/residual_vs_degree.png" /></p>
-<h2 id="examples">Examples</h2>
+<h1 id="batched-kernels-mvp3">Batched kernels (MVP3)</h1>
 <ul>
-<li>Methods comparison: see <code>examples/compare_methods.py</code></li>
-<li>Resummation effect: see <code>examples/resummation_effect.py</code></li>
-<li>Eigenvalues demo: see <code>examples/eigs_demo.py</code></li>
+<li>Backends: NumPy (reference), Torch, JAX.</li>
+<li>Ops:</li>
+<li><code>batched_poly_eval(coeffs, xs, backend)</code></li>
+<li><code>batched_newton_step(coeffs, xs, backend)</code></li>
+<li><code>torch_root_layer(steps, tol)</code> differentiable Newton layer</li>
 </ul>
+<p>Bench (preview): expect 10–100× throughput vs pure Python on large batches (Torch/JAX on GPU).</p>
 
 
 
