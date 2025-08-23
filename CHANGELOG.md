@@ -37,3 +37,11 @@
 ### Added
 - README: inline plot previews; examples and CAS tips.
 - Docs: minor bridge/GPU notes.
+
+## [0.1.6] - 2025-08-23
+### Added
+- Bench presets runner `scripts/bench_presets.py` to regenerate standard CSVs/plots.
+- Notebooks: `notebooks/Quickstart.ipynb`, `notebooks/BenchSummary.ipynb`.
+- Docs: `docs/bench_presets.md` and nav link in `mkdocs.yml`.
+### Fixed
+- CI stability: all tests green (20 passed).
