@@ -60,6 +60,7 @@ python -m geodepoly.scripts.benchmark --deg 8 --seed 123 --trials 100
 - `series_solve_all(coeffs, max_order=32, boots=3, tol=1e-12, max_deflation=None, verbose=False)`
 - `series_one_root(coeffs, center=None, max_order=32, boots=3, tol=1e-14)`
 - `sympy_solve(poly)` — lightweight SymPy integration (if SymPy is installed).
+- `solve_eigs(A)` — eigenvalues via characteristic polynomial (Faddeev–LeVerrier).
 
 ## How it works (short)
 
