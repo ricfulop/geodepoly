@@ -48,6 +48,9 @@ def series_seed_step(coeffs, center, max_order=24, resum: Optional[str]=None):
         y = eval_series_auto(g, t)
     else:
         y = eval_series_plain(g, t)
+    # early-bail: if |t| large, don't trust the step
+    if abs(t) > 0.85:
+        return 0j, a0, a1, False
     return y, a0, a1, True
 
 def inverseseries_g_coeffs(beta: Dict[int, complex], max_order: int) -> List[complex]:

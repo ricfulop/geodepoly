@@ -28,3 +28,19 @@ def shift_expand(coeffs, mu):
         for j in range(k+1):
             q[j] += ak * (comb(k, j) * (mu ** (k - j)))
     return q
+
+def poly_eval_many(coeffs: List[complex], xs: List[complex]):
+    """Vectorized polynomial evaluation for many points using NumPy Horner.
+    Returns a list of complex values p(x) for x in xs.
+    """
+    try:
+        import numpy as np
+    except Exception:
+        return [poly_eval(coeffs, x) for x in xs]
+    a = np.array(list(reversed([complex(c) for c in coeffs])), dtype=complex)  # high->low
+    xs_np = np.array(xs, dtype=complex)
+    # Horner vectorized
+    p = np.zeros_like(xs_np)
+    for c in a:
+        p = p * xs_np + c
+    return [complex(v) for v in p]
