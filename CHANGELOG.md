@@ -24,3 +24,11 @@
 - Multiple-root handling: multiplicity-aware Halley; tests; wired into solver polish.
 - Seeding: center selection minimizing |t| with top-K candidates; test.
 - Benchmarks: `scripts/bench_compare.py` supports `--resum`.
+
+## [0.1.4] - 2025-08-22
+### Added
+- Bench suite: degrees/methods flags, aggregate CSV; plots and docs previews.
+- Property-based edge tests.
+- SymPy plugin return mode and CAS examples; stable CLI JSON.
+- Eigenvalue solver `solve_eigs` via Faddeev–LeVerrier; tests.
+- GeodeBench spec and slice generator; GPU roadmap doc.
