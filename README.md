@@ -138,6 +138,9 @@ geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json
 - Compare methods: `python examples/compare_methods.py`
 - Resummation effect: `python examples/resummation_effect.py`
 - Eigenvalues demo: `python examples/eigs_demo.py`
+- AI demos (Colab-friendly):
+  - [Torch RootLayer Demo](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/examples/ai/torch_rootlayer_demo.py)
+  - [Spectral Matching](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/examples/ai/spectral_matching.py)
 
 ## API
 
