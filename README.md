@@ -141,6 +141,8 @@ geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json
 - AI demos (Colab-friendly):
   - [Torch RootLayer Demo](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/examples/ai/torch_rootlayer_demo.py)
   - [Spectral Matching](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/examples/ai/spectral_matching.py)
+  - [Pole Placement Notebook](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/AI_PolePlacement.ipynb)
+  - [Spectral Matching Notebook](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/AI_SpectralMatching.ipynb)
 
 ## API
 

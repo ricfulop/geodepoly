@@ -29,3 +29,11 @@ pre-commit run --all-files
 - PyPI: `git tag vX.Y.Z && git push origin vX.Y.Z` (requires `PYPI_API_TOKEN`).
 - The publish workflow builds and uploads automatically based on the tag prefix (`test-` vs `v`).
 - Create a GitHub Release with notes.
+
+### Release checklist
+- [ ] All tests green locally and in CI (coverage ≥ 90%).
+- [ ] Docs updated (README, docs pages, notebooks/Colab links).
+- [ ] CHANGELOG updated with version and highlights.
+- [ ] Version bumped in `pyproject.toml`.
+- [ ] Tag created and pushed (`vX.Y.Z`).
+- [ ] GitHub Release created with notes and links.
