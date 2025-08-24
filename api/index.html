@@ -335,9 +335,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#formal-series-scaffold" class="md-nav__link">
+  <a href="#formal-series" class="md-nav__link">
     <span class="md-ellipsis">
-      Formal series scaffold
+      Formal series
     </span>
   </a>
   
@@ -347,6 +347,15 @@
   <a href="#hyper-catalan-utilities" class="md-nav__link">
     <span class="md-ellipsis">
       Hyper-Catalan utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geode-factorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode factorization
     </span>
   </a>
   
@@ -561,6 +570,50 @@
   
   
     <li class="md-nav__item">
+      <a href="../ai_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_use_cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Use Cases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../gallery/" class="md-nav__link">
         
   
@@ -692,9 +745,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#formal-series-scaffold" class="md-nav__link">
+  <a href="#formal-series" class="md-nav__link">
     <span class="md-ellipsis">
-      Formal series scaffold
+      Formal series
     </span>
   </a>
   
@@ -704,6 +757,15 @@
   <a href="#hyper-catalan-utilities" class="md-nav__link">
     <span class="md-ellipsis">
       Hyper-Catalan utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geode-factorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode factorization
     </span>
   </a>
   
@@ -770,11 +832,21 @@ roots = solve_all(coeffs, method=&quot;hybrid&quot;, resum=&quot;auto&quot;)
 <ul>
 <li><code>geodepoly.series_solve_all(coeffs, max_order=24, boots=3, tol=1e-12, max_deflation=None, verbose=False) -&gt; List[complex]</code></li>
 <li><code>geodepoly.series_one_root(coeffs, center=None, max_order=24, boots=3, tol=1e-14) -&gt; complex</code></li>
+<li><code>geodepoly.series_root(c: Sequence[complex], order: int, variant: str = "raw") -&gt; FormalSeries</code></li>
+<li>Returns the truncated formal series <code>y(t) = Σ_{m≥1} g_m t^m</code> via Lagrange inversion, where <code>t = -a0/a1</code> for the recentered polynomial <code>q(y)</code>.</li>
 </ul>
 <p>Example</p>
 <pre><code class="language-python">from geodepoly import series_one_root
 coeffs = [1, -1.2, 0.3, 1.0]
 root = series_one_root(coeffs, center=0.0, max_order=24, boots=2)
+</code></pre>
+<p>Formal series example</p>
+<pre><code class="language-python">from geodepoly import series_root
+
+# q(y) = a0 + a1 y + a2 y^2 + ... (already recentered)
+s = series_root([1.0, 2.0, 0.5, -0.1], order=6)
+# Inspect coefficients g1..g6 of y(t)
+coeff_g1 = s.coeff((1,))
 </code></pre>
 <h2 id="sympy-integration">SymPy integration</h2>
 <ul>
@@ -807,11 +879,11 @@ q = p.shift_x(1)           # 2 + 2x + x^2
 x = newton_solve([-2,0,1], x0=1.0)  # sqrt(2)
 w = companion_roots([-6,11,-6,1])   # [1,2,3]
 </code></pre>
-<h2 id="formal-series-scaffold">Formal series scaffold</h2>
+<h2 id="formal-series">Formal series</h2>
 <ul>
 <li><code>geodepoly.FormalSeries</code> — minimal formal series with <code>+</code>, <code>*</code>, <code>truncate_total_degree</code>, <code>compose_univariate</code> (univariate), and <code>to_sympy</code>.</li>
 <li>
-<p><code>geodepoly.series_root</code> / <code>geodepoly.series_bootstrap</code> — scaffolds for soft polynomial formula and shift–solve–add.</p>
+<p><code>geodepoly.series_root</code> — returns a truncated <code>FormalSeries</code> for the soft polynomial formula; <code>geodepoly.series_bootstrap</code> implements shift–solve–add.</p>
 </li>
 <li>
 <p><code>geodepoly.eigs.solve_eigs(A) -&gt; List[complex]</code></p>
@@ -832,12 +904,20 @@ eigvals = solve_eigs(A)
 <li><code>geodepoly.hyper_catalan.evaluate_quadratic_slice(t2: complex, max_weight: int) -&gt; complex</code></li>
 <li><code>geodepoly.hyper_catalan.catalan_number(n: int) -&gt; int</code></li>
 </ul>
+<h2 id="geode-factorization">Geode factorization</h2>
+<ul>
+<li><code>geodepoly.series.geode_factorize(order: int, tmax: int|None=None) -&gt; (FormalSeries, FormalSeries, FormalSeries)</code></li>
+<li>Constructs <code>S</code>, <code>S1</code>, and <code>G</code> such that <code>(S − 1) = S1 · G</code> up to total degree <code>order</code>.</li>
+<li><code>S</code> is built combinatorially from Hyper‑Catalan coefficients; <code>G</code> is solved degree‑by‑degree.</li>
+</ul>
 <p>Example</p>
 <pre><code class="language-python">from geodepoly import evaluate_hyper_catalan, evaluate_quadratic_slice, catalan_number
 
 t2 = 0.05
 alpha = evaluate_quadratic_slice(t2, max_weight=20)
 c3 = catalan_number(3)
+from geodepoly.series import geode_factorize
+S, S1, G = geode_factorize(order=4)
 </code></pre>
 <h2 id="resummation-helpers">Resummation helpers</h2>
 <ul>

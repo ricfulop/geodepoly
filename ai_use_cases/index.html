@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../ai_overview/">
       
       
-        <link rel="next" href="../ai_overview/">
+        <link rel="next" href="../gallery/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Paper mapping - geodepoly</title>
+        <title>AI Use Cases - geodepoly</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mapping-the-paper-to-the-codebase" class="md-skip">
+        <a href="#six-ai-use-cases-with-geodepoly" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Paper mapping
+              AI Use Cases
             
           </span>
         </div>
@@ -413,30 +413,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Paper mapping
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../paper_guide/" class="md-nav__link">
         
   
   
@@ -447,33 +427,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#mapping-the-paper-to-the-codebase" class="md-nav__link">
-    <span class="md-ellipsis">
-      Mapping the paper to the codebase
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -504,10 +457,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ai_use_cases/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    AI Use Cases
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -518,6 +493,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-differentiable-root-layer-inside-neural-nets" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Differentiable Root Layer (inside neural nets)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-geodebench-symmetry-generalization-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) GeodeBench: symmetry-generalization tasks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-inductivebias-layers-that-speak-polynomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Inductive‑bias layers that “speak polynomial”
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-training-objectives-in-root-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Training objectives in root space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-neurosymbolic-loops-program-synthesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      5) Neuro‑symbolic loops &amp; program synthesis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-gpucompiler-target-batched-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) GPU/Compiler target (batched kernels)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -605,6 +654,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -613,9 +664,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mapping-the-paper-to-the-codebase" class="md-nav__link">
+  <a href="#1-differentiable-root-layer-inside-neural-nets" class="md-nav__link">
     <span class="md-ellipsis">
-      Mapping the paper to the codebase
+      1) Differentiable Root Layer (inside neural nets)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-geodebench-symmetry-generalization-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) GeodeBench: symmetry-generalization tasks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-inductivebias-layers-that-speak-polynomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Inductive‑bias layers that “speak polynomial”
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-training-objectives-in-root-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Training objectives in root space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-neurosymbolic-loops-program-synthesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      5) Neuro‑symbolic loops &amp; program synthesis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-gpucompiler-target-batched-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) GPU/Compiler target (batched kernels)
     </span>
   </a>
   
@@ -640,58 +736,37 @@
   
 
 
-  <h1>Paper mapping</h1>
-
-<h2 id="mapping-the-paper-to-the-codebase">Mapping the paper to the codebase</h2>
-<p>This guide cross-references “A Hyper-Catalan Series Solution to Polynomial Equations, and the Geode” with symbols and modules in this repository.</p>
+<h1 id="six-ai-use-cases-with-geodepoly">Six AI Use Cases with GeodePoly</h1>
+<p>This page summarizes six practical ways AI can leverage GeodePoly.</p>
+<h2 id="1-differentiable-root-layer-inside-neural-nets">1) Differentiable Root Layer (inside neural nets)</h2>
 <ul>
-<li>Geometric polynomial equation and the series solution <code>S[t2,t3,...]</code>:</li>
-<li>Paper: Equation 0 = 1 − α + t2 α^2 + t3 α^3 + ..., with α = S[...].</li>
-<li>
-<p>Code: <code>geodepoly/hyper_catalan.py</code> implements:</p>
+<li>Custom autograd op mapping coefficients → roots.</li>
+<li>Gradients for simple roots: ∂r_i/∂a_k = − r_i^k / p'(r_i).</li>
+<li>Tips: mask/damp gradients if |p'(r)| is tiny; polish roots in forward.</li>
+</ul>
+<h2 id="2-geodebench-symmetry-generalization-tasks">2) GeodeBench: symmetry-generalization tasks</h2>
 <ul>
-<li><code>hyper_catalan_coefficient(m_counts)</code> for the array coefficients.</li>
-<li><code>evaluate_hyper_catalan(t_values, max_weight)</code> to numerically sum a truncated S.</li>
-<li><code>evaluate_quadratic_slice(t2, ...)</code> and <code>catalan_number(n)</code> for the Catalan slice.</li>
+<li>Dataset from Geode/Hyper‑Catalan arrays.</li>
+<li>Tasks: coefficient prediction, Geode factor recovery (S→G), invariance under shift/scale.</li>
 </ul>
-</li>
-<li>
-<p>Lagrange inversion / series reversion for a shifted polynomial:</p>
-</li>
-<li>Paper: Sections on Lagrange inversion and series bootstrap.</li>
-<li>
-<p>Code: <code>geodepoly/series_solve.py</code>:</p>
+<h2 id="3-inductivebias-layers-that-speak-polynomial">3) Inductive‑bias layers that “speak polynomial”</h2>
 <ul>
-<li><code>shift_expand</code>, <code>inverseseries_g_coeffs</code>, <code>series_step</code>, <code>series_one_root</code>.</li>
+<li>Geode convolution (face‑layer accumulation), power‑basis attention, root‑space heads.</li>
 </ul>
-</li>
-<li>
-<p>Finishing methods and polishing:</p>
-</li>
-<li>Paper: Practical computation beyond the formal series.</li>
-<li>
-<p>Code: <code>durand_kerner</code>, <code>halley_refine</code>, <code>newton_refine</code>, composed in <code>series_solve_all</code>.</p>
-</li>
-<li>
-<p>Resummation and acceleration:</p>
-</li>
-<li>Paper: discusses summation/acceleration themes.</li>
-<li>
-<p>Code: <code>geodepoly/resummation.py</code> supports Padé and Borel(-Padé) options.</p>
-</li>
-<li>
-<p>The Geode array and combinatorial structure:</p>
-</li>
-<li>Paper: factorization and conjectures about the array.</li>
-<li>
-<p>Code: <code>hyper_catalan_coefficient</code> and <code>evaluate_hyper_catalan</code> expose the array numerics; future work can add factorization utilities once conjectures are finalized.</p>
-</li>
-<li>
-<p>Bridges and examples:</p>
-</li>
-<li>Paper: Worked examples (e.g., Wallis cubic) and CAS bridges.</li>
-<li>Code: <code>bridges/geodepoly_cli.py</code>, <code>examples/quickstart.py</code>, and tests in <code>tests/</code>.</li>
+<h2 id="4-training-objectives-in-root-space">4) Training objectives in root space</h2>
+<ul>
+<li>Pole placement (half‑plane margins), spectral radius, root‑set matching.</li>
 </ul>
+<h2 id="5-neurosymbolic-loops-program-synthesis">5) Neuro‑symbolic loops &amp; program synthesis</h2>
+<ul>
+<li>Generate → verify with GeodePoly → refine.</li>
+<li>Enforce Viète identities as a regularizer.</li>
+</ul>
+<h2 id="6-gpucompiler-target-batched-kernels">6) GPU/Compiler target (batched kernels)</h2>
+<ul>
+<li>Batched kernels (JAX/XLA, CUDA) and differentiable RootLayer for large batches.</li>
+</ul>
+<p>See <code>examples/ai/</code> for runnable demos and the AI overview page for install and quickstart.</p>
 
 
 

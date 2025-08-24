@@ -363,6 +363,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="6) Hyper-Catalan connection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geode-factorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode factorization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -543,6 +558,50 @@
   
   
     <li class="md-nav__item">
+      <a href="../ai_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_use_cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Use Cases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../gallery/" class="md-nav__link">
         
   
@@ -680,6 +739,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="6) Hyper-Catalan connection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geode-factorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode factorization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -740,6 +814,10 @@ when <code>m̂ ≥ 2</code>. Clustered roots benefit from Aberth damping and rep
 <p>The generating series <code>S[t2,t3,...]</code> with hyper-Catalan coefficients solves a canonical geometric polynomial
 and motivates the series-reversion view. We expose utilities to evaluate slices of <code>S</code> and to compute
 coefficients for exploration and benchmarks.</p>
+<h3 id="geode-factorization">Geode factorization</h3>
+<p>We construct <code>S</code>, its linear part <code>S1 = Σ t_k</code>, and a series <code>G</code> such that the truncated identity
+<code>(S − 1) = S1 · G</code> holds coefficient-wise up to a chosen total degree. In the code, <code>S</code> is assembled from
+the hyper‑Catalan coefficient formula and <code>G</code> is solved degree‑by‑degree from the convolution structure.</p>
 <h2 id="7-eigenvalues-via-characteristic-polynomial">7) Eigenvalues via characteristic polynomial</h2>
 <p>For small/medium matrices, we form the characteristic polynomial using Faddeev–LeVerrier and call the
 polynomial solver, then polish. This provides a compact path to <code>eigvals</code> without large dependencies.</p>

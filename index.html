@@ -301,6 +301,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ai-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Quickstart
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -514,6 +523,50 @@
   
   
     <li class="md-nav__item">
+      <a href="ai_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ai_use_cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Use Cases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="gallery/" class="md-nav__link">
         
   
@@ -635,6 +688,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ai-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Quickstart
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -692,6 +754,22 @@
 <li><code>geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json</code></li>
 <li>Or file I/O (schema v1): <code>geodepoly-solve --input payload.json --output roots.json</code></li>
 </ul>
+<h2 id="ai-quickstart">AI Quickstart</h2>
+<ul>
+<li>Optional install:</li>
+<li><code>pip install geodepoly[ai-torch]</code> (PyTorch) or <code>pip install geodepoly[ai-jax]</code> (JAX)</li>
+<li>Differentiable root solve (Torch):
+  ```python
+  import torch
+  from geodepoly.ai import root_solve_torch</li>
+</ul>
+<p>coeffs = torch.randn(8, 5, dtype=torch.cdouble, requires_grad=True)
+  roots  = root_solve_torch(coeffs)
+  loss   = (roots.real.clamp_min(0)**2).mean()
+  loss.backward()
+  <code>``
+- Losses:</code>spectral_radius_loss<code>,</code>pole_placement_loss<code>,</code>root_set_loss<code>in</code>geodepoly.ai.losses<code>.
+ - Notebook:</code>notebooks/AI_Quickstart.ipynb` (Colab-friendly)</p>
 
 
 
