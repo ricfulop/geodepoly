@@ -21,12 +21,24 @@ roots = solve_all(coeffs, method="hybrid", resum="auto")
 
 - `geodepoly.series_solve_all(coeffs, max_order=24, boots=3, tol=1e-12, max_deflation=None, verbose=False) -> List[complex]`
 - `geodepoly.series_one_root(coeffs, center=None, max_order=24, boots=3, tol=1e-14) -> complex`
+- `geodepoly.series_root(c: Sequence[complex], order: int, variant: str = "raw") -> FormalSeries`
+  - Returns the truncated formal series `y(t) = Σ_{m≥1} g_m t^m` via Lagrange inversion, where `t = -a0/a1` for the recentered polynomial `q(y)`.
 
 Example
 ```python
 from geodepoly import series_one_root
 coeffs = [1, -1.2, 0.3, 1.0]
 root = series_one_root(coeffs, center=0.0, max_order=24, boots=2)
+```
+
+Formal series example
+```python
+from geodepoly import series_root
+
+# q(y) = a0 + a1 y + a2 y^2 + ... (already recentered)
+s = series_root([1.0, 2.0, 0.5, -0.1], order=6)
+# Inspect coefficients g1..g6 of y(t)
+coeff_g1 = s.coeff((1,))
 ```
 
 ## SymPy integration
@@ -65,10 +77,10 @@ x = newton_solve([-2,0,1], x0=1.0)  # sqrt(2)
 w = companion_roots([-6,11,-6,1])   # [1,2,3]
 ```
 
-## Formal series scaffold
+## Formal series
 
 - `geodepoly.FormalSeries` — minimal formal series with `+`, `*`, `truncate_total_degree`, `compose_univariate` (univariate), and `to_sympy`.
-- `geodepoly.series_root` / `geodepoly.series_bootstrap` — scaffolds for soft polynomial formula and shift–solve–add.
+- `geodepoly.series_root` — returns a truncated `FormalSeries` for the soft polynomial formula; `geodepoly.series_bootstrap` implements shift–solve–add.
 
 - `geodepoly.eigs.solve_eigs(A) -> List[complex]`
   - Forms characteristic polynomial via Faddeev–LeVerrier and calls `solve_all`.
@@ -89,6 +101,12 @@ eigvals = solve_eigs(A)
 - `geodepoly.hyper_catalan.evaluate_quadratic_slice(t2: complex, max_weight: int) -> complex`
 - `geodepoly.hyper_catalan.catalan_number(n: int) -> int`
 
+## Geode factorization
+
+- `geodepoly.series.geode_factorize(order: int, tmax: int|None=None) -> (FormalSeries, FormalSeries, FormalSeries)`
+  - Constructs `S`, `S1`, and `G` such that `(S − 1) = S1 · G` up to total degree `order`.
+  - `S` is built combinatorially from Hyper‑Catalan coefficients; `G` is solved degree‑by‑degree.
+
 Example
 ```python
 from geodepoly import evaluate_hyper_catalan, evaluate_quadratic_slice, catalan_number
@@ -96,6 +114,8 @@ from geodepoly import evaluate_hyper_catalan, evaluate_quadratic_slice, catalan_
 t2 = 0.05
 alpha = evaluate_quadratic_slice(t2, max_weight=20)
 c3 = catalan_number(3)
+from geodepoly.series import geode_factorize
+S, S1, G = geode_factorize(order=4)
 ```
 
 ## Resummation helpers

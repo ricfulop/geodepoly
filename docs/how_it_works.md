@@ -42,6 +42,12 @@ The generating series `S[t2,t3,...]` with hyper-Catalan coefficients solves a ca
 and motivates the series-reversion view. We expose utilities to evaluate slices of `S` and to compute
 coefficients for exploration and benchmarks.
 
+### Geode factorization
+
+We construct `S`, its linear part `S1 = Σ t_k`, and a series `G` such that the truncated identity
+`(S − 1) = S1 · G` holds coefficient-wise up to a chosen total degree. In the code, `S` is assembled from
+the hyper‑Catalan coefficient formula and `G` is solved degree‑by‑degree from the convolution structure.
+
 ## 7) Eigenvalues via characteristic polynomial
 
 For small/medium matrices, we form the characteristic polynomial using Faddeev–LeVerrier and call the
