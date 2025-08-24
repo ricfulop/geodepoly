@@ -93,6 +93,21 @@ roots = solve_all(coeffs, method="hybrid", resum="auto")
 print(roots)
 ```
 
+### Formal series (paper‑aligned)
+
+Inspect the truncated formal series `y(t) = \sum g_m t^m` produced by Lagrange inversion for a recentered polynomial `q(y)=a0+a1 y+...`:
+
+```python
+from geodepoly import series_root
+
+# Example recentered coefficients q(y) = a0 + a1 y + a2 y^2 + a3 y^3
+s = series_root([1.0, 2.0, 0.5, -0.1], order=6)
+
+# Access coefficients g1, g2, ... of y(t)
+print("g1=", s.coeff((1,)))
+print("g2=", s.coeff((2,)))
+```
+
 ### Colab quickstart
 
 [Open in Colab](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/Quickstart.ipynb) and run:
