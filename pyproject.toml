@@ -34,6 +34,9 @@ torch = ["torch"]
 jax = ["jax", "jaxlib"]
 sympy = ["sympy"]
 numba = ["numba"]
+ai-torch = ["torch>=2.2", "numpy"]
+ai-jax = ["jax>=0.4.26", "jaxlib", "numpy"]
+ai-all = ["geodepoly[ai-torch,ai-jax]", "matplotlib", "optax", "flax"]
 
 [tool.setuptools]
 packages = { find = { include = ["geodepoly*"], exclude = ["bridges*", "paper*", "scripts*", "tests*", "docs*", "examples*"] } }

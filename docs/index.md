@@ -39,3 +39,19 @@ Schema (v1):
 - Solve from terminal:
   - `geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json`
   - Or file I/O (schema v1): `geodepoly-solve --input payload.json --output roots.json`
+
+## AI Quickstart
+
+- Optional install:
+  - `pip install geodepoly[ai-torch]` (PyTorch) or `pip install geodepoly[ai-jax]` (JAX)
+- Differentiable root solve (Torch):
+  ```python
+  import torch
+  from geodepoly.ai import root_solve_torch
+
+  coeffs = torch.randn(8, 5, dtype=torch.cdouble, requires_grad=True)
+  roots  = root_solve_torch(coeffs)
+  loss   = (roots.real.clamp_min(0)**2).mean()
+  loss.backward()
+  ```
+- Losses: `spectral_radius_loss`, `pole_placement_loss`, `root_set_loss` in `geodepoly.ai.losses`.

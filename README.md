@@ -240,6 +240,39 @@ See `paper/GeodePoly_MVP.md`.
 - GeodeBench spec: `bench/geodebench_spec.md`, generator: `bench/generate_slices.py`
 - GPU roadmap: `docs/geode_gpu_spec.md`
 
+## AI Applications
+
+Install extras for AI workflows:
+
+```bash
+pip install geodepoly[ai-torch]   # PyTorch
+# or
+pip install geodepoly[ai-jax]     # JAX
+```
+
+Differentiable RootLayer (Torch):
+
+```python
+import torch
+from geodepoly.ai import root_solve_torch
+
+coeffs = torch.randn(8, 5, dtype=torch.cdouble, requires_grad=True)
+roots  = root_solve_torch(coeffs)
+loss   = (roots.real.clamp_min(0)**2).mean()   # e.g., push poles to left-half plane
+loss.backward()
+```
+
+Losses in root space:
+
+```python
+from geodepoly.ai.losses import pole_placement_loss, spectral_radius_loss
+loss = pole_placement_loss(roots, half_plane="left", margin=0.1) + spectral_radius_loss(roots, target=1.0)
+```
+
+See:
+- `examples/ai/torch_rootlayer_demo.py`
+- Docs “AI Quickstart” section
+
 ## Hyper-Catalan API (S[t2,t3,...])
 
 Utilities based on the paper's multivariate series:
