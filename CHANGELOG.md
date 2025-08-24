@@ -112,3 +112,11 @@
 - `geode_factorize(...)` builds `S` combinatorially from Hyper‑Catalan coefficients and solves `(S−1)=S1*G` degree‑by‑degree using exact rationals.
 ### Tests
 - All tests green (66/66); factorization identity verified up to truncation.
+
+## [0.2.0] - 2025-08-23
+### Added
+- AI extensions (experimental): `geodepoly.ai` with Torch RootLayer (analytic backward), JAX custom_vjp stub, and root-space losses (`spectral_radius_loss`, `pole_placement_loss`, `root_set_loss`).
+- Examples: `examples/ai/control_pole_placement.py`, `examples/ai/spectral_matching.py`.
+- Docs: AI Overview and AI Use Cases pages; README AI Applications; AI Quickstart notebook.
+### CI
+- Optional matrix jobs for `[ai-torch]` and `[ai-jax]` smoke imports.

@@ -55,3 +55,4 @@ Schema (v1):
   loss.backward()
   ```
 - Losses: `spectral_radius_loss`, `pole_placement_loss`, `root_set_loss` in `geodepoly.ai.losses`.
+ - Notebook: `notebooks/AI_Quickstart.ipynb` (Colab-friendly)

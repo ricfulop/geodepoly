@@ -234,6 +234,7 @@ See `paper/GeodePoly_MVP.md`.
 
 - Quickstart: `notebooks/Quickstart.ipynb`
 - Bench summary: `notebooks/BenchSummary.ipynb`
+- AI Quickstart: `notebooks/AI_Quickstart.ipynb`
 
 ## Bench dataset & GPU roadmap
 
