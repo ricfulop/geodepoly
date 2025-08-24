@@ -105,3 +105,10 @@
 - Wheels workflow triggers on `v*` tags; package data includes `py.typed`.
 ### Misc
 - Docs and examples touch-ups.
+
+## [0.1.14] - 2025-08-23
+### Added
+- `series_root(...)` now returns a proper truncated `FormalSeries` via Lagrange inversion.
+- `geode_factorize(...)` builds `S` combinatorially from Hyper‑Catalan coefficients and solves `(S−1)=S1*G` degree‑by‑degree using exact rationals.
+### Tests
+- All tests green (66/66); factorization identity verified up to truncation.
