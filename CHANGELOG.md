@@ -120,3 +120,12 @@
 - Docs: AI Overview and AI Use Cases pages; README AI Applications; AI Quickstart notebook.
 ### CI
 - Optional matrix jobs for `[ai-torch]` and `[ai-jax]` smoke imports.
+
+## [0.2.1] - 2025-08-23
+### Added
+- Geode convolution (Python): dict↔array conversion, N-D FFT convolution, weight-cropping, sequence composition.
+- Geode convolution (JAX): jit/vmap-friendly FFT-based convolution and test (skips if JAX missing).
+### Performance
+- Batched p and p' acceleration (Torch addcmul, JAX lax.scan).
+### Benchmarks/Docs
+- AI JAX/Torch RootLayer benchmark scripts; Colab links added; CI uploads coverage to Codecov.

@@ -48,6 +48,13 @@ We construct `S`, its linear part `S1 = Σ t_k`, and a series `G` such that the 
 `(S − 1) = S1 · G` holds coefficient-wise up to a chosen total degree. In the code, `S` is assembled from
 the hyper‑Catalan coefficient formula and `G` is solved degree‑by‑degree from the convolution structure.
 
+### Geode convolution
+
+We provide convolution utilities over the Geode variables `t2, t3, ...` that operate on sparse
+multivariate series represented as monomial dictionaries. Internally, series are converted to
+compact N‑D arrays, convolved via FFT, and cropped by a weighted‑degree cutoff. A JAX variant is
+also available and designed to be `jit`/`vmap` friendly for ML workflows.
+
 ## 7) Eigenvalues via characteristic polynomial
 
 For small/medium matrices, we form the characteristic polynomial using Faddeev–LeVerrier and call the
