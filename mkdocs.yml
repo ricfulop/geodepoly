@@ -13,6 +13,8 @@ nav:
   - Batched kernels: batched.md
   - Performance: performance.md
   - Paper mapping: paper_guide.md
+  - AI Overview: ai_overview.md
+  - AI Use Cases: ai_use_cases.md
   - Gallery: gallery.md
   - FAQ: faq.md
   - Troubleshooting: troubleshooting.md
