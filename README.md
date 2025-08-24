@@ -7,7 +7,7 @@
 [Docs](https://ricfulop.github.io/geodepoly/)
 [![PyPI](https://img.shields.io/pypi/v/geodepoly.svg)](https://pypi.org/project/geodepoly/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)](#)
+[![codecov](https://codecov.io/gh/ricfulop/geodepoly/branch/main/graph/badge.svg)](https://codecov.io/gh/ricfulop/geodepoly)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/Quickstart.ipynb)
 
 **Problem statement**
