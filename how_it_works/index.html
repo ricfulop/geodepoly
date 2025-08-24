@@ -375,6 +375,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#geode-convolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode convolution
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -751,6 +760,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#geode-convolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode convolution
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -818,6 +836,11 @@ coefficients for exploration and benchmarks.</p>
 <p>We construct <code>S</code>, its linear part <code>S1 = Σ t_k</code>, and a series <code>G</code> such that the truncated identity
 <code>(S − 1) = S1 · G</code> holds coefficient-wise up to a chosen total degree. In the code, <code>S</code> is assembled from
 the hyper‑Catalan coefficient formula and <code>G</code> is solved degree‑by‑degree from the convolution structure.</p>
+<h3 id="geode-convolution">Geode convolution</h3>
+<p>We provide convolution utilities over the Geode variables <code>t2, t3, ...</code> that operate on sparse
+multivariate series represented as monomial dictionaries. Internally, series are converted to
+compact N‑D arrays, convolved via FFT, and cropped by a weighted‑degree cutoff. A JAX variant is
+also available and designed to be <code>jit</code>/<code>vmap</code> friendly for ML workflows.</p>
 <h2 id="7-eigenvalues-via-characteristic-polynomial">7) Eigenvalues via characteristic polynomial</h2>
 <p>For small/medium matrices, we form the characteristic polynomial using Faddeev–LeVerrier and call the
 polynomial solver, then polish. This provides a compact path to <code>eigvals</code> without large dependencies.</p>
