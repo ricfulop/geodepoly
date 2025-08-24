@@ -12,21 +12,33 @@ def _ensure_jax():
 		raise ImportError("JAX is required for geodepoly.ai.rootlayer_jax") from exc
 
 
-def _host_solve(coeffs, method: str = "hybrid", resum: str = "pade"):
-	"""Call geodepoly host solver; coeffs is jnp array (B, N+1) complex128.
-	Returns jnp array (B, N) complex128.
+def _pure_jax_solve(coeffs, iters: int = 50, damping: float = 0.8):
+	"""Pure-JAX batched Aberth solve.
+
+	coeffs: jnp array (B, N+1) complex128 low->high
+	returns: jnp array (B, N) complex128 roots
 	"""
-	import numpy as np
-	from geodepoly.solver import solve_all
+	from geodepoly.batched import jax_aberth_solve
 
 	B, D1 = coeffs.shape
-	roots = []
-	arr = np.asarray(coeffs)
-	for b in range(B):
-		c = arr[b].tolist()
-		r = solve_all(c, method=method, resum=resum)
-		roots.append(np.asarray(r, dtype=arr.dtype))
-	return np.stack(roots, axis=0)
+	N = D1 - 1
+	# Cauchy-like radius per batch: 1 + max |a_k|/|a_n|
+	an = jnp.abs(coeffs[:, -1])
+	an = jnp.where(an == 0, jnp.ones_like(an), an)
+	max_ratio = jnp.max(jnp.abs(coeffs[:, :-1]) / an[:, None], axis=1)
+	R = 1.0 + max_ratio
+	# initial N points on circle per batch
+	k = jnp.arange(N, dtype=jnp.float32)
+	theta = 2 * jnp.pi * (k / N)
+	unit = jnp.exp(1j * theta.astype(coeffs.dtype))  # (N,)
+
+	def solve_row(c_row, r_scalar):
+		z0 = (r_scalar.astype(coeffs.dtype)) * unit  # (N,)
+		z = jax_aberth_solve(c_row, z0, iters=iters, damping=damping)
+		return z
+
+	roots = jax.vmap(solve_row)(coeffs, R)
+	return roots
 
 
 jax, jnp = _ensure_jax()
@@ -34,12 +46,12 @@ jax, jnp = _ensure_jax()
 
 @jax.custom_vjp
 def root_solve_jax(coeffs, method: str = "hybrid", resum: str = "pade"):
-	roots = jnp.asarray(_host_solve(coeffs, method=method, resum=resum))
-	return roots
+	return _pure_jax_solve(coeffs)
+
 
 
 def _fwd(coeffs, method: str = "hybrid", resum: str = "pade"):
-	roots = root_solve_jax(coeffs, method, resum)
+	roots = _pure_jax_solve(coeffs)
 	return roots, (coeffs, roots)
 
 

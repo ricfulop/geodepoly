@@ -23,3 +23,35 @@ def test_rootlayer_jax_backward_runs():
 	val, grad = jax.value_and_grad(loss_fn)(coeffs)
 	assert jnp.isfinite(val)
 	assert grad.shape == coeffs.shape
+
+
+def test_rootlayer_jax_jit_and_vmap():
+	jax, jnp = jax_or_skip()
+	from geodepoly.ai import root_solve_jax
+
+	B, N = 3, 3
+	coeffs = jnp.asarray(jnp.random.randn(B, N + 1) + 1j * jnp.random.randn(B, N + 1), dtype=jnp.complex128)
+
+	@jax.jit
+	def f(c):
+		return root_solve_jax(c)
+
+	roots = f(coeffs)
+	assert roots.shape == (B, N)
+
+
+def test_rootlayer_jax_jit_with_grad():
+	jax, jnp = jax_or_skip()
+	from geodepoly.ai import root_solve_jax
+
+	B, N = 2, 3
+	coeffs = jnp.asarray(jnp.random.randn(B, N + 1) + 1j * jnp.random.randn(B, N + 1), dtype=jnp.complex128)
+
+	def loss_fn(c):
+		roots = root_solve_jax(c)
+		return jnp.mean(jnp.square(jnp.real(roots)))
+
+	jitted = jax.jit(jax.value_and_grad(loss_fn))
+	val, grad = jitted(coeffs)
+	assert jnp.isfinite(val)
+	assert grad.shape == coeffs.shape

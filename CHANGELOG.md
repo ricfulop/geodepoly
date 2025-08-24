@@ -129,3 +129,9 @@
 - Batched p and p' acceleration (Torch addcmul, JAX lax.scan).
 ### Benchmarks/Docs
 - AI JAX/Torch RootLayer benchmark scripts; Colab links added; CI uploads coverage to Codecov.
+
+## [0.2.2] - 2025-08-23
+### Fixed
+- Lint/type issues across new modules; notebook cell formatting; tests adjusted for strict typing.
+### Changed
+- Geode convolution internals: safer iteration (no np.nditer writes), type-safe conversions.

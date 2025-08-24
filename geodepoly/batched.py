@@ -36,11 +36,30 @@ def batched_poly_eval(coeffs, xs, backend: str = "numpy"):
         squeezed = False
     # reversed for Horner (high-to-low)
     a_rev = a[..., ::-1]
-    # p = 0; for c in a_rev: p = p*x + c
-    # tile along M
-    p = xp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
-    for c in a_rev.T:
-        p = p * x + c.reshape((-1, 1))
+    # Fast paths per backend
+    if backend == "torch":
+        import torch  # type: ignore[import-not-found]
+
+        p = torch.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype, device=a_rev.device)
+        for c in a_rev.T:
+            # p = p * x + c[:, None] using fused addcmul
+            p = torch.addcmul(c.reshape((-1, 1)), p, x, value=1.0)
+    elif backend == "jax":
+        import jax.numpy as jnp  # type: ignore[import-not-found]
+        from jax import lax  # type: ignore[import-not-found]
+
+        c_seq = jnp.transpose(a_rev)  # (D+1, B)
+        p0 = jnp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
+
+        def body(p, c):
+            return p * x + c[:, None], None
+
+        p, _ = lax.scan(body, p0, c_seq)
+    else:
+        # NumPy fallback
+        p = xp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
+        for c in a_rev.T:
+            p = p * x + c.reshape((-1, 1))
     if squeezed:
         p = p[:, 0]
     return p
@@ -61,11 +80,36 @@ def batched_newton_step(coeffs, xs, backend: str = "numpy"):
         squeezed = False
     # Horner for p and p'
     a_rev = coeffs[..., ::-1]
-    p = xp.zeros_like(x, dtype=a_rev.dtype)
-    dp = xp.zeros_like(x, dtype=a_rev.dtype)
-    for c in a_rev.T:
-        dp = dp * x + p
-        p = p * x + c.reshape((-1, 1))
+    if backend == "torch":
+        import torch  # type: ignore[import-not-found]
+
+        p = torch.zeros_like(x, dtype=a_rev.dtype)
+        dp = torch.zeros_like(x, dtype=a_rev.dtype)
+        for c in a_rev.T:
+            # dp_next = dp * x + p; p_next = p * x + c[:, None]
+            dp = torch.addcmul(p, dp, x, value=1.0)
+            p = torch.addcmul(c.reshape((-1, 1)), p, x, value=1.0)
+    elif backend == "jax":
+        import jax.numpy as jnp  # type: ignore[import-not-found]
+        from jax import lax  # type: ignore[import-not-found]
+
+        p0 = jnp.zeros_like(x, dtype=a_rev.dtype)
+        dp0 = jnp.zeros_like(x, dtype=a_rev.dtype)
+        c_seq = jnp.transpose(a_rev)  # (D+1, B)
+
+        def body(state, c):
+            p, dp = state
+            dp = dp * x + p
+            p = p * x + c[:, None]
+            return (p, dp), None
+
+        (p, dp), _ = lax.scan(body, (p0, dp0), c_seq)
+    else:
+        p = xp.zeros_like(x, dtype=a_rev.dtype)
+        dp = xp.zeros_like(x, dtype=a_rev.dtype)
+        for c in a_rev.T:
+            dp = dp * x + p
+            p = p * x + c.reshape((-1, 1))
     step = x - p / xp.where(dp == 0, xp.asarray(1, dtype=dp.dtype), dp)
     if squeezed:
         step = step[:, 0]

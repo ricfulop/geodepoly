@@ -24,3 +24,25 @@ def test_rootlayer_torch_grad_simple():
 	assert coeffs.grad.shape == coeffs.shape
 	# sanity: nonzero grad for most entries
 	assert torch.isfinite(coeffs.grad).all()
+
+
+def test_root_set_loss_hungarian_runs():
+	torch = torch_or_skip()
+	from geodepoly.ai.losses import root_set_loss
+
+	B, N = 2, 3
+	roots_pred = torch.randn(B, N, dtype=torch.cdouble)
+	roots_true = torch.randn(B, N, dtype=torch.cdouble)
+	loss = root_set_loss(roots_pred, roots_true, match="hungarian")
+	assert torch.isfinite(loss)
+
+
+def test_root_set_loss_diffsort_runs():
+	torch = torch_or_skip()
+	from geodepoly.ai.losses import root_set_loss
+
+	B, N = 2, 4
+	roots_pred = torch.randn(B, N, dtype=torch.cdouble)
+	roots_true = torch.randn(B, N, dtype=torch.cdouble)
+	loss = root_set_loss(roots_pred, roots_true, match="diffsort")
+	assert torch.isfinite(loss)
