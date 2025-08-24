@@ -56,4 +56,5 @@ Schema (v1):
   ```
 - Losses: `spectral_radius_loss`, `pole_placement_loss`, `root_set_loss` in `geodepoly.ai.losses`.
  - Notebook: `notebooks/AI_Quickstart.ipynb` (Colab-friendly)
+   - [Open in Colab](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/AI_Quickstart.ipynb)
  - Colab: Torch demo and spectral matching available via README links.

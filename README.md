@@ -238,6 +238,7 @@ See `paper/GeodePoly_MVP.md`.
 - Quickstart: `notebooks/Quickstart.ipynb`
 - Bench summary: `notebooks/BenchSummary.ipynb`
 - AI Quickstart: `notebooks/AI_Quickstart.ipynb`
+  - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ricfulop/geodepoly/blob/main/notebooks/AI_Quickstart.ipynb)
 
 ## Bench dataset & GPU roadmap
 
