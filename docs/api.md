@@ -101,6 +101,13 @@ eigvals = solve_eigs(A)
 - `geodepoly.hyper_catalan.evaluate_quadratic_slice(t2: complex, max_weight: int) -> complex`
 - `geodepoly.hyper_catalan.catalan_number(n: int) -> int`
 
+## Geode convolution
+
+- `geodepoly.geode_conv.geode_convolution_dict(A, B, num_vars, max_weight) -> Dict[Monomial, complex]`
+  - Convolve sparse series over variables `t2, t3, ...` using N‑D FFT and crop by weighted degree.
+- `geodepoly.geode_conv_jax.geode_convolution_jax(A, B, num_vars, max_weight)`
+  - JAX variant (jit/vmap friendly).
+
 ## Geode factorization
 
 - `geodepoly.series.geode_factorize(order: int, tmax: int|None=None) -> (FormalSeries, FormalSeries, FormalSeries)`

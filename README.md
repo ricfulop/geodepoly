@@ -149,6 +149,18 @@ geodepoly-solve --coeffs "[-6,11,-6,1]" --method hybrid --resum auto --json
 - `sympy_solve(poly)` — lightweight SymPy integration (if SymPy is installed).
 - `solve_eigs(A)` — eigenvalues via characteristic polynomial (Faddeev–LeVerrier).
 
+### Geode convolution (example)
+
+```python
+from geodepoly.geode_conv import geode_convolution_dict
+
+# (1 + t2) * (1 + 2 t2) = 1 + 3 t2 + 2 t2^2 (truncated by weight)
+A = {(): 1+0j, (1,): 1+0j}
+B = {(): 1+0j, (1,): 2+0j}
+C = geode_convolution_dict(A, B, num_vars=1, max_weight=4)
+print(C)  # {(): 1+0j, (1,): 3+0j, (2,): 2+0j}
+```
+
 ## How it works (short)
 
 Let `p(x)` be a degree-`n` polynomial. We recenter around `x = μ` and expand
