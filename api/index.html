@@ -353,6 +353,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#geode-convolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode convolution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#geode-factorization" class="md-nav__link">
     <span class="md-ellipsis">
       Geode factorization
@@ -614,6 +623,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../ai_benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Benchmarks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../gallery/" class="md-nav__link">
         
   
@@ -763,6 +794,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#geode-convolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geode convolution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#geode-factorization" class="md-nav__link">
     <span class="md-ellipsis">
       Geode factorization
@@ -903,6 +943,13 @@ eigvals = solve_eigs(A)
 <li><code>geodepoly.hyper_catalan.evaluate_hyper_catalan(t_values: Dict[int,complex], max_weight: int) -&gt; complex</code></li>
 <li><code>geodepoly.hyper_catalan.evaluate_quadratic_slice(t2: complex, max_weight: int) -&gt; complex</code></li>
 <li><code>geodepoly.hyper_catalan.catalan_number(n: int) -&gt; int</code></li>
+</ul>
+<h2 id="geode-convolution">Geode convolution</h2>
+<ul>
+<li><code>geodepoly.geode_conv.geode_convolution_dict(A, B, num_vars, max_weight) -&gt; Dict[Monomial, complex]</code></li>
+<li>Convolve sparse series over variables <code>t2, t3, ...</code> using N‑D FFT and crop by weighted degree.</li>
+<li><code>geodepoly.geode_conv_jax.geode_convolution_jax(A, B, num_vars, max_weight)</code></li>
+<li>JAX variant (jit/vmap friendly).</li>
 </ul>
 <h2 id="geode-factorization">Geode factorization</h2>
 <ul>

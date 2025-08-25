@@ -1,0 +1,4 @@
+Backend,Device,Batch,Degree,Forward,Backward
+Torch,CPU,512,16,23.0536,0.0951
+Torch (MPS proxy),GPU,2048,24,0.1882,0.2390
+JAX,CPU,512,16,0.0304,1.1731
