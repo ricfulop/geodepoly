@@ -143,3 +143,7 @@
 - Torch/JAX batched kernels: clearer structure and MPS-friendly flips; no behavior change.
 ### Docs
 - Minor AI benchmarks/doc polish; keep notebooks synced.
+
+## [0.2.4] - 2025-08-23
+### Changed
+- Version bump to publish latest fixes to PyPI.
