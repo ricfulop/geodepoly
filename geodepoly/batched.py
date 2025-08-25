@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 
 def _as_backend(name: str):
     n = name.lower()
@@ -18,102 +20,142 @@ def _as_backend(name: str):
     raise ValueError("backend must be one of {'numpy','torch','jax'}")
 
 
-def batched_poly_eval(coeffs, xs, backend: str = "numpy"):
-    """Evaluate many polynomials at many points via Horner in the chosen backend.
+def _batched_poly_eval_numpy(coeffs: Any, xs: Any) -> Any:
+    import numpy as np  # type: ignore
 
-    coeffs: shape (B, D+1) low-to-high
-    xs:     shape (B,) or (B, M)
-    returns shape (B,) or (B, M)
-    """
-    xp = _as_backend(backend)
     a = coeffs
     x = xs
-    # normalize shapes
-    if len(x.shape) == 1:
+    squeezed = False
+    if x.ndim == 1:
         x = x.reshape((-1, 1))
         squeezed = True
-    else:
-        squeezed = False
-    # reversed for Horner (high-to-low)
     a_rev = a[..., ::-1]
-    # Fast paths per backend
+    p = np.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
+    for c in a_rev.T:
+        p = p * x + c.reshape((-1, 1))
+    return p[:, 0] if squeezed else p
+
+
+def _batched_poly_eval_torch(coeffs: Any, xs: Any) -> Any:
+    import torch  # type: ignore
+
+    a = coeffs
+    x = xs
+    squeezed = False
+    if x.ndim == 1:
+        x = x.reshape((-1, 1))
+        squeezed = True
+    a_rev = torch.flip(a, dims=[-1])
+    p = torch.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype, device=a_rev.device)
+    for c in a_rev.T:
+        p = torch.addcmul(c.reshape((-1, 1)), p, x, value=1.0)
+    return p[:, 0] if squeezed else p
+
+
+def _batched_poly_eval_jax(coeffs: Any, xs: Any) -> Any:
+    import jax.numpy as jnp  # type: ignore
+    from jax import lax  # type: ignore
+
+    a = coeffs
+    x = xs
+    squeezed = False
+    if x.ndim == 1:
+        x = x.reshape((-1, 1))
+        squeezed = True
+    a_rev = jnp.flip(a, axis=-1)
+    c_seq = jnp.transpose(a_rev)
+    p0 = jnp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
+
+    def body(p, c):
+        return p * x + c[:, None], None
+
+    p, _ = lax.scan(body, p0, c_seq)
+    return p[:, 0] if squeezed else p
+
+
+def batched_poly_eval(coeffs, xs, backend: str = "numpy"):
+    """Evaluate many polynomials at many points via Horner.
+
+    coeffs: (B, D+1) low->high; xs: (B,) or (B, M). Returns (B,) or (B, M).
+    """
     if backend == "torch":
-        import torch  # type: ignore[import-not-found]
+        return _batched_poly_eval_torch(coeffs, xs)
+    if backend == "jax":
+        return _batched_poly_eval_jax(coeffs, xs)
+    return _batched_poly_eval_numpy(coeffs, xs)
 
-        p = torch.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype, device=a_rev.device)
-        for c in a_rev.T:
-            # p = p * x + c[:, None] using fused addcmul
-            p = torch.addcmul(c.reshape((-1, 1)), p, x, value=1.0)
-    elif backend == "jax":
-        import jax.numpy as jnp  # type: ignore[import-not-found]
-        from jax import lax  # type: ignore[import-not-found]
 
-        c_seq = jnp.transpose(a_rev)  # (D+1, B)
-        p0 = jnp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
+def _batched_newton_step_numpy(coeffs: Any, xs: Any) -> Any:
+    import numpy as np  # type: ignore
 
-        def body(p, c):
-            return p * x + c[:, None], None
+    x = xs
+    squeezed = False
+    if x.ndim == 1:
+        x = x.reshape((-1, 1))
+        squeezed = True
+    a_rev = coeffs[..., ::-1]
+    p = np.zeros_like(x, dtype=a_rev.dtype)
+    dp = np.zeros_like(x, dtype=a_rev.dtype)
+    for c in a_rev.T:
+        dp = dp * x + p
+        p = p * x + c.reshape((-1, 1))
+    denom = np.where(dp == 0, np.asarray(1, dtype=dp.dtype), dp)
+    step = x - p / denom
+    return step[:, 0] if squeezed else step
 
-        p, _ = lax.scan(body, p0, c_seq)
-    else:
-        # NumPy fallback
-        p = xp.zeros((x.shape[0], x.shape[1]), dtype=a_rev.dtype)
-        for c in a_rev.T:
-            p = p * x + c.reshape((-1, 1))
-    if squeezed:
-        p = p[:, 0]
-    return p
+
+def _batched_newton_step_torch(coeffs: Any, xs: Any) -> Any:
+    import torch  # type: ignore
+
+    x = xs
+    squeezed = False
+    if x.ndim == 1:
+        x = x.reshape((-1, 1))
+        squeezed = True
+    a_rev = torch.flip(coeffs, dims=[-1])
+    p = torch.zeros_like(x, dtype=a_rev.dtype)
+    dp = torch.zeros_like(x, dtype=a_rev.dtype)
+    for c in a_rev.T:
+        dp = dp * x + p
+        p = p * x + c.reshape((-1, 1))
+    denom = torch.where(dp == 0, torch.ones_like(dp), dp)
+    step = x - p / denom
+    return step[:, 0] if squeezed else step
+
+
+def _batched_newton_step_jax(coeffs: Any, xs: Any) -> Any:
+    import jax.numpy as jnp  # type: ignore
+    from jax import lax  # type: ignore
+
+    x = xs
+    squeezed = False
+    if x.ndim == 1:
+        x = x.reshape((-1, 1))
+        squeezed = True
+    a_rev = jnp.flip(coeffs, axis=-1)
+    p0 = jnp.zeros_like(x, dtype=a_rev.dtype)
+    dp0 = jnp.zeros_like(x, dtype=a_rev.dtype)
+    c_seq = jnp.transpose(a_rev)
+
+    def body(state, c):
+        p, dp = state
+        dp = dp * x + p
+        p = p * x + c[:, None]
+        return (p, dp), None
+
+    (p, dp), _ = lax.scan(body, (p0, dp0), c_seq)
+    denom = jnp.where(dp == 0, jnp.ones_like(dp), dp)
+    step = x - p / denom
+    return step[:, 0] if squeezed else step
 
 
 def batched_newton_step(coeffs, xs, backend: str = "numpy"):
-    """One Newton step x - p/ p' for each polynomial in the batch.
-
-    coeffs: (B, D+1), xs: (B,) or (B, M)
-    returns same shape as xs
-    """
-    xp = _as_backend(backend)
-    x = xs
-    if len(x.shape) == 1:
-        x = x.reshape((-1, 1))
-        squeezed = True
-    else:
-        squeezed = False
-    # Horner for p and p'
-    a_rev = coeffs[..., ::-1]
+    """One Newton step x - p/ p' for each polynomial in the batch."""
     if backend == "torch":
-        import torch  # type: ignore[import-not-found]
-
-        p = torch.zeros_like(x, dtype=a_rev.dtype)
-        dp = torch.zeros_like(x, dtype=a_rev.dtype)
-        for c in a_rev.T:
-            # dp_next = dp * x + p; p_next = p * x + c[:, None]
-            dp = torch.addcmul(p, dp, x, value=1.0)
-            p = torch.addcmul(c.reshape((-1, 1)), p, x, value=1.0)
-    elif backend == "jax":
-        import jax.numpy as jnp  # type: ignore[import-not-found]
-        from jax import lax  # type: ignore[import-not-found]
-
-        p0 = jnp.zeros_like(x, dtype=a_rev.dtype)
-        dp0 = jnp.zeros_like(x, dtype=a_rev.dtype)
-        c_seq = jnp.transpose(a_rev)  # (D+1, B)
-
-        def body(state, c):
-            p, dp = state
-            dp = dp * x + p
-            p = p * x + c[:, None]
-            return (p, dp), None
-
-        (p, dp), _ = lax.scan(body, (p0, dp0), c_seq)
-    else:
-        p = xp.zeros_like(x, dtype=a_rev.dtype)
-        dp = xp.zeros_like(x, dtype=a_rev.dtype)
-        for c in a_rev.T:
-            dp = dp * x + p
-            p = p * x + c.reshape((-1, 1))
-    step = x - p / xp.where(dp == 0, xp.asarray(1, dtype=dp.dtype), dp)
-    if squeezed:
-        step = step[:, 0]
-    return step
+        return _batched_newton_step_torch(coeffs, xs)
+    if backend == "jax":
+        return _batched_newton_step_jax(coeffs, xs)
+    return _batched_newton_step_numpy(coeffs, xs)
 
 
 def torch_root_layer(steps: int = 3, tol: float = 0.0):
@@ -375,33 +417,60 @@ def batched_solve_all(
 
     - coeffs_batch: shape (B, D+1) low->high
     - Returns: shape (B,) complex roots (one per polynomial)
-
-    Notes:
-    - This is a simple baseline using Newton from a heuristic initial guess (x0 = 0).
-    - Future: add Aberth/sharded multi-root per polynomial; support seeds per item.
     """
-    xp = _as_backend(backend)
+    if backend == "torch":
+        import torch  # type: ignore
+
+        a = coeffs_batch
+        B = a.shape[0]
+        x = torch.zeros((B,), dtype=a.dtype, device=a.device)
+        a0 = a[:, 0]
+        a1 = a[:, 1] if a.shape[1] > 1 else torch.zeros_like(a0)
+        denom = torch.where(a1 == 0, torch.ones_like(a1), a1)
+        guess = -a0 / denom
+        mask = torch.isfinite(guess)
+        x = torch.where(mask, guess, x)
+        for _ in range(steps):
+            x_next = _batched_newton_step_torch(a, x)
+            if torch.max(torch.abs(x_next - x)) < 1e-14:
+                x = x_next
+                break
+            x = x_next
+        return x
+    if backend == "jax":
+        import jax.numpy as jnp  # type: ignore
+
+        a = coeffs_batch
+        B = a.shape[0]
+        x = jnp.zeros((B,), dtype=a.dtype)
+        a0 = a[:, 0]
+        a1 = a[:, 1] if a.shape[1] > 1 else jnp.zeros_like(a0)
+        denom = jnp.where(a1 == 0, jnp.asarray(1, dtype=a1.dtype), a1)
+        guess = -a0 / denom
+        mask = jnp.isfinite(guess)
+        x = jnp.where(mask, guess, x)
+        for _ in range(steps):
+            x_next = _batched_newton_step_jax(a, x)
+            if jnp.max(jnp.abs(x_next - x)) < 1e-14:
+                x = x_next
+                break
+            x = x_next
+        return x
+    # numpy backend
+    import numpy as np  # type: ignore
+
     a = coeffs_batch
     B = a.shape[0]
-    # Start from zero; quick heuristic: shift by -a0/a1 if available and finite
-    x = xp.zeros((B,), dtype=a.dtype)
+    x = np.zeros((B,), dtype=a.dtype)
     a0 = a[:, 0]
-    a1 = a[:, 1] if a.shape[1] > 1 else xp.zeros_like(a0)
-    with xp.errstate(all="ignore") if hasattr(xp, "errstate") else _nullcontext():  # type: ignore
-        guess = -a0 / xp.where(a1 == 0, xp.asarray(1, dtype=a1.dtype), a1)
-    # Blend: if |guess| finite and not huge, use it
-    mask = (
-        xp.isfinite(guess)
-        if hasattr(xp, "isfinite")
-        else xp.ones_like(guess, dtype=bool)
-    )
-    x = xp.where(mask, guess, x)
-
-    # Newton iterations using batched_newton_step
+    a1 = a[:, 1] if a.shape[1] > 1 else np.zeros_like(a0)
+    with np.errstate(all="ignore"):
+        guess = -a0 / np.where(a1 == 0, np.asarray(1, dtype=a1.dtype), a1)
+    mask = np.isfinite(guess)
+    x = np.where(mask, guess, x)
     for _ in range(steps):
-        x_next = batched_newton_step(a, x, backend=backend)
-        # Stop if updates are tiny
-        if xp.max(xp.abs(x_next - x)) < 1e-14:
+        x_next = _batched_newton_step_numpy(a, x)
+        if np.max(np.abs(x_next - x)) < 1e-14:
             x = x_next
             break
         x = x_next

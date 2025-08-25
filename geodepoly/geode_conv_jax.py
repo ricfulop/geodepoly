@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Dict, Tuple
+import numpy as _np
 
 import jax
 import jax.numpy as jnp
@@ -32,7 +33,7 @@ def dict_to_array_jax(
 
 def array_to_dict_jax(arr: jnp.ndarray, max_weight: int) -> Dict[Monomial, complex]:
     out: Dict[Monomial, complex] = {}
-    for idx in jnp.ndindex(arr.shape):
+    for idx in _np.ndindex(arr.shape):
         m = tuple(int(e) for e in idx)
         if weighted_degree(m) <= max_weight:
             val = complex(arr[idx])
@@ -60,7 +61,7 @@ def crop_by_weight_jax(arr: jnp.ndarray, max_weight: int) -> jnp.ndarray:
         return weighted_degree(tuple(int(i) for i in idx)) <= max_weight
     # Build boolean mask by iterating indices (small arrays expected)
     mask = jnp.zeros_like(arr, dtype=bool)
-    for idx in jnp.ndindex(arr.shape):
+    for idx in _np.ndindex(arr.shape):
         keep = mask_fn(idx)
         mask = mask.at[idx].set(keep)
     return jnp.where(mask, arr, 0)

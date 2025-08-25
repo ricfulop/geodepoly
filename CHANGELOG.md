@@ -135,3 +135,11 @@
 - Lint/type issues across new modules; notebook cell formatting; tests adjusted for strict typing.
 ### Changed
 - Geode convolution internals: safer iteration (no np.nditer writes), type-safe conversions.
+
+## [0.2.3] - 2025-08-23
+### Fixed
+- Static typing complaints in `geodepoly/batched.py` by making per-backend code paths explicit (NumPy/Torch/JAX), replacing ambiguous `xp` aliasing.
+### Changed
+- Torch/JAX batched kernels: clearer structure and MPS-friendly flips; no behavior change.
+### Docs
+- Minor AI benchmarks/doc polish; keep notebooks synced.

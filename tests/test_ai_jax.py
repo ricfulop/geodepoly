@@ -14,7 +14,11 @@ def test_rootlayer_jax_backward_runs():
 	from geodepoly.ai import root_solve_jax
 
 	B, N = 2, 2
-	coeffs = jnp.asarray(jnp.random.randn(B, N + 1) + 1j * jnp.random.randn(B, N + 1), dtype=jnp.complex128)
+	key = jax.random.PRNGKey(0)
+	r1 = jax.random.normal(key, (B, N + 1))
+	key, sub = jax.random.split(key)
+	r2 = jax.random.normal(sub, (B, N + 1))
+	coeffs = (r1 + 1j * r2).astype(jnp.complex128)
 
 	def loss_fn(c):
 		roots = root_solve_jax(c)
@@ -30,7 +34,11 @@ def test_rootlayer_jax_jit_and_vmap():
 	from geodepoly.ai import root_solve_jax
 
 	B, N = 3, 3
-	coeffs = jnp.asarray(jnp.random.randn(B, N + 1) + 1j * jnp.random.randn(B, N + 1), dtype=jnp.complex128)
+	key = jax.random.PRNGKey(1)
+	r1 = jax.random.normal(key, (B, N + 1))
+	key, sub = jax.random.split(key)
+	r2 = jax.random.normal(sub, (B, N + 1))
+	coeffs = (r1 + 1j * r2).astype(jnp.complex128)
 
 	@jax.jit
 	def f(c):
@@ -45,7 +53,11 @@ def test_rootlayer_jax_jit_with_grad():
 	from geodepoly.ai import root_solve_jax
 
 	B, N = 2, 3
-	coeffs = jnp.asarray(jnp.random.randn(B, N + 1) + 1j * jnp.random.randn(B, N + 1), dtype=jnp.complex128)
+	key = jax.random.PRNGKey(2)
+	r1 = jax.random.normal(key, (B, N + 1))
+	key, sub = jax.random.split(key)
+	r2 = jax.random.normal(sub, (B, N + 1))
+	coeffs = (r1 + 1j * r2).astype(jnp.complex128)
 
 	def loss_fn(c):
 		roots = root_solve_jax(c)

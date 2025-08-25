@@ -96,10 +96,11 @@ def root_set_loss(roots_pred, roots_true, match: str = "sorted"):
             W = W / (W.sum(dim=1, keepdim=True) + 1e-12)
             return W
         def soft_align(a, b):
-            Wa = soft_order_weights(a.real)
-            Wb = soft_order_weights(b.real)
-            a_soft = Wa @ a
-            b_soft = Wb @ b
+            Wa = soft_order_weights(a.real).to(dtype=a.real.dtype, device=a.device)
+            Wb = soft_order_weights(b.real).to(dtype=b.real.dtype, device=b.device)
+            # Matmul in real-imag parts to avoid dtype mismatch with complex weights
+            a_soft = (Wa @ a.real) + 1j * (Wa @ a.imag)
+            b_soft = (Wb @ b.real) + 1j * (Wb @ b.imag)
             return (a_soft - b_soft).abs().pow(2).mean()
         if roots_pred.dim() == 1:
             return soft_align(roots_pred, roots_true)
