@@ -557,6 +557,94 @@
   
   
     <li class="md-nav__item">
+      <a href="../geode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Geode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layerings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Layerings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cubic_quintic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cubic & Quintic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../non_finance_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Non-finance Adapters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../paper_guide/" class="md-nav__link">
         
   
@@ -852,13 +940,15 @@
 <h2 id="core-solvers">Core solvers</h2>
 <ul>
 <li><code>geodepoly.solve_all(coeffs: List[complex], method: str = "hybrid", max_order: int = 24, boots: int = 2, tol: float = 1e-12, resum: Optional[str] = None, refine_steps: int = 3, verbose: bool = False) -&gt; List[complex]</code></li>
-<li>Methods: <code>"hybrid" | "aberth" | "dk" | "numpy" | "batched"</code></li>
+<li>Methods: <code>"hybrid" | "hybrid-cubic" | "aberth" | "dk" | "numpy" | "batched"</code></li>
 <li>Resummation: <code>None | "pade" | "borel" | "borel-pade" | "auto"</code></li>
 </ul>
 <p>Example</p>
 <pre><code class="language-python">from geodepoly import solve_all
 coeffs = [1, 0, -7, 6]  # 1 - 7 x^2 + 6 x^3 = 0 (low-&gt;high)
 roots = solve_all(coeffs, method=&quot;hybrid&quot;, resum=&quot;auto&quot;)
+# Fast cubic warm-start:
+roots_fast = solve_all(coeffs, method=&quot;hybrid-cubic&quot;)
 </code></pre>
 <ul>
 <li>
