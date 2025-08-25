@@ -22,9 +22,9 @@ Both scripts report forward and backward times. Adjust batch/degree based on mem
 
 | Backend | Device | Batch | Degree | Forward (s) | Backward (s) |
 | --- | --- | --- | --- | --- | --- |
-| Torch | CPU | 512 | 16 | tbd | tbd |
+| Torch | CPU | 512 | 16 | 23.0536 | 0.0951 |
 | Torch | GPU | 2048 | 24 | tbd | tbd |
-| JAX | CPU | 512 | 16 | tbd | tbd |
+| JAX | CPU | 512 | 16 | 0.0304 | 1.1731 |
 | JAX | GPU | 4096 | 24 | tbd | tbd |
 
 To reproduce: use the commands above. Submit PRs to update these rows with your hardware.

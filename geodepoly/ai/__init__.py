@@ -29,11 +29,14 @@ def root_solve_jax(coeffs, method: str = "hybrid", resum: str = "pade"):
 
     coeffs: jax.numpy array of shape (B, N+1), complex dtype preferred.
     Returns: jax.numpy array of shape (B, N) with roots (complex dtype).
-    """
+
+    Note: method/resum are accepted for API symmetry but ignored in the pure-JAX path
+    to keep `jit` usage simple (no static args)."""
     try:
         from .rootlayer_jax import root_solve_jax as _rj
     except Exception as exc:  # pragma: no cover
         raise ImportError("JAX not installed or rootlayer unavailable") from exc
-    return _rj(coeffs, method=method, resum=resum)
+    # Do not pass method/resum into JAX-traced function to avoid static arg handling.
+    return _rj(coeffs)
 
 

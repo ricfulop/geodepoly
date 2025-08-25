@@ -45,12 +45,13 @@ jax, jnp = _ensure_jax()
 
 
 @jax.custom_vjp
-def root_solve_jax(coeffs, method: str = "hybrid", resum: str = "pade"):
+def root_solve_jax(coeffs):
 	return _pure_jax_solve(coeffs)
 
 
 
-def _fwd(coeffs, method: str = "hybrid", resum: str = "pade"):
+
+def _fwd(coeffs):
 	roots = _pure_jax_solve(coeffs)
 	return roots, (coeffs, roots)
 
@@ -79,7 +80,7 @@ def _bwd(res, g):
 		return jnp.concatenate([gc, jnp.zeros((1,), dtype=gc.dtype)])
 
 	grad_coeffs = jax.vmap(grad_row)(coeffs, roots, g)
-	return (grad_coeffs, None, None)
+	return (grad_coeffs,)
 
 
 root_solve_jax.defvjp(_fwd, _bwd)
