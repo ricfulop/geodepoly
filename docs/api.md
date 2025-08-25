@@ -3,7 +3,7 @@
 ## Core solvers
 
 - `geodepoly.solve_all(coeffs: List[complex], method: str = "hybrid", max_order: int = 24, boots: int = 2, tol: float = 1e-12, resum: Optional[str] = None, refine_steps: int = 3, verbose: bool = False) -> List[complex]`
-  - Methods: `"hybrid" | "aberth" | "dk" | "numpy" | "batched"`
+  - Methods: `"hybrid" | "hybrid-cubic" | "aberth" | "dk" | "numpy" | "batched"`
   - Resummation: `None | "pade" | "borel" | "borel-pade" | "auto"`
 
 Example
@@ -11,6 +11,8 @@ Example
 from geodepoly import solve_all
 coeffs = [1, 0, -7, 6]  # 1 - 7 x^2 + 6 x^3 = 0 (low->high)
 roots = solve_all(coeffs, method="hybrid", resum="auto")
+# Fast cubic warm-start:
+roots_fast = solve_all(coeffs, method="hybrid-cubic")
 ```
 
 - `geodepoly.solve_one(coeffs: List[complex], center: complex|None=None, max_order: int=24, boots: int=3, tol: float=1e-14, resum: Optional[str]=None, refine_steps: int=2) -> complex`

@@ -12,6 +12,10 @@ nav:
   - GeodeBench: geodebench.md
   - Batched kernels: batched.md
   - Performance: performance.md
+  - Geode: geode.md
+  - Layerings: layerings.md
+  - Cubic & Quintic: cubic_quintic.md
+  - Non-finance Adapters: non_finance_adapters.md
   - Paper mapping: paper_guide.md
   - AI Overview: ai_overview.md
   - AI Use Cases: ai_use_cases.md

@@ -12,6 +12,7 @@ from .finishers import (
 )
 from .batched import batched_solve_all
 from .util import poly_eval, shift_expand
+from .geode import Q_cubic
 
 
 def solve_one(
@@ -95,7 +96,7 @@ def solve_one(
 
 def solve_all(
     coeffs: List[complex],
-    method: str = "hybrid",  # 'hybrid'|'aberth'|'dk'|'numpy'
+    method: str = "hybrid",  # 'hybrid'|'hybrid-cubic'|'aberth'|'dk'|'numpy'
     max_order: int = 16,
     boots: int = 1,
     tol: float = 1e-12,
@@ -114,9 +115,9 @@ def solve_all(
     if n <= 0:
         return []
 
-    if method not in {"hybrid", "aberth", "dk", "numpy", "batched", "torch-aberth"}:
+    if method not in {"hybrid", "hybrid-cubic", "aberth", "dk", "numpy", "batched", "torch-aberth"}:
         raise ValueError(
-            "method must be one of {'hybrid','aberth','dk','numpy','batched','torch-aberth'}"
+            "method must be one of {'hybrid','hybrid-cubic','aberth','dk','numpy','batched','torch-aberth'}"
         )
 
     if method == "numpy":
@@ -215,6 +216,79 @@ def solve_all(
         return [
             halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots
         ]
+
+    if method == "hybrid-cubic":
+        # A faster series-lite warm-start based on cubic Bi–Tri approximant
+        # Build normalized coefficients for scoring centers
+        a_norm = [complex(x) / coeffs[-1] for x in coeffs]
+        # Candidate centers as in 'hybrid'
+        import math as _math
+        import cmath as _cmath
+
+        an = abs(a_norm[-1])
+        R = 1 + max((abs(a) / an for a in a_norm[:-1]), default=0)
+        cand = [0j]
+        for r in [R / 8, R / 4, R / 2, R]:
+            for k in range(16):
+                theta = 2 * _math.pi * k / 16
+                cand.append(r * _cmath.exp(1j * theta))
+            cand.extend([r, -r, 1j * r, -1j * r])
+
+        def cubic_seed(mu: complex, passes: int = 2) -> Optional[complex]:
+            try:
+                x = complex(mu)
+                for _ in range(max(1, passes)):
+                    q = shift_expand(a_norm, x)
+                    if len(q) < 2:
+                        return None
+                    a0 = complex(q[0])
+                    a1 = complex(q[1])
+                    if abs(a1) == 0:
+                        return None
+                    t = -a0 / a1
+                    if abs(t) > 0.95:
+                        return None
+                    a2 = complex(q[2]) if len(q) > 2 else 0.0
+                    a3 = complex(q[3]) if len(q) > 3 else 0.0
+                    # t_k mapping around current center
+                    t2 = (a0 * a2) / (a1 * a1) if a2 != 0 else 0.0
+                    t3 = (a0 * a0 * a3) / (a1 * a1 * a1) if a3 != 0 else 0.0
+                    alpha = Q_cubic(t2, t3)
+                    y = t * alpha
+                    x_new = x + y
+                    # accept if residual improves
+                    if abs(poly_eval(a_norm, x_new)) <= abs(poly_eval(a_norm, x)):
+                        x = x_new
+                    else:
+                        x = x + 0.5 * y
+                # polish a bit
+                xr = halley_refine(a_norm, x, steps=refine_steps)
+                return complex(xr)
+            except Exception:
+                return None
+
+        seeds: List[complex] = []
+        # best center by |t|
+        scored = []
+        for mu in cand:
+            q = shift_expand(a_norm, mu)
+            a0 = complex(q[0])
+            a1 = complex(q[1]) if len(q) >= 2 else 0j
+            if a1 == 0:
+                continue
+            scored.append((abs(-a0 / a1), mu))
+        scored.sort(key=lambda x: x[0])
+        for _, mu in scored[:2]:
+            r = cubic_seed(mu, passes=max(1, boots))
+            if r is not None:
+                seeds.append(r)
+        # Fallback: if no seeds, drop to standard hybrid behavior
+        if not seeds:
+            roots = aberth_ehrlich(coeffs, iters=200, tol=1e-14, restarts=3)
+            return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
+
+        roots = aberth_ehrlich(coeffs, iters=200, tol=1e-14, restarts=3, warm_starts=seeds)
+        return [halley_refine_multiplicity(coeffs, z, steps=refine_steps) for z in roots]
 
     # hybrid:
     # Fast-path heuristic: if candidate centers all yield large |t|, skip series and go straight to Aberth

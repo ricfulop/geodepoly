@@ -1,4 +1,12 @@
 from .solver import solve_poly, solve_all, solve_one
+from .geode import (
+    SeriesOptions,
+    map_t_from_poly,
+    S_eval,
+    eval_S_via_geode,
+    Q_cubic,
+    solve_series,
+)
 from .series_solve import series_solve_all, series_one_root
 from .hyper_catalan import (
     hyper_catalan_coefficient,
@@ -20,11 +28,24 @@ from .batched import (
     batched_newton_step,
     torch_root_layer,
 )
+from .layerings import vertex_layering, edge_layering, face_layering
+from .adapters import (
+    charpoly_roots,
+    ar_roots,
+    invert_radial,
+    ray_intersect_quartic,
+)
 
 __all__ = [
     "solve_poly",
     "solve_all",
     "solve_one",
+    "SeriesOptions",
+    "map_t_from_poly",
+    "S_eval",
+    "eval_S_via_geode",
+    "Q_cubic",
+    "solve_series",
     "series_solve_all",
     "series_one_root",
     "hyper_catalan_coefficient",
@@ -41,4 +62,11 @@ __all__ = [
     "aberth_solve",
     "dk_solve",
     "companion_roots",
+    "vertex_layering",
+    "edge_layering",
+    "face_layering",
+    "charpoly_roots",
+    "ar_roots",
+    "invert_radial",
+    "ray_intersect_quartic",
 ]
